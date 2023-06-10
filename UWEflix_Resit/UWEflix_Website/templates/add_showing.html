@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<center>
+ <h1> Add Showing</h1>
+
+ {% if submitted %}
+ Showing Added!!!
+
+{% else %}
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <input type="submit" value="Submit" class="btn btn-dark">
+        
+    </form>
+</center>
+{% endif %}
+
+
+
+{% endblock %}
