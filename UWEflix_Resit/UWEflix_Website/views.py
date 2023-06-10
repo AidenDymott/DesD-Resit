@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.http import HttpResponseRedirect
-from . forms import SignUpForm, MovieForm
-from .models import Movie
+from . forms import SignUpForm, MovieForm, ShowingForm
+from .models import Movie, Showing
 
 # Create your views here.
 def home(request):
@@ -83,3 +83,39 @@ def delete_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     movie.delete()
     return redirect('movie')
+
+# Showing CRUD
+def showing(request):
+    showing_list = Showing.objects.all()
+    return render(request, 'showing.html', {'showing_list': showing_list})
+
+def show_showing(request, showing_id):
+   showing = Showing.objects.get(pk=showing_id)
+   return render(request, 'list_showing.html', {'showing':showing})
+
+def add_showing(request):
+    submitted = False
+    if request.method == "POST":
+        form = ShowingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('add_showing?submitted=True')
+    else:
+        form = ShowingForm
+        if 'submitted' in request.GET:
+            submitted = True    
+    return render(request, 'add_showing.html', {'form':form, 'submitted':submitted})
+
+def update_showing(request, showing_id):
+    showing = Showing.objects.get(pk=showing_id)
+    form = ShowingForm(request.POST or None, instance=showing)
+    if form.is_valid():
+            form.save()
+            return redirect('showing')
+    return render(request, 'update_showing.html', {'showing':showing, 'form':form})
+
+def delete_showing(request, showing_id):
+    showing = Showing.objects.get(pk=showing_id)
+    showing.delete()
+    return redirect('showing')
+    

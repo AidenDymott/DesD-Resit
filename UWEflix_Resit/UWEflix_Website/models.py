@@ -26,3 +26,15 @@ class Movie(models.Model):
     
     def __str__(self):
         return self.movie_name
+    
+    
+# Showings Database
+
+class Showing(models.Model):
+    movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE)
+    date_showing = models.DateField('Movie Showing Date')
+    time_showing = models.TimeField('Movie Showing Time')
+    seats = models.IntegerField()
+    
+    def __str__(self):
+        return str(self.movie) + ' ' + str(self.date_showing) + ' ' + str(self.time_showing)
