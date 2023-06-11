@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.http import HttpResponseRedirect
-from . forms import SignUpForm, MovieForm, ShowingForm
-from .models import Movie, Showing
+from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm
+from .models import Movie, Showing, Booking
 
 # Create your views here.
 def home(request):
@@ -32,7 +32,6 @@ def logout_user(request):
     messages.success(request, ("You have been logged out!!"))    
     return redirect('home')
 
-
 # Customer Registration Form
 def register_user(request):
     form = SignUpForm()
@@ -55,17 +54,14 @@ def list_movie(request):
     return render(request, 'movie.html', {'movie_list': movie_list})
 
 def add_movie(request):
-    submitted = False
+    form = MovieForm()
     if request.method == "POST":
         form = MovieForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('add_movie?submitted=True')
-    else:
-        form = MovieForm
-        if 'submitted' in request.GET:
-            submitted = True    
-    return render(request, 'add_movie.html', {'form':form, 'submitted':submitted})
+            messages.success(request, ("New movie added"))
+            return redirect('movie')   
+    return render(request, 'add_movie.html', {'form':form})
     
 def show_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
@@ -76,12 +72,14 @@ def update_movie(request, movie_id):
     form = MovieForm(request.POST or None, instance=movie)
     if form.is_valid():
             form.save()
+            messages.success(request, ("Update successful"))
             return redirect('movie')
     return render(request, 'update_movie.html', {'movie': movie, 'form':form})
 
 def delete_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     movie.delete()
+    messages.success(request, ("Deletion successful"))
     return redirect('movie')
 
 # Showing CRUD
@@ -94,28 +92,46 @@ def show_showing(request, showing_id):
    return render(request, 'list_showing.html', {'showing':showing})
 
 def add_showing(request):
-    submitted = False
+    form = ShowingForm()
     if request.method == "POST":
         form = ShowingForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('add_showing?submitted=True')
-    else:
-        form = ShowingForm
-        if 'submitted' in request.GET:
-            submitted = True    
-    return render(request, 'add_showing.html', {'form':form, 'submitted':submitted})
+            messages.success(request, ("New showing added")) 
+            return redirect('showing')
+    return render(request, 'add_showing.html', {'form':form})
 
 def update_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
     form = ShowingForm(request.POST or None, instance=showing)
     if form.is_valid():
             form.save()
+            messages.success(request, ("Update successful"))
             return redirect('showing')
     return render(request, 'update_showing.html', {'showing':showing, 'form':form})
 
 def delete_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
     showing.delete()
+    messages.success(request, ("Deletion successful"))
     return redirect('showing')
     
+# BOOKING
+
+def booking(request):
+    form = BookingForm()
+    if request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, ("Booking successful"))
+            return redirect('booking-list')
+    return render(request, 'booking.html', {'form':form})
+
+def booking_list(request):
+    list = Booking.objects.all()
+    return render(request, 'booking_list.html', {'list':list})
+
+def view_booking(request, booking_id):
+    booking = Booking.objects.get(pk=booking_id)
+    return render(request, 'view_booking.html', {'booking':booking})

@@ -18,5 +18,8 @@ urlpatterns = [
     path('add_showing', views.add_showing, name='add-showing'),
     path('update_showing/<showing_id>', views.update_showing, name='update-showing'),
     path('delete_showing/<showing_id>', views.delete_showing, name='delete-showing'),
-    
+    # BOOKING PATHS
+    path('booking', views.booking, name='booking'),
+    path('booking_list', views.booking_list, name = 'booking-list'),
+    path('view_booking/<booking_id', views.view_booking, name='view-booking'),
 ]

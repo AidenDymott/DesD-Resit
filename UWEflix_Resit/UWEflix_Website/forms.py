@@ -78,6 +78,31 @@ class ShowingForm(ModelForm):
 		self.fields['seats'].widget.attrs['placeholder'] = 'Seats'
 		self.fields['seats'].label = ''
   
+  # Create Movie Showing Form
+class BookingForm(ModelForm):   
+	class Meta:
+		model = Showing
+		fields = ('movie', 'date_showing', 'time_showing', 'seats')
+	def __init__(self, *args, **kwargs):
+		super(BookingForm, self).__init__(*args, **kwargs)
+  
+		self.fields['movie'].widget.attrs['class'] = 'form-control'
+		self.fields['movie'].widget.attrs['placeholder'] = 'Movie'
+		self.fields['movie'].label = ''
+  
+		self.fields['date_showing'].widget.attrs['class'] = 'form-control'
+		self.fields['date_showing'].widget.attrs['placeholder'] = 'Showing Date'
+		self.fields['date_showing'].label = ''
+  
+		self.fields['time_showing'].widget.attrs['class'] = 'form-control'
+		self.fields['time_showing'].widget.attrs['placeholder'] = 'Showing Time'
+		self.fields['time_showing'].label = ''
+  
+		self.fields['seats'].widget.attrs['class'] = 'form-control'
+		self.fields['seats'].widget.attrs['placeholder'] = 'Seats'
+		self.fields['seats'].label = ''
+  
+  
   
 
 

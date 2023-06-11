@@ -38,3 +38,12 @@ class Showing(models.Model):
     
     def __str__(self):
         return str(self.movie) + ' ' + str(self.date_showing) + ' ' + str(self.time_showing)
+
+class Booking(models.Model):
+    booked_movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE, related_name='bmovie')
+    viewing_date = models.ForeignKey(Showing, blank=True, null=True, on_delete=models.CASCADE ,related_name='bdate')
+    viewing_time = models.ForeignKey(Showing, blank=True, null=True, on_delete=models.CASCADE ,related_name='btime')
+    booked_seats = models.ForeignKey(Showing, blank=True, null=True, on_delete=models.CASCADE, related_name='bseats')
+    
+    def __str__(self):
+        return str(self.booked_movie) + ' ' + str(self.viewing_date) + ' ' + str(self.booked_seats)

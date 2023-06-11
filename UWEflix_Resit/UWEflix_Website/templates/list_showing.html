@@ -2,10 +2,10 @@
 
 {% block content %}
 <center>
-<h1>{{ movie }}</h1>
+<h1>{{ showing }}</h1>
 </br>
-    <p>Date Showing: {{ movie.description }}</p></br>
-    <p>Time Showing: {{ movie.rating }}</p></br>
-    <p>Available Seats: {{ movie.rating }}</p></br>
+    <p>Date Showing: {{ showing.date_showing }}</p></br>
+    <p>Time Showing: {{ showing.time_showing }}</p></br>
+    <p>Available Seats: {{ showing.seats }}</p></br>
     
 {% endblock %}
