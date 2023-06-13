@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Movie</h1>
+</br>
+<!-- Puts all listed Movies into table and links them to movie details -->
+<table class="table table-dark table-striped table-hover table-bordered">
+    {% for movie in movie_list %}
+        <tr>
+            <td>
+                <a href ="{% url 'show-movie' movie.id %}" class="btn btn-outline-secondary btn-sm">{{ movie }}</a>
+                <td align="right"><a href="{% url 'update-movie' movie.id %}" class="btn btn-outline-secondary btn-sm"> Update</a> 
+                                  <a href="{% url 'delete-movie' movie.id %}" class="btn btn-outline-danger btn-sm"> Delete</a>
+                </td>
+             </br>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<button type="button" class="btn btn-dark"><a href = "{% url 'add-movie' %}"> Add Movies</a></button>
+
+{% endblock %}
