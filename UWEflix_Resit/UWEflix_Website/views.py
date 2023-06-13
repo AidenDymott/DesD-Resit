@@ -135,3 +135,9 @@ def booking_list(request):
 def view_booking(request, booking_id):
     booking = Booking.objects.get(pk=booking_id)
     return render(request, 'view_booking.html', {'booking':booking})
+
+def canceL_booking(request, booking_id):
+    booking = Booking.objects.get(pk=booking_id)
+    booking.delete()
+    messages.success(request, ("Booking Canceleld"))
+    return redirect('booking-list')

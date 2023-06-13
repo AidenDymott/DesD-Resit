@@ -9,7 +9,11 @@
     {% for item in list %}
         <tr>
             <td>
-                <a href ="" class="btn btn-outline-secondary btn-sm"> {{ item.booked_movie }} </a>
+                <a href ="{% url 'view-booking' item.id %}" class="btn btn-outline-secondary btn-sm"> {{ item.booked_movie }} </a>
+
+                <td align="right"> 
+                    <a href="{% url 'cancel-booking' item.id %}" class="btn btn-outline-danger btn-sm"> Cancel</a>
+                </td>
 
              </br>
             </td>
