@@ -17,7 +17,6 @@ def create_profile(sender, instance, created, **kwargs):
         
 post_save.connect(create_profile, sender = User)
 
-
 # Movie Database
 class Movie(models.Model):
     movie_name = models.CharField(max_length = 200)
@@ -26,7 +25,6 @@ class Movie(models.Model):
     
     def __str__(self):
         return self.movie_name
-    
     
 # Showings Database
 
@@ -39,6 +37,8 @@ class Showing(models.Model):
     def __str__(self):
         return str(self.movie) + ' ' + str(self.date_showing) + ' ' + str(self.time_showing)
 
+# Booking DB
+
 class Booking(models.Model):
     booked_movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE, related_name='bmovie')
     viewing_date = models.ForeignKey(Showing, blank=True, null=True, on_delete=models.CASCADE ,related_name='bdate')
@@ -47,3 +47,5 @@ class Booking(models.Model):
     
     def __str__(self):
         return str(self.booked_movie) + ' ' + str(self.viewing_date) + ' ' + str(self.booked_seats)
+    
+    

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Movie, Showing
+from .models import Movie, Showing, Booking
 
 
 from django.contrib.auth.models import User
@@ -81,26 +81,26 @@ class ShowingForm(ModelForm):
   # Create Movie Showing Form
 class BookingForm(ModelForm):   
 	class Meta:
-		model = Showing
-		fields = ('movie', 'date_showing', 'time_showing', 'seats')
+		model = Booking
+		fields = ('booked_movie', 'viewing_date', 'viewing_time', 'booked_seats')
 	def __init__(self, *args, **kwargs):
 		super(BookingForm, self).__init__(*args, **kwargs)
   
-		self.fields['movie'].widget.attrs['class'] = 'form-control'
-		self.fields['movie'].widget.attrs['placeholder'] = 'Movie'
-		self.fields['movie'].label = ''
+		self.fields['booked_movie'].widget.attrs['class'] = 'form-control'
+		self.fields['booked_movie'].widget.attrs['placeholder'] = 'Movie'
+		self.fields['booked_movie'].label = ''
   
-		self.fields['date_showing'].widget.attrs['class'] = 'form-control'
-		self.fields['date_showing'].widget.attrs['placeholder'] = 'Showing Date'
-		self.fields['date_showing'].label = ''
+		self.fields['viewing_date'].widget.attrs['class'] = 'form-control'
+		self.fields['viewing_date'].widget.attrs['placeholder'] = 'Showing Date'
+		self.fields['viewing_date'].label = ''
   
-		self.fields['time_showing'].widget.attrs['class'] = 'form-control'
-		self.fields['time_showing'].widget.attrs['placeholder'] = 'Showing Time'
-		self.fields['time_showing'].label = ''
+		self.fields['viewing_time'].widget.attrs['class'] = 'form-control'
+		self.fields['viewing_time'].widget.attrs['placeholder'] = 'Showing Time'
+		self.fields['viewing_time'].label = ''
   
-		self.fields['seats'].widget.attrs['class'] = 'form-control'
-		self.fields['seats'].widget.attrs['placeholder'] = 'Seats'
-		self.fields['seats'].label = ''
+		self.fields['booked_seats'].widget.attrs['class'] = 'form-control'
+		self.fields['booked_seats'].widget.attrs['placeholder'] = 'Seats'
+		self.fields['booked_seats'].label = ''
   
   
   
