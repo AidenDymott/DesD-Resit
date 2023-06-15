@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group, User
-from .models import Profile, Movie, Showing, Booking, Screen
+from .models import Profile, Movie, Showing, Booking, Screen, ClubAccount
 
 # Unregister Groups for easier viewing
 admin.site.unregister(Group)
@@ -24,6 +24,8 @@ admin.site.register(Movie)
 admin.site.register(Showing)
 admin.site.register(Booking)
 admin.site.register(Screen)
+admin.site.register(ClubAccount)
+
 
 # Combine profile and user info
 class ProfileInline(admin.StackedInline):

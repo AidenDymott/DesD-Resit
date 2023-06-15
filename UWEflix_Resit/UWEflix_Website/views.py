@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.http import HttpResponseRedirect
-from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm, ScreenForm
+from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm, ScreenForm, ClubRegistration
 from .models import Movie, Showing, Booking, Profile, Screen
 
 # Create your views here.
@@ -47,6 +47,19 @@ def register_user(request):
             login(request, user)
             return redirect('home')     
     return render(request, 'register.html', {'form':form})
+
+# Club Registration
+def club_register(request):
+    form = ClubRegistration()
+    if request.method == 'POST':
+        form = ClubRegistration(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, ("Club sign up successful"))
+            return redirect('home')
+    
+    return render(request, 'register_club.html', {'form':form})
+
 
 # Movie CRUDs
 def list_movie(request):

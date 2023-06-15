@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.core.validators import MaxValueValidator
+import uuid
 
 # Create user profile
 class Profile(models.Model):
@@ -9,6 +10,22 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user.username
+    
+# Club Rep        
+class ClubAccount(models.Model):
+    account_ID = models.AutoField(auto_created=True, primary_key=True, serialize=False)
+    club_name = models.CharField(max_length=200)
+    landline = models.CharField(max_length=20, blank=True)
+    mobile = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(blank=True)
+    street_number = models.CharField(max_length=50, blank=True)
+    street = models.CharField(max_length=200, blank=True)
+    city = models.CharField(max_length=200 , blank=True)
+    post_code = models.CharField(max_length=20, blank=True)
+    club_rep = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return str(self.club_name)
     
 # Auto create user profile on sign up
 def create_profile(sender, instance, created, **kwargs):
@@ -31,15 +48,15 @@ class Movie(models.Model):
 
 class Screen(models.Model):
     screen_num = models.PositiveIntegerField(validators=[MaxValueValidator(10)], unique=True)# Max 10 screens
-    seats = models.PositiveIntegerField(default = 0)
+    seats = models.PositiveIntegerField(validators=[MaxValueValidator(100)])
     
     def __str__(self):
         return str(self.screen_num)
 
 class Showing(models.Model):
     movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE)
-    date_showing = models.DateTimeField('Movie Showing Date')
-    time_showing = models.DateTimeField('Movie Showing Time')
+    date_showing = models.DateField('Movie Showing Date')
+    time_showing = models.TimeField('Movie Showing Time')
     seats = models.IntegerField()
     
     def __str__(self):
