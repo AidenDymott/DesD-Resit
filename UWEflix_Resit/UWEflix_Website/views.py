@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.http import HttpResponseRedirect
-from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm
-from .models import Movie, Showing, Booking
+from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm, ScreenForm
+from .models import Movie, Showing, Booking, Profile, Screen
 
 # Create your views here.
 def home(request):
@@ -141,3 +141,35 @@ def canceL_booking(request, booking_id):
     booking.delete()
     messages.success(request, ("Booking Canceleld"))
     return redirect('booking-list')
+
+# SCREEN CRUD
+
+def screen(request):
+    list = Screen.objects.all()
+    return render(request, 'screen.html', {'list':list})
+
+def add_screen(request):
+    form = ScreenForm()
+    if request.method == "POST":
+        form = ScreenForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, ("Screen Added successfully"))
+            return redirect('screen')
+    return render(request, 'add_screen.html', {'form':form})
+
+def update_screen(request, screen_id):
+    screen = Screen.objects.get(pk=screen_id)
+    form = ScreenForm(request.POST or None, instance=screen)
+    if form.is_valid():
+            form.save()
+            messages.success(request, ("Update successful"))
+            return redirect('screen')
+    return render(request, 'update_screen.html', {'screen':screen, 'form':form})
+    
+
+def delete_screen(request, screen_id):
+    screen = Screen.objects.get(pk=screen_id)
+    screen.delete()
+    messages.success(request, ("Screen Deleted"))
+    return redirect('screen')

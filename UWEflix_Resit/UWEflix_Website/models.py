@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
+from django.core.validators import MaxValueValidator
 
 # Create user profile
 class Profile(models.Model):
@@ -28,10 +29,17 @@ class Movie(models.Model):
     
 # Showings Database
 
+class Screen(models.Model):
+    screen_num = models.PositiveIntegerField(validators=[MaxValueValidator(10)], unique=True)# Max 10 screens
+    seats = models.PositiveIntegerField(default = 0)
+    
+    def __str__(self):
+        return str(self.screen_num)
+
 class Showing(models.Model):
     movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE)
-    date_showing = models.DateField('Movie Showing Date')
-    time_showing = models.TimeField('Movie Showing Time')
+    date_showing = models.DateTimeField('Movie Showing Date')
+    time_showing = models.DateTimeField('Movie Showing Time')
     seats = models.IntegerField()
     
     def __str__(self):

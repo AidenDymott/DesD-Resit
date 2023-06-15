@@ -24,4 +24,9 @@ urlpatterns = [
     path('view_booking/<booking_id>', views.view_booking, name='view-booking'),
     path('cancel_booking/<booking_id>', views.canceL_booking, name='cancel-booking'),
     
+    # SCREEN PATHS
+    path('screen', views.screen, name='screen'),
+    path('add_screen', views.add_screen, name='add-screen'),
+    path('update_screen/<screen_id>', views.update_screen, name='update-screen'),
+    path('delete_screen/<screen_id>', views.delete_screen, name='delete-screen'),    
 ]

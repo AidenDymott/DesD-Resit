@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Movie, Showing, Booking
+from .models import Movie, Showing, Booking, Screen
 
 
 from django.contrib.auth.models import User
@@ -101,8 +101,21 @@ class BookingForm(ModelForm):
 		self.fields['booked_seats'].widget.attrs['class'] = 'form-control'
 		self.fields['booked_seats'].widget.attrs['placeholder'] = 'Seats'
 		self.fields['booked_seats'].label = ''
-  
-  
+
+class ScreenForm(ModelForm):
+    class Meta:
+        model = Screen
+        fields = ('screen_num', 'seats')
+    def __init__(self, *args, **kwargs):
+        super (ScreenForm, self).__init__(*args, **kwargs)
+        self.fields['screen_num'].widget.attrs['class'] = 'form-control'
+        self.fields['screen_num'].widget.attrs['placeholder'] = 'Screen Number'
+        self.fields['screen_num'].label = ''
+        
+        self.fields['seats'].widget.attrs['class'] = 'form-control'
+        self.fields['seats'].widget.attrs['placeholder'] = 'Seats'
+        self.fields['seats'].label = ''
+	
   
 
 
