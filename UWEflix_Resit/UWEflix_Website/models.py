@@ -46,7 +46,6 @@ class Movie(models.Model):
         return self.movie_name
     
 # Showings Database
-
 class Screen(models.Model):
     screen_num = models.PositiveIntegerField(validators=[MaxValueValidator(10)], unique=True)# Max 10 screens
     seats = models.PositiveIntegerField(validators=[MaxValueValidator(100)])
@@ -55,16 +54,19 @@ class Screen(models.Model):
         return str(self.screen_num)
 
 class Showing(models.Model):
+    # TODO:
+    # Seats should be less than or equal to the seats of screen model.
     movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE)
     date_showing = models.DateField('Movie Showing Date')
     time_showing = models.TimeField('Movie Showing Time')
+    screen = models.ForeignKey(Screen, blank=True, null=True, 
+                               on_delete=models.CASCADE)
     seats = models.IntegerField()
     
     def __str__(self):
         return str(self.movie) + ' ' + str(self.date_showing) + ' ' + str(self.time_showing)
 
 # Booking DB
-
 class Booking(models.Model):
     booked_movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE, related_name='bmovie')
     viewing_date = models.ForeignKey(Showing, blank=True, null=True, on_delete=models.CASCADE ,related_name='bdate')

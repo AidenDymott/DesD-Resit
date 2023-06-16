@@ -61,7 +61,6 @@ def club_register(request):
     
     return render(request, 'register_club.html', {'form':form})
 
-
 # Movie CRUDs
 def list_movie(request):
     movie_list = Movie.objects.all()
@@ -91,6 +90,9 @@ def update_movie(request, movie_id):
     return render(request, 'update_movie.html', {'movie': movie, 'form':form})
 
 def delete_movie(request, movie_id):
+    # TODO:
+    # Reject request to delete when there is active showings for the current
+    # movie.
     movie = Movie.objects.get(pk=movie_id)
     movie.delete()
     messages.success(request, ("Deletion successful"))
@@ -131,7 +133,6 @@ def delete_showing(request, showing_id):
     return redirect('showing')
     
 # BOOKING
-
 def booking(request):
     form = BookingForm()
     if request.method == "POST":
@@ -157,7 +158,6 @@ def canceL_booking(request, booking_id):
     return redirect('booking-list')
 
 # SCREEN CRUD
-
 def screen(request):
     list = Screen.objects.all()
     return render(request, 'screen.html', {'list':list})
@@ -173,6 +173,9 @@ def add_screen(request):
     return render(request, 'add_screen.html', {'form':form})
 
 def update_screen(request, screen_id):
+    # TODO:
+    # Reject request to update when there is active showings.
+    # (Showings time > current time)
     screen = Screen.objects.get(pk=screen_id)
     form = ScreenForm(request.POST or None, instance=screen)
     if form.is_valid():
@@ -181,8 +184,10 @@ def update_screen(request, screen_id):
             return redirect('screen')
     return render(request, 'update_screen.html', {'screen':screen, 'form':form})
     
-
 def delete_screen(request, screen_id):
+    # TODO:
+    # Reject request to delete when there is active showings.
+    # (Showings time > current time)
     screen = Screen.objects.get(pk=screen_id)
     screen.delete()
     messages.success(request, ("Screen Deleted"))
