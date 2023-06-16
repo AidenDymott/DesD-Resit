@@ -17,12 +17,14 @@
             {{ showing.movie.rating }}
       </div>
       <div class="card-description">
-        {{ showing.date_showing }}, {{showing.time_showing}}
+        {{ showing.date_showing }}, {{ showing.time_showing }}
             </br></br>
         {% if showing.seats == 0 %}
             SOLD OUT
         {% else %}
-        Seats Availiable: {{showing.seats}}
+        Seats Available: {{ showing.seats }}
+        </br>
+        Screen Number: {{ showing.screen.screen_num }}
         {% endif %}
       </div>
       <div class="card-buttons">

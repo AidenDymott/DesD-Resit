@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, ValidationError
 from django import forms
 from django.http import HttpResponseRedirect
-from django.utils import timezone
+from datetime import datetime
 from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm, ScreenForm, ClubRegistration
 from .models import Movie, Showing, Booking, Profile, Screen
 
@@ -107,9 +107,10 @@ def search_movie(request):
 # Showing CRUD
 def showing(request):
     # Display only showings in the future.
-    cur_dt = timezone.now()
-    showing_list = Showing.objects.filter(date_showing__gt=cur_dt.date(),
-                                          time_showing__gt=cur_dt.time())
+    cur_dt = datetime.now() 
+    showing_list = Showing.objects.filter(date_showing__gt=cur_dt.date()) | \
+                   (Showing.objects.filter(date_showing=cur_dt.date(),
+                   time_showing__gt=cur_dt.time()))
     return render(request, 'showing.html', {'showing_list': showing_list})
 
 def show_showing(request, showing_id):

@@ -113,7 +113,6 @@ a {
     flex: 25%;
     display: flex;
     border-right: 2px solid;
-    background: red;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
   }
