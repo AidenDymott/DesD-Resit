@@ -60,6 +60,11 @@ class Screen(models.Model):
             raise ValidationError("Cannot update when there is active showings.")
         super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        if self.pk and self.showing_set.filter(date_showing__gte=datetime.now()).exists():
+            raise ValidationError("Cannot delete when there is active showings.")
+        super().delete(*args, **kwargs)
+
 class Showing(models.Model):
     movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE)
     date_showing = models.DateField('Movie Showing Date')

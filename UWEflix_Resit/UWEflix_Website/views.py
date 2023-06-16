@@ -189,10 +189,11 @@ def update_screen(request, screen_id):
     return render(request, 'update_screen.html', {'screen':screen, 'form':form})
     
 def delete_screen(request, screen_id):
-    # TODO:
-    # Reject request to delete when there is active showings.
-    # (Showings time > current time)
-    screen = Screen.objects.get(pk=screen_id)
-    screen.delete()
-    messages.success(request, ("Screen Deleted"))
+    try:
+        screen = Screen.objects.get(pk=screen_id)
+        screen.delete()
+        messages.success(request, ("Screen Deleted"))
+    except ValidationError:
+        screen = Screen.objects.get(pk=screen_id)
+        messages.success(request, ("Cannot delete screen with active showings"))
     return redirect('screen')
