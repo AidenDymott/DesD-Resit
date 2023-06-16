@@ -99,6 +99,11 @@ def delete_movie(request, movie_id):
     messages.success(request, ("Deletion successful"))
     return redirect('movie')
 
+def search_movie(request):
+    query = request.GET.get('q')
+    results = Movie.objects.filter(movie_name__icontains=query) if query else []
+    return render(request, 'movie.html', {'results': results, 'query': query})
+
 # Showing CRUD
 def showing(request):
     # Display only showings in the future.
