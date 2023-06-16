@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, ValidationError
 from django import forms
 from django.http import HttpResponseRedirect
+from django.utils import timezone
 from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm, ScreenForm, ClubRegistration
 from .models import Movie, Showing, Booking, Profile, Screen
 
@@ -100,12 +101,15 @@ def delete_movie(request, movie_id):
 
 # Showing CRUD
 def showing(request):
-    showing_list = Showing.objects.all()
+    # Display only showings in the future.
+    cur_dt = timezone.now()
+    showing_list = Showing.objects.filter(date_showing__gt=cur_dt.date(),
+                                          time_showing__gt=cur_dt.time())
     return render(request, 'showing.html', {'showing_list': showing_list})
 
 def show_showing(request, showing_id):
-   showing = Showing.objects.get(pk=showing_id)
-   return render(request, 'list_showing.html', {'showing':showing})
+    showing = Showing.objects.get(pk=showing_id)
+    return render(request, 'list_showing.html', {'showing':showing})
 
 def add_showing(request):
     form = ShowingForm()
@@ -124,9 +128,13 @@ def update_showing(request, showing_id):
             form.save()
             messages.success(request, ("Update successful"))
             return redirect('showing')
-    return render(request, 'update_showing.html', {'showing':showing, 'form':form})
+    return render(request, 'update_showing.html',
+                  {'showing':showing, 'form':form})
 
 def delete_showing(request, showing_id):
+    # TODO:
+    # Either disallow deleting a showing with active bookings or send an email
+    # refunding the customer.
     showing = Showing.objects.get(pk=showing_id)
     showing.delete()
     messages.success(request, ("Deletion successful"))
@@ -173,9 +181,6 @@ def add_screen(request):
     return render(request, 'add_screen.html', {'form':form})
 
 def update_screen(request, screen_id):
-    # TODO:
-    # Reject request to update when there is active showings.
-    # (Showings time > current time)
     try:
         screen = Screen.objects.get(pk=screen_id)
         form = ScreenForm(request.POST or None, instance=screen)
