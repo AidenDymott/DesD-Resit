@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, ValidationError
 from django import forms
 from django.http import HttpResponseRedirect
 from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm, ScreenForm, ClubRegistration
@@ -176,12 +176,16 @@ def update_screen(request, screen_id):
     # TODO:
     # Reject request to update when there is active showings.
     # (Showings time > current time)
-    screen = Screen.objects.get(pk=screen_id)
-    form = ScreenForm(request.POST or None, instance=screen)
-    if form.is_valid():
+    try:
+        screen = Screen.objects.get(pk=screen_id)
+        form = ScreenForm(request.POST or None, instance=screen)
+        if form.is_valid():
             form.save()
             messages.success(request, ("Update successful"))
             return redirect('screen')
+    except ValidationError:
+        screen = Screen.objects.get(pk=screen_id)
+        messages.success(request, ("Cannot update screen with active showings"))
     return render(request, 'update_screen.html', {'screen':screen, 'form':form})
     
 def delete_screen(request, screen_id):

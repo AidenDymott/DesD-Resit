@@ -1,7 +1,9 @@
+from django.contrib.auth.forms import ValidationError
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.core.validators import MaxValueValidator
+from datetime import datetime
 import uuid
 
 # Create user profile
@@ -52,6 +54,11 @@ class Screen(models.Model):
     
     def __str__(self):
         return str(self.screen_num)
+
+    def save(self, *args, **kwargs):
+        if self.pk and self.showing_set.filter(date_showing__gte=datetime.now()).exists():
+            raise ValidationError("Cannot update when there is active showings.")
+        super().save(*args, **kwargs)
 
 class Showing(models.Model):
     movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE)
