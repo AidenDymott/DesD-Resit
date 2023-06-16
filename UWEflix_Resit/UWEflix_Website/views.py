@@ -70,7 +70,7 @@ def list_movie(request):
 def add_movie(request):
     form = MovieForm()
     if request.method == "POST":
-        form = MovieForm(request.POST)
+        form = MovieForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, ("New movie added"))
@@ -125,9 +125,9 @@ def update_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
     form = ShowingForm(request.POST or None, instance=showing)
     if form.is_valid():
-            form.save()
-            messages.success(request, ("Update successful"))
-            return redirect('showing')
+        form.save()
+        messages.success(request, ("Update successful"))
+        return redirect('showing')
     return render(request, 'update_showing.html',
                   {'showing':showing, 'form':form})
 

@@ -1,33 +1,27 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<center>
-<h1>Screens</h1>
-
-<br/><br/>
-
-<table class="table table-dark table-striped table-hover table-bordered">
-    {% for item in list %}
-        <tr>
-            <td>
-                <a href ="{% url 'update-screen' item.id %}" class="btn btn-outline-secondary btn-sm"> {{ item.screen_num }} </a>
-
-                <td>
-                    Capacity: {{ item.seats }}
-                </td>
-
-                <td align="right"> 
-                    <a href="{% url 'delete-screen' item.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
-                </td>
-
-            </br>
-            </td>
-        </tr>
-    {% endfor %}
-</table>
-
-<button type="button" class="btn btn-dark"><a href = "{% url 'add-screen' %}"> Add Screen </a></button>
-
-
-
+{% if user.is_authenticated %}
+<div class="title">
+  <h1>Screens</h1>
+</div>
+<a class="card-button" style="margin-bottom: 10px;" 
+   href="{% url 'add-screen' %}">Add Screen</a>
+{% for item in list %}
+  <div class="card">
+    <div class="card-content">
+      <div class="card-top">
+        Screen Number: {{ item.screen_num }} 
+        </br>
+        Current Capacity: {{ item.seats }}
+      </div>
+      <div class="card-buttons">
+        <a href="{% url 'update-screen' item.id %}" class="card-button">Update</a>
+        <a href="{% url 'delete-screen' item.id %}" class="card-button">Delete</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% else %}
+Sorry, you don't have access to this page.
+{% endif %}
 {% endblock %}
