@@ -54,17 +54,20 @@ class Screen(models.Model):
         return str(self.screen_num)
 
 class Showing(models.Model):
-    # TODO:
-    # Seats should be less than or equal to the seats of screen model.
     movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE)
     date_showing = models.DateField('Movie Showing Date')
     time_showing = models.TimeField('Movie Showing Time')
     screen = models.ForeignKey(Screen, blank=True, null=True, 
                                on_delete=models.CASCADE)
-    seats = models.IntegerField()
+    seats = models.PositiveIntegerField()
     
     def __str__(self):
         return str(self.movie) + ' ' + str(self.date_showing) + ' ' + str(self.time_showing)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.seats = self.screen.seats
+        super().save(*args, **kwargs)
 
 # Booking DB
 class Booking(models.Model):
