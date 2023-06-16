@@ -7,6 +7,7 @@
 <a class="card-button" style="margin-bottom: 10px;" 
    href="{% url 'add-movie' %}">Add Movies</a>
 {% endif %}
+<input type="text" class="search" placeholder="Make a search...">
 {% for movie in movie_list %}
   <div class="card">
     <div class="card-image">

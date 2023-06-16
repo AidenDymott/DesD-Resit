@@ -11,12 +11,12 @@
     {% include 'navbar.html' %}
     <div class="content-container">
       {% block content %}
-        {% if messages %}
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-        {% endif %}
       {% endblock %}
     </div>
+    {% if messages %}
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+    {% endif %}
   </body>
 </html>
