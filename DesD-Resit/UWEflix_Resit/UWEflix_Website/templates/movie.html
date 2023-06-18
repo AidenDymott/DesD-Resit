@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="title">
+  <h1>Movies</h1>
+</div>
+{% if user.is_authenticated %}
+<a class="card-button" style="margin-bottom: 10px;" 
+   href="{% url 'add-movie' %}">Add Movies</a>
+{% endif %}
+<form action="{% url 'search-movie' %}">
+  <input type="text" class="search" name="q" placeholder="Make a search...">
+</form>
+{% if query %}
+  {% if results %}
+    {% for movie in results %}
+        <div class="card">
+          <div class="card-image">
+          <img src="{{ movie.movie_image.url }}">
+        </div>
+        <div class="card-content">
+          <div class="card-top">
+            <a href ="{% url 'show-movie' movie.id %}">{{ movie.movie_name }}</a>, 
+            {{ movie.rating }}
+          </div>
+          <div class="card-description">
+            {{ movie.description }}
+          </div>
+          <div class="card-buttons">
+            <a class="card-button" href="{% url 'update-movie' movie.id %}">
+            Showings</a> 
+            {% if user.is_authenticated %}
+            <a class="card-button" href="{% url 'update-movie' movie.id %}">
+            Update</a> 
+            <a class="card-button" href="{% url 'delete-movie' movie.id %}">
+            Delete</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    No results found. :(
+  {% endif %}
+{% else %}
+{% for movie in movie_list %}
+  <div class="card">
+    <div class="card-image">
+      <img src="{{ movie.movie_image.url }}">
+    </div>
+    <div class="card-content">
+      <div class="card-top">
+        <a href ="{% url 'show-movie' movie.id %}">{{ movie.movie_name }}</a>, 
+            {{ movie.rating }}
+      </div>
+      <div class="card-description">
+        {{ movie.description }}
+      </div>
+      <div class="card-buttons">
+        <a class="card-button" href="{% url 'update-movie' movie.id %}">
+        Showings</a> 
+        {% if user.is_authenticated %}
+        <a class="card-button" href="{% url 'update-movie' movie.id %}">
+        Update</a> 
+        <a class="card-button" href="{% url 'delete-movie' movie.id %}">
+        Delete</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endif %}
+{% endblock %}
