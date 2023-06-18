@@ -6,7 +6,7 @@ from django import forms
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm, ScreenForm, ClubRegistration
-from .models import Movie, Showing, Booking, Profile, Screen
+from .models import Movie, Showing, Booking, Profile, Screen, ClubAccount
 
 # Create your views here.
 def home(request):
@@ -208,3 +208,28 @@ def delete_screen(request, screen_id):
         screen = Screen.objects.get(pk=screen_id)
         messages.success(request, ("Cannot delete screen with active showings"))
     return redirect('screen')
+
+# Club CRUD
+
+def list_club(request):
+    list = ClubAccount.objects.all()
+    return render(request, 'club_list.html', {'list':list})
+
+"""
+def update_club(request, acc_id):
+    club = ClubAccount.objects.get(pk=acc_id)
+    form = ClubRegistration(request.POST or None, instance = club)
+    if form.is_valid():
+        form.save()
+        messages.success(request, ("Update successful"))
+        return redirect('list-club')
+    return render(request, 'update_club.html',
+                  {'club':club, 'form':form})
+
+def delete_club(request, acc_id):
+    club = ClubAccount.objects.get(pk=acc_id)
+    club.delete()
+    messages.success(request, ("Club Removed"))
+    return redirect('list-club')
+
+"""
