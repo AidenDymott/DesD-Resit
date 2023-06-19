@@ -72,13 +72,17 @@ class Showing(models.Model):
     screen = models.ForeignKey(Screen, blank=True, null=True, 
                                on_delete=models.CASCADE)
     seats = models.PositiveIntegerField()
+    social_distance = models.BooleanField(blank=True, null=True)
     
     def __str__(self):
         return str(self.movie) + ' ' + str(self.date_showing) + ' ' + str(self.time_showing)
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.seats = self.screen.seats
+            if self.social_distance:
+                self.seats = self.screen.seats / 2
+            else:
+                self.seats = self.screen.seats
         super().save(*args, **kwargs)
 
 # Booking DB

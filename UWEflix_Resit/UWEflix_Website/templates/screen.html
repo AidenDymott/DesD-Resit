@@ -11,9 +11,8 @@
     <div class="card-content">
       <div class="card-top">
         Screen Number: {{ item.screen_num }} 
-        </br>
-        Current Capacity: {{ item.seats }}
       </div>
+      Current Capacity: {{ item.seats }}
       <div class="card-buttons">
         <a href="{% url 'update-screen' item.id %}" class="card-button">Update</a>
         <a href="{% url 'delete-screen' item.id %}" class="card-button">Delete</a>

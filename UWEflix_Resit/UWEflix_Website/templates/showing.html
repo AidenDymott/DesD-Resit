@@ -25,6 +25,10 @@
         Seats Available: {{ showing.seats }}
         </br>
         Screen Number: {{ showing.screen.screen_num }}
+        </br>
+        {% if showing.social_distance %}
+            Social distancing required.
+        {% endif %}
         {% endif %}
       </div>
       <div class="card-buttons">

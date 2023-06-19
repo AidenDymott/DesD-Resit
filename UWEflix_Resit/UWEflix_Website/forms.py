@@ -83,7 +83,7 @@ class MovieForm(ModelForm):
 class ShowingForm(ModelForm):   
 	class Meta:
 		model = Showing
-		fields = ('movie', 'date_showing', 'time_showing', 'screen')
+		fields = ('movie', 'date_showing', 'time_showing', 'screen', 'social_distance')
 	def __init__(self, *args, **kwargs):
 		super(ShowingForm, self).__init__(*args, **kwargs)
   
