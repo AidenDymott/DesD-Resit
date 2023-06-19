@@ -20,6 +20,7 @@ urlpatterns = [
     path('add_showing', views.add_showing, name='add-showing'),
     path('update_showing/<showing_id>', views.update_showing, name='update-showing'),
     path('delete_showing/<showing_id>', views.delete_showing, name='delete-showing'),
+    path('search_showing', views.search_showing, name='search-showing'),
     # BOOKING PATHS
     path('booking', views.booking, name='booking'),
     path('booking_list', views.booking_list, name = 'booking-list'),

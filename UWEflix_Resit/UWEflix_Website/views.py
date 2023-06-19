@@ -145,6 +145,13 @@ def delete_showing(request, showing_id):
     showing.delete()
     messages.success(request, ("Deletion successful"))
     return redirect('showing')
+
+def search_showing(request):
+    # TODO:
+    # Filter showings to only display upcoming.
+    query = request.GET.get('q')
+    results = Showing.objects.filter(movie__movie_name__icontains=query) if query else []
+    return render(request, 'showing.html', {'results': results, 'query': query})
     
 # BOOKING
 def booking(request):
