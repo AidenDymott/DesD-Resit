@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+  <div class="title">
+    <h1>Create Booking</h1>
+  </div>
+  Making a booking for {{ showing.movie.movie_name }}
+  <br/>
+  Showing is on: {{ showing.date_showing }} {{ showing.time_showing }}
+  <br/>
+  You need to select number of seats and payment method.
+  <form method="POST" action = "{% url 'create-booking' showing_id=showing.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br/><br/>
+    <button type="submit" class="auth-button">Submit</button>
+  </form>
+{% else %}
+You need to be logged in to create a booking.
+{% endif %}
+{% endblock %}

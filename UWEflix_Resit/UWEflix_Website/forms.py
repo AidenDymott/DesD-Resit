@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Movie, Showing, Booking, Screen, ClubAccount
+from .models import Movie, Showing, Screen, ClubAccount, Booking
 
 
 from django.contrib.auth.models import User
@@ -109,30 +109,6 @@ class ShowingForm(ModelForm):
 		self.fields['screen'].widget.attrs['placeholder'] = 'Screen'
 		self.fields['screen'].label = ''
   
-  # Create Movie Showing Form
-class BookingForm(ModelForm):   
-	class Meta:
-		model = Booking
-		fields = ('booked_movie', 'viewing_date', 'viewing_time', 'booked_seats')
-	def __init__(self, *args, **kwargs):
-		super(BookingForm, self).__init__(*args, **kwargs)
-  
-		self.fields['booked_movie'].widget.attrs['class'] = 'form-control'
-		self.fields['booked_movie'].widget.attrs['placeholder'] = 'Movie'
-		self.fields['booked_movie'].label = ''
-  
-		self.fields['viewing_date'].widget.attrs['class'] = 'form-control'
-		self.fields['viewing_date'].widget.attrs['placeholder'] = 'Showing Date'
-		self.fields['viewing_date'].label = ''
-  
-		self.fields['viewing_time'].widget.attrs['class'] = 'form-control'
-		self.fields['viewing_time'].widget.attrs['placeholder'] = 'Showing Time'
-		self.fields['viewing_time'].label = ''
-  
-		self.fields['booked_seats'].widget.attrs['class'] = 'form-control'
-		self.fields['booked_seats'].widget.attrs['placeholder'] = 'Seats'
-		self.fields['booked_seats'].label = ''
-
 class ScreenForm(ModelForm):
     class Meta:
         model = Screen
@@ -146,3 +122,11 @@ class ScreenForm(ModelForm):
         self.fields['seats'].widget.attrs['class'] = 'form-control'
         self.fields['seats'].widget.attrs['placeholder'] = 'Seats'
         self.fields['seats'].label = ''
+	
+class BookingForm(ModelForm):
+	class Meta:
+		model = Booking
+		fields = ('seats',)
+
+	def __init__(self, *args, **kwargs):
+		super (BookingForm, self).__init__(*args, **kwargs)

@@ -38,7 +38,7 @@
       </div>
       <div class="card-buttons">
         {% if showing.seats != 0 %}
-          <a class="card-button" href="{% url 'update-showing' showing.id %}">
+          <a class="card-button" href="{% url 'create-booking' showing.id %}">
           Book</a> 
         {% endif %}
         {% if user.is_authenticated %}
@@ -81,7 +81,7 @@
       </div>
       <div class="card-buttons">
         {% if showing.seats != 0 %}
-          <a class="card-button" href="{% url 'update-showing' showing.id %}">
+          <a class="card-button" href="{% url 'create-booking' showing.id %}">
           Book</a> 
         {% endif %}
         {% if user.is_authenticated %}

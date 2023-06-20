@@ -111,9 +111,8 @@ a {
   }
 
   .card-image {
-    flex: 25%;
+    flex: 35%;
     display: flex;
-    border-right: 2px solid;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
   }
@@ -130,7 +129,7 @@ a {
     justify-content: space-between;
     display: flex;
     flex-direction: column;
-    flex: 75%;
+    flex: 65%;
     margin-left: 10px;
     margin-right: 10px;
   }

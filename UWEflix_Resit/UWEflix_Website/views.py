@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, ValidationError
 from django import forms
 from django.http import HttpResponseRedirect
 from datetime import datetime
-from . forms import SignUpForm, MovieForm, ShowingForm, BookingForm, ScreenForm, ClubRegistration
+from .forms import SignUpForm, MovieForm, ShowingForm, ScreenForm, ClubRegistration, BookingForm
 from .models import Movie, Showing, Booking, Profile, Screen, ClubAccount
 
 # Create your views here.
@@ -64,7 +64,7 @@ def club_register(request):
 
 # Movie CRUDs
 def list_movie(request):
-    movie_list = Movie.objects.all()
+    movie_list = Movie.objects.all().order_by('movie_name')
     return render(request, 'movie.html', {'movie_list': movie_list})
 
 def add_movie(request):
@@ -110,7 +110,7 @@ def showing(request):
     cur_dt = datetime.now() 
     showing_list = Showing.objects.filter(date_showing__gt=cur_dt.date()) | \
                    (Showing.objects.filter(date_showing=cur_dt.date(),
-                   time_showing__gt=cur_dt.time()))
+                   time_showing__gt=cur_dt.time())).order_by('date_showing')
     return render(request, 'showing.html', {'showing_list': showing_list})
 
 def show_showing(request, showing_id):
@@ -154,29 +154,21 @@ def search_showing(request):
     return render(request, 'showing.html', {'results': results, 'query': query})
     
 # BOOKING
-def booking(request):
+def create_booking(request, showing_id):
+    # TODO:
+    # Needs more logic for handling reducing the number of avaliable seats after booking
+    # and checking if there is still seats available before saving the booking.
+    showing = get_object_or_404(Showing, pk=showing_id)
     form = BookingForm()
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, ("Booking successful"))
-            return redirect('booking-list')
-    return render(request, 'booking.html', {'form':form})
-
-def booking_list(request):
-    list = Booking.objects.all()
-    return render(request, 'booking_list.html', {'list':list})
-
-def view_booking(request, booking_id):
-    booking = Booking.objects.get(pk=booking_id)
-    return render(request, 'view_booking.html', {'booking':booking})
-
-def canceL_booking(request, booking_id):
-    booking = Booking.objects.get(pk=booking_id)
-    booking.delete()
-    messages.success(request, ("Booking Canceleld"))
-    return redirect('booking-list')
+            seats = form.cleaned_data['seats']
+            booking = Booking(user=request.user, showing=showing, seats=seats)
+            booking.save()
+            messages.success(request, ("Booking added"))
+            return redirect('home')
+    return render(request, 'create_booking.html', {'showing': showing, 'form': form})
 
 # SCREEN CRUD
 def screen(request):

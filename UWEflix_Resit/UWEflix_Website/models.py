@@ -87,12 +87,11 @@ class Showing(models.Model):
 
 # Booking DB
 class Booking(models.Model):
-    booked_movie = models.ForeignKey(Movie, blank=True, null=True, on_delete=models.CASCADE, related_name='bmovie')
-    viewing_date = models.ForeignKey(Showing, blank=True, null=True, on_delete=models.CASCADE ,related_name='bdate')
-    viewing_time = models.ForeignKey(Showing, blank=True, null=True, on_delete=models.CASCADE ,related_name='btime')
-    booked_seats = models.ForeignKey(Showing, blank=True, null=True, on_delete=models.CASCADE, related_name='bseats')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    showing = models.ForeignKey(Showing, on_delete=models.CASCADE, blank=True, null=True)
+    seats = models.PositiveIntegerField(blank=True, null=True)
     
     def __str__(self):
-        return str(self.booked_movie) + ' ' + str(self.viewing_date) + ' ' + str(self.booked_seats)
+        return str(self.user) + ' ' + str(self.showing)
     
     
