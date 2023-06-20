@@ -166,6 +166,10 @@ def create_booking(request, showing_id):
             seats = form.cleaned_data['seats']
             booking = Booking(user=request.user, showing=showing, seats=seats)
             booking.save()
+
+            showing.seats -= int(seats)
+            showing.save()
+
             messages.success(request, ("Booking added"))
             return redirect('home')
     return render(request, 'create_booking.html', {'showing': showing, 'form': form})
