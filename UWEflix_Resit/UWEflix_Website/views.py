@@ -10,8 +10,8 @@ from .models import Movie, Showing, Booking, Profile, Screen, ClubAccount
 
 # Create your views here.
 def home(request):
-    imaget = Movie.objects.all()
-    return render(request, 'home.html', {'imaget':imaget})
+    showings = Movie.objects.latest('movie_name')
+    return render(request, 'home.html', {'showings': showings})
 
 #User Sign in
 def login_user(request):
