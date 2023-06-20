@@ -170,6 +170,10 @@ def create_booking(request, showing_id):
             return redirect('home')
     return render(request, 'create_booking.html', {'showing': showing, 'form': form})
 
+def show_bookings(request):
+    bookings = Booking.objects.filter(user=request.user)
+    return render(request, 'show_bookings.html', {'bookings': bookings})
+
 # SCREEN CRUD
 def screen(request):
     list = Screen.objects.all()
