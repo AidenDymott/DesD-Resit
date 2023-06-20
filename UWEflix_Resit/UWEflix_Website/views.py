@@ -64,7 +64,7 @@ def club_register(request):
 # Movie CRUDs
 def list_movie(request):
     movie_list = Movie.objects.all().order_by('movie_name')
-    p = Paginator(movie_list, 3)
+    p = Paginator(movie_list, 5)
     page_num = request.GET.get('page', 1)
     
     page = p.page(page_num)

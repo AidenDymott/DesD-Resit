@@ -86,10 +86,14 @@ class MovieForm(ModelForm):
 		self.fields['rating'].label = ''
   
 # Create Movie Showing Form
+class DateInput(forms.DateInput):
+	input_type ='date'
+
 class ShowingForm(ModelForm):   
 	class Meta:
 		model = Showing
 		fields = ('movie', 'date_showing', 'time_showing', 'screen', 'social_distance')
+		widgets = {'date_showing': DateInput()}
 	def __init__(self, *args, **kwargs):
 		super(ShowingForm, self).__init__(*args, **kwargs)
   
