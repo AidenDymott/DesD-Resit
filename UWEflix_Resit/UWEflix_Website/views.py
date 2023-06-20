@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm, ValidationError
-from django import forms
-from django.http import HttpResponseRedirect
+from django.contrib.auth.forms import ValidationError
+from django.core.paginator import Paginator
 from datetime import datetime
 from .forms import SignUpForm, MovieForm, ShowingForm, ScreenForm, ClubRegistration, BookingForm
 from .models import Movie, Showing, Booking, Profile, Screen, ClubAccount
@@ -65,7 +64,12 @@ def club_register(request):
 # Movie CRUDs
 def list_movie(request):
     movie_list = Movie.objects.all().order_by('movie_name')
-    return render(request, 'movie.html', {'movie_list': movie_list})
+    p = Paginator(movie_list, 3)
+    page_num = request.GET.get('page', 1)
+    
+    page = p.page(page_num)
+ 
+    return render(request, 'movie.html', {'movie_list': page})
 
 def add_movie(request):
     form = MovieForm()

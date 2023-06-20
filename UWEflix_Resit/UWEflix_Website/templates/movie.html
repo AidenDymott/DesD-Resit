@@ -42,6 +42,14 @@
     No results found. :(
   {% endif %}
 {% else %}
+{% if movie_list.has_previous %}
+  <a class="card-button"
+  href="{% url 'movie' %}?page={{ movie_list.previous_page_number }}">Previous</a>
+{% endif %}
+{% if movie_list.has_next %}
+  <a class="card-button" 
+  href="{% url 'movie' %}?page={{ movie_list.next_page_number }}">Next</a>
+{% endif %}
 {% for movie in movie_list %}
   <div class="card">
     <div class="card-image">
