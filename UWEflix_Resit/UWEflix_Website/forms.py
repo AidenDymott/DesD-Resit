@@ -19,20 +19,26 @@ class SignUpForm(UserCreationForm):
 	def __init__(self, *args, **kwargs):
 		super(SignUpForm, self).__init__(*args, **kwargs)
 
-		self.fields['username'].widget.attrs['class'] = 'form-control'
+		self.fields['username'].widget.attrs['class'] = 'auth-input2'
 		self.fields['username'].widget.attrs['placeholder'] = 'User Name'
 		self.fields['username'].label = ''
-		self.fields['username'].help_text = '<span class="form-text text-muted"><small>Required.</small></span>'
+		self.fields['username'].help_text = ''
 
-		self.fields['password1'].widget.attrs['class'] = 'form-control'
+		self.fields['first_name'].widget.attrs['class'] = 'auth-input2'
+
+		self.fields['last_name'].widget.attrs['class'] = 'auth-input2'
+
+		self.fields['email'].widget.attrs['class'] = 'auth-input2'
+
+		self.fields['password1'].widget.attrs['class'] = 'auth-input2'
 		self.fields['password1'].widget.attrs['placeholder'] = 'Password'
 		self.fields['password1'].label = ''
-		self.fields['password1'].help_text = '<span class="form-text text-muted"><small>Required.</small></span>'
+		self.fields['password1'].help_text = ''
 
-		self.fields['password2'].widget.attrs['class'] = 'form-control'
+		self.fields['password2'].widget.attrs['class'] = 'auth-input2'
 		self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
 		self.fields['password2'].label = ''
-		self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Passwords didn\'t match.</small></span>'
+		self.fields['password2'].help_text = ''
 
 # Register Club Form
 class ClubRegistration(ModelForm):
