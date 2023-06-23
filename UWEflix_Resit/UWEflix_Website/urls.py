@@ -23,6 +23,7 @@ urlpatterns = [
     path('search_showing', views.search_showing, name='search-showing'),
     # BOOKING PATHS
     path('book/<int:showing_id>', views.create_booking, name='create-booking'),
+    path('book/booking_confirm/<int:showing_id>', views.process_booking, name='process-booking'),
     path('show_bookings', views.show_bookings, name='show-bookings'),
     # SCREEN PATHS
     path('screen', views.screen, name='screen'),

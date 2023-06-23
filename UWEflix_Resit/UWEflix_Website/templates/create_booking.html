@@ -9,15 +9,14 @@
   Showing is on: {{ showing.date_showing }} {{ showing.time_showing }}
   <br/>
   You need to select number of seats and payment method.
-  {% for seat in showing.seat_layout %}
-    <tr>
-      <td>{{ seat.seat_num }}</td>
-      <td>{{ seat.is_available }}</td>
-    </tr>
-  {% endfor %}
-  <form method="POST" action = "{% url 'create-booking' showing_id=showing.id %}">
+  <form method="POST" action = "{% url 'process-booking' showing_id=showing.id %}">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% for field in form %}
+      <tr>
+        <td>{{ field.label_tag }}</td>
+        <td>{{ field }}</td>
+      </tr>
+      {% endfor %}
     <br/><br/>
     <button type="submit" class="auth-button">Submit</button>
   </form>

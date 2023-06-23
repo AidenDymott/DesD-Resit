@@ -162,8 +162,8 @@ def create_booking(request, showing_id):
     # TODO:
     # Needs more logic for handling reducing the number of avaliable seats after booking
     # and checking if there is still seats available before saving the booking.
-    showing = get_object_or_404(Showing, pk=showing_id)
-    form = BookingForm()
+    showing = Showing.objects.get(id=showing_id)
+    form = BookingForm(showing=showing)
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
@@ -181,6 +181,29 @@ def create_booking(request, showing_id):
             messages.success(request, ("Booking added"))
             return redirect('home')
     return render(request, 'create_booking.html', {'showing': showing, 'form': form})
+
+def process_booking(request, showing_id):
+    showing = Showing.objects.get(id=showing_id)
+    form = BookingForm(request.POST, showing=showing)
+
+    if form.is_valid():
+        selected_seats = []
+        for seat in form.cleaned_data:
+            if form.cleaned_data[seat]:
+                selected_seats.append(seat)
+
+        # Check seats are available and make unavailable to future customers
+        for seat_num in selected_seats:
+            for seat in showing.seat_layout:
+                if seat['seat_num'] == seat_num:
+                    seat['is_available'] = False
+                    break
+        showing.save()
+
+        messages.success(request, ("Booking added"))
+        return render(request, 'booking_confirm.html')
+    messages.success(request, ("Something went wrong"))
+    return render(request, 'booking_confirm.html')
 
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
