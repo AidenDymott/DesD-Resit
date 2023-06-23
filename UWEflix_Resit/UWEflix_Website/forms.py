@@ -138,8 +138,9 @@ class BookingForm(forms.Form):
             if seat['is_available']:
                 self.fields[seat['seat_num']] = forms.BooleanField(
                     required=False,
-                    widget=forms.CheckboxInput())
+                    widget=forms.CheckboxInput(attrs={'class': 'booking-seat-available'}))
             else:
                 self.fields[seat['seat_num']] = forms.BooleanField(
                     required=False, 
-                    widget=forms.CheckboxInput(attrs={'disabled': 'disabled'}))
+                    widget=forms.CheckboxInput(attrs={'disabled': 'disabled',
+                                                      'class': 'booking-seat-reserved'}))
