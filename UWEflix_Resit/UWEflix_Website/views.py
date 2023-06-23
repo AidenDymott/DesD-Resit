@@ -171,8 +171,12 @@ def create_booking(request, showing_id):
             booking = Booking(user=request.user, showing=showing, seats=seats)
             booking.save()
 
-            showing.seats -= int(seats)
-            showing.save()
+            # Logic for reducing seats needs changing, reducing is fine for
+            # non social distancing events but social distanced events will 
+            # need to be recalculated every time.
+
+            # showing.seats -= int(seats)
+            # showing.save()
 
             messages.success(request, ("Booking added"))
             return redirect('home')

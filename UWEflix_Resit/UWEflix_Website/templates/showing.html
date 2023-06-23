@@ -24,10 +24,10 @@
       <div class="card-description">
         {{ showing.date_showing }}, {{ showing.time_showing }}
             </br></br>
-        {% if showing.seats == 0 %}
+        {% if showing.available_seats == 0 %}
             SOLD OUT
         {% else %}
-        Seats Available: {{ showing.seats }}
+        Seats Available: {{ showing.available_seats }}
         </br>
         Screen Number: {{ showing.screen.screen_num }}
         </br>
@@ -37,7 +37,7 @@
         {% endif %}
       </div>
       <div class="card-buttons">
-        {% if showing.seats != 0 %}
+        {% if showing.available_seats != 0 %}
           <a class="card-button" href="{% url 'create-booking' showing.id %}">
           Book</a> 
         {% endif %}
@@ -70,7 +70,7 @@
         {% if showing.seats == 0 %}
             SOLD OUT
         {% else %}
-        Seats Available: {{ showing.seats }}
+        Seats Available: {{ showing.available_seats }}
         </br>
         Screen Number: {{ showing.screen.screen_num }}
         </br>
@@ -80,7 +80,7 @@
         {% endif %}
       </div>
       <div class="card-buttons">
-        {% if showing.seats != 0 %}
+        {% if showing.available_seats != 0 %}
           <a class="card-button" href="{% url 'create-booking' showing.id %}">
           Book</a> 
         {% endif %}

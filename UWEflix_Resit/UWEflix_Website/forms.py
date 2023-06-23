@@ -116,16 +116,12 @@ class ShowingForm(ModelForm):
 class ScreenForm(ModelForm):
     class Meta:
         model = Screen
-        fields = ('screen_num', 'seats')
+        fields = ('screen_num', 'rows', 'columns')
     def __init__(self, *args, **kwargs):
         super (ScreenForm, self).__init__(*args, **kwargs)
         self.fields['screen_num'].widget.attrs['class'] = 'form-control'
         self.fields['screen_num'].widget.attrs['placeholder'] = 'Screen Number'
         self.fields['screen_num'].label = ''
-        
-        self.fields['seats'].widget.attrs['class'] = 'form-control'
-        self.fields['seats'].widget.attrs['placeholder'] = 'Seats'
-        self.fields['seats'].label = ''
 	
 class BookingForm(ModelForm):
 	class Meta:

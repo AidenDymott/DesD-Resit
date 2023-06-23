@@ -50,12 +50,16 @@ class Movie(models.Model):
 # Showings Database
 class Screen(models.Model):
     screen_num = models.PositiveIntegerField(validators=[MaxValueValidator(10)], unique=True)# Max 10 screens
-    seats = models.PositiveIntegerField(validators=[MaxValueValidator(100)])
+    rows = models.PositiveIntegerField(blank=True, null=True)
+    columns = models.PositiveIntegerField(blank=True, null=True)
+    seats = models.PositiveIntegerField(blank=True, null=True)
     
     def __str__(self):
         return str(self.screen_num)
 
     def save(self, *args, **kwargs):
+        if not self.pk:
+            self.seats = self.rows * self.columns
         if self.pk and self.showing_set.filter(date_showing__gte=datetime.now()).exists():
             raise ValidationError("Cannot update when there is active showings.")
         super().save(*args, **kwargs)
@@ -71,7 +75,8 @@ class Showing(models.Model):
     time_showing = models.TimeField('Movie Showing Time')
     screen = models.ForeignKey(Screen, blank=True, null=True, 
                                on_delete=models.CASCADE)
-    seats = models.PositiveIntegerField()
+    available_seats = models.PositiveIntegerField(blank=True, null=True)
+    seat_layout = models.JSONField(default=list)
     social_distance = models.BooleanField(blank=True, null=True)
     
     def __str__(self):
@@ -79,10 +84,15 @@ class Showing(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            if self.social_distance:
-                self.seats = self.screen.seats / 2
-            else:
-                self.seats = self.screen.seats
+            self.available_seats = self.screen.seats
+
+            seats = []
+            for row in range(1, self.screen.rows+1):
+                for column in range(1, self.screen.columns+1):
+                    seat_num = f"{chr(64+row)}{column}"
+                    seat_info = {'seat_num': seat_num, 'is_available': True}
+                    seats.append(seat_info)
+            self.seat_layout = seats
         super().save(*args, **kwargs)
 
 # Booking DB
