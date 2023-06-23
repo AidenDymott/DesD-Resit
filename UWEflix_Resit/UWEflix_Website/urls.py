@@ -33,8 +33,7 @@ urlpatterns = [
     
     # Club Paths
     path('club', views.list_club, name='list-club'),
-    
-    #path('update_club/<acc_id>', views.update_club, name='update-club'),
-    #path('delete_club/<acc_id>', views.delete_club, name='delete-club'),  
+    path('update_club/<club_id>', views.update_club, name='update-club'),
+    path('delete_club/<club_id>', views.delete_club, name='delete-club'),  
     
 ]

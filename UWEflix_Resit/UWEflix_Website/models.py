@@ -15,7 +15,6 @@ class Profile(models.Model):
     
 # Club Rep        
 class ClubAccount(models.Model):
-    account_ID = models.AutoField(auto_created=True, primary_key=True, serialize=False)
     club_name = models.CharField(max_length=200)
     landline = models.CharField(max_length=20, blank=True)
     mobile = models.CharField(max_length=20, blank=True)
@@ -29,7 +28,7 @@ class ClubAccount(models.Model):
     def __str__(self):
         return str(self.club_name)
     
-# Auto create user profile on sign up
+# Auto create user profile on sign up1
 def create_profile(sender, instance, created, **kwargs):
     if created:
         user_profile = Profile(user= instance )

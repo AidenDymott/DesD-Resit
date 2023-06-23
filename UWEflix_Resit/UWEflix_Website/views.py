@@ -241,12 +241,11 @@ def delete_screen(request, screen_id):
 # Club CRUD
 
 def list_club(request):
-    list = ClubAccount.objects.all()
-    return render(request, 'club_list.html', {'list':list})
+    club = ClubAccount.objects.all()
+    return render(request, 'club_list.html', {'club':club})
 
-"""
-def update_club(request, acc_id):
-    club = ClubAccount.objects.get(pk=acc_id)
+def update_club(request, club_id):
+    club = ClubAccount.objects.get(pk=club_id)
     form = ClubRegistration(request.POST or None, instance = club)
     if form.is_valid():
         form.save()
@@ -255,10 +254,10 @@ def update_club(request, acc_id):
     return render(request, 'update_club.html',
                   {'club':club, 'form':form})
 
-def delete_club(request, acc_id):
-    club = ClubAccount.objects.get(pk=acc_id)
+def delete_club(request, club_id):
+    club = ClubAccount.objects.get(pk=club_id)
     club.delete()
     messages.success(request, ("Club Removed"))
     return redirect('list-club')
 
-"""
+
