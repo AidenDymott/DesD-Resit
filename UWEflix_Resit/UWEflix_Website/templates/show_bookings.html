@@ -16,7 +16,10 @@
       <div class="card-description">
         {{ booking.showing.date_showing }}, {{ booking.showing.time_showing }}
             </br></br>
-        Seats: {{ booking.seats }}
+        Seats: 
+        {% for seat in booking.get_seats %}
+          {{ seat }}
+        {% endfor %}
         </br>
         Screen Number: {{ booking.showing.screen.screen_num }}
         </br>

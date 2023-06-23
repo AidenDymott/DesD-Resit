@@ -105,5 +105,8 @@ class Booking(models.Model):
             self.seats = json.dumps(self.seats)
         super().save(*args, **kwargs)
 
+    def get_seats(self):
+        return json.loads(self.seats)
+
     def __str__(self):
         return str(self.user) + ' ' + str(self.showing)

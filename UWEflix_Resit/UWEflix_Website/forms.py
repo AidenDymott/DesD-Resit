@@ -122,6 +122,11 @@ class ScreenForm(ModelForm):
         self.fields['screen_num'].widget.attrs['class'] = 'form-control'
         self.fields['screen_num'].widget.attrs['placeholder'] = 'Screen Number'
         self.fields['screen_num'].label = ''
+
+        self.fields['rows'].widget.attrs['placeholder'] = 'Rows'
+        
+        self.fields['columns'].widget.attrs['placeholder'] = 'Seats per row'
+        self.fields['columns'].label = 'Seats per row'
     
 class BookingForm(forms.Form):
     def __init__(self, *args, **kwargs):
