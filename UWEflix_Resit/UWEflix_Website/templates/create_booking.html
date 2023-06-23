@@ -9,17 +9,28 @@
   Showing is on: {{ showing.date_showing }} {{ showing.time_showing }}
   <br/>
   You need to select number of seats and payment method.
-  <form method="POST" action = "{% url 'process-booking' showing_id=showing.id %}">
-    {% csrf_token %}
+  
+  <form method="POST" action="{% url 'process-booking' showing_id=showing.id %}">
+  {% csrf_token %}
+  <table>
+    {% with fields_per_row=showing.screen.columns %}
     {% for field in form %}
-      <tr>
-        <td>{{ field.label_tag }}</td>
-        <td>{{ field }}</td>
-      </tr>
-      {% endfor %}
-    <br/><br/>
-    <button type="submit" class="auth-button">Submit</button>
-  </form>
+      {% if forloop.counter0|divisibleby:fields_per_row %}
+        <tr>
+      {% endif %}
+      <td>{{ field.label_tag }}</td>
+      <td>{{ field }}</td>
+      {% if forloop.counter|divisibleby:fields_per_row or forloop.last %}
+        </tr>
+      {% endif %}
+    {% endfor %}
+    {% endwith %}
+  </table>
+  <br/><br/>
+  <button type="submit" class="auth-button">Submit</button>
+</form>
+
+
 {% else %}
 You need to be logged in to create a booking.
 {% endif %}
