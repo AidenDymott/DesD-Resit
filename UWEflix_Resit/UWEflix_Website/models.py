@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.core.validators import MaxValueValidator
 from datetime import datetime
-import uuid
+import json
 
 # Create user profile
 class Profile(models.Model):
@@ -99,9 +99,12 @@ class Showing(models.Model):
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE, blank=True, null=True)
-    seats = models.PositiveIntegerField(blank=True, null=True)
-    
+    seats = models.TextField()
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.seats = json.dumps(self.seats)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return str(self.user) + ' ' + str(self.showing)
-    
-    

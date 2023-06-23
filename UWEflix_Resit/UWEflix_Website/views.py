@@ -159,27 +159,8 @@ def search_showing(request):
     
 # BOOKING
 def create_booking(request, showing_id):
-    # TODO:
-    # Needs more logic for handling reducing the number of avaliable seats after booking
-    # and checking if there is still seats available before saving the booking.
     showing = Showing.objects.get(id=showing_id)
     form = BookingForm(showing=showing)
-    if request.method == "POST":
-        form = BookingForm(request.POST)
-        if form.is_valid():
-            seats = form.cleaned_data['seats']
-            booking = Booking(user=request.user, showing=showing, seats=seats)
-            booking.save()
-
-            # Logic for reducing seats needs changing, reducing is fine for
-            # non social distancing events but social distanced events will 
-            # need to be recalculated every time.
-
-            # showing.seats -= int(seats)
-            # showing.save()
-
-            messages.success(request, ("Booking added"))
-            return redirect('home')
     return render(request, 'create_booking.html', {'showing': showing, 'form': form})
 
 def process_booking(request, showing_id):
@@ -198,7 +179,17 @@ def process_booking(request, showing_id):
                 if seat['seat_num'] == seat_num:
                     seat['is_available'] = False
                     break
+
+        # If there is no social distancing we can just reduce the amount 
+        # of available seats. If there is social distancing this will need to
+        # calculated again. Possibly assign "social_distanced" to seats next to
+        # seats that were chosen and then calculate the amount of True.
+        showing.available_seats -= len(selected_seats)
         showing.save()
+        
+        # Confirm booking
+        booking = Booking(user=request.user, showing=showing, seats=selected_seats)
+        booking.save()
 
         messages.success(request, ("Booking added"))
         return render(request, 'booking_confirm.html')
