@@ -40,6 +40,7 @@ post_save.connect(create_profile, sender = User)
 class Movie(models.Model):
     movie_name = models.CharField(max_length = 200)
     movie_image = models.ImageField(null = True, blank=True, upload_to="images/") 
+    duration =  models.DurationField('Duration', blank=True, null=True)
     description = models.CharField(max_length = 500)
     rating= models.CharField(max_length = 3)
     

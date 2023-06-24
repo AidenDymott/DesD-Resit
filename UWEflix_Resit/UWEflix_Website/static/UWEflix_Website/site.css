@@ -218,11 +218,14 @@ a {
     background: red;
     color: white;
   }
+  
+  input[type="checkbox"] {
+    accent-color: red;
+  }
 
   .booking-seat-available {
     transform: scale(3.0);
     margin: 20px;
-    background-color: black;
   }
 
   .booking-seat-reserved {

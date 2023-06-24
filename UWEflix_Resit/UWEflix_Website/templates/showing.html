@@ -27,6 +27,7 @@
         {% if showing.available_seats == 0 %}
             SOLD OUT
         {% else %}
+        Duration: {{ showing.movie.duration }}
         Seats Available: {{ showing.available_seats }}
         </br>
         Screen Number: {{ showing.screen.screen_num }}
@@ -70,6 +71,8 @@
         {% if showing.seats == 0 %}
             SOLD OUT
         {% else %}
+        Duration: {{ showing.movie.duration }}
+        </br>
         Seats Available: {{ showing.available_seats }}
         </br>
         Screen Number: {{ showing.screen.screen_num }}

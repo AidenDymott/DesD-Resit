@@ -65,7 +65,7 @@ class ClubRegistration(ModelForm):
 class MovieForm(ModelForm):   
     class Meta:
         model = Movie
-        fields = ('movie_name', 'movie_image', 'description', 'rating')
+        fields = ('movie_name', 'movie_image', 'duration', 'description', 'rating')
     def __init__(self, *args, **kwargs):
         super(MovieForm, self).__init__(*args, **kwargs)
   
@@ -76,6 +76,9 @@ class MovieForm(ModelForm):
         self.fields['movie_image'].widget.attrs['class'] = 'form-control'  		
         self.fields['movie_image'].widget.attrs['placeholder'] = 'Movie Image'
         self.fields['movie_image'].label = ''
+
+        self.fields['duration'].widget.attrs['placeholder'] = 'Duration, XX:XX:XX'
+        self.fields['duration'].label = ''
   
         self.fields['description'].widget.attrs['class'] = 'form-control'
         self.fields['description'].widget.attrs['placeholder'] = 'Movie Description'
