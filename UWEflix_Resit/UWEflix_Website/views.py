@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import ValidationError
 from django.core.paginator import Paginator
 from datetime import datetime
-from .forms import SignUpForm, MovieForm, ShowingForm, ScreenForm, ClubRegistration, BookingForm
+from .forms import SignUpForm, PaymentForm, MovieForm, ShowingForm, ScreenForm, ClubRegistration, BookingForm
 from .models import Movie, Showing, Booking, Profile, Screen, ClubAccount
 
 # Create your views here.
@@ -110,7 +110,6 @@ def search_movie(request):
 
 # Showing CRUD
 def showing(request):
-    # Display only showings in the future.
     cur_dt = datetime.now() 
     showing_list = Showing.objects.filter(date_showing__gt=cur_dt.date()) | \
                    (Showing.objects.filter(date_showing=cur_dt.date(),
@@ -160,8 +159,13 @@ def search_showing(request):
 # BOOKING
 def create_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
-    form = BookingForm(showing=showing)
-    return render(request, 'create_booking.html', {'showing': showing, 'form': form})
+    booking_form = BookingForm(showing=showing)
+    payment_form = PaymentForm()
+    context = { 'booking_form': booking_form,
+                'payment_form': payment_form,
+                'showing': showing
+              }
+    return render(request, 'create_booking.html', context)
 
 def process_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
@@ -172,6 +176,10 @@ def process_booking(request, showing_id):
         for seat in form.cleaned_data:
             if form.cleaned_data[seat]:
                 selected_seats.append(seat)
+        
+        if len(selected_seats) == 0:
+            messages.success(request, ('No seats selected'))
+            return redirect('create-booking', showing_id)
 
         # Check seats are available and make unavailable to future customers
         for seat_num in selected_seats:

@@ -100,6 +100,9 @@ class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE, blank=True, null=True)
     seats = models.TextField()
+    children = models.PositiveIntegerField(blank=True, null=True)
+    student = models.PositiveIntegerField(blank=True, null=True)
+    adult = models.PositiveIntegerField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.pk:

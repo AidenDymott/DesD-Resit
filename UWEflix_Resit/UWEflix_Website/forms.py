@@ -147,3 +147,9 @@ class BookingForm(forms.Form):
                     required=False, 
                     widget=forms.CheckboxInput(attrs={'disabled': 'disabled',
                                                       'class': 'booking-seat-reserved'}))
+
+class PaymentForm(forms.Form):
+    card_number = forms.CharField(label='Card number', max_length=100)
+    children = forms.IntegerField(label='Children')
+    adults = forms.IntegerField(label='Adults')
+    students = forms.IntegerField(label='Students')

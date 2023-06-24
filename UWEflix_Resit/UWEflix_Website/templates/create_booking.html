@@ -8,8 +8,7 @@
   <center>
   <h2>{{ showing.movie.movie_name }}</h2>
   <h3>{{ showing.date_showing }} {{ showing.time_showing }}</h3>
-  Select seats:
-  <br/><br/>
+  <h4>Select seats:</h4>
   
   <form method="POST" action="{% url 'process-booking' showing_id=showing.id %}">
   {% csrf_token %}
@@ -18,7 +17,7 @@
   </div>
   <table class="booking-seats-table">
     {% with fields_per_row=showing.screen.columns %}
-    {% for field in form %}
+    {% for field in booking_form %}
       {% if forloop.counter0|divisibleby:fields_per_row %}
         <tr>
       {% endif %}
@@ -35,7 +34,10 @@
     FRONT
   </div>
   <br/><br/>
-  <button type="submit" class="card-button" style="width:60%;">Go to payment</button>
+
+  <h4>Payment Details</h4>
+  {{ payment_form.as_p }}
+  <button type="submit" class="card-button" style="width:60%;">Confirm Booking</button>
   </form>
 {% else %}
 You need to be logged in to create a booking.
