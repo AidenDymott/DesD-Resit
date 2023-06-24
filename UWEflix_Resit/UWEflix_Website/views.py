@@ -169,16 +169,26 @@ def create_booking(request, showing_id):
 
 def process_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
-    form = BookingForm(request.POST, showing=showing)
+    booking_form = BookingForm(request.POST, showing=showing)
+    payment_form = PaymentForm(request.POST)
 
-    if form.is_valid():
+    if booking_form.is_valid() and payment_form.is_valid():
         selected_seats = []
-        for seat in form.cleaned_data:
-            if form.cleaned_data[seat]:
+        for seat in booking_form.cleaned_data:
+            if booking_form.cleaned_data[seat]:
                 selected_seats.append(seat)
+
+        num_children = payment_form.cleaned_data['children']
+        num_students = payment_form.cleaned_data['students']
+        num_adults = payment_form.cleaned_data['adults']
+        total_tickets = num_children + num_students + num_adults
         
+        # Handle some cases where there is incompatible data
         if len(selected_seats) == 0:
             messages.success(request, ('No seats selected'))
+            return redirect('create-booking', showing_id)
+        if total_tickets != len(selected_seats):
+            messages.success(request, ('Amount of tickets and seats did not match.'))
             return redirect('create-booking', showing_id)
 
         # Check seats are available and make unavailable to future customers
