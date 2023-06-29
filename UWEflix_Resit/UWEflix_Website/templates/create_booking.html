@@ -35,6 +35,12 @@
   </div>
   <br/><br/>
 
+  Ticket prices are;
+    {% for ticket in tickets %}
+      <br/>
+      {{ ticket.type }}: £{{ ticket.price }}
+    {% endfor %}
+
   <h4>Payment Details</h4>
   {{ payment_form.as_p }}
   <br/>

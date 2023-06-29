@@ -159,11 +159,13 @@ def search_showing(request):
 # BOOKING
 def create_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
+    tickets = Ticket.objects.all()
     booking_form = BookingForm(showing=showing)
     payment_form = PaymentForm()
     context = { 'booking_form': booking_form,
                 'payment_form': payment_form,
-                'showing': showing
+                'showing': showing,
+                'tickets': tickets
               }
     return render(request, 'create_booking.html', context)
 
@@ -185,7 +187,7 @@ def process_booking(request, showing_id):
         
         # Handle some cases where there is incompatible data
         if len(selected_seats) == 0:
-            messages.success(request, ('No seats selected'))
+            messages.success(request, ('No seats selected.'))
             return redirect('create-booking', showing_id)
         if total_tickets != len(selected_seats):
             messages.success(request, ('Amount of tickets and seats did not match.'))
