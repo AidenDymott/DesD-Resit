@@ -152,8 +152,8 @@ def search_showing(request):
     # TODO:
     # Filter showings to only display upcoming.
     query = request.GET.get('q')
-    results = Showing.objects.filter(movie__movie_name__icontains=query) if query else []
-    return render(request, 'showing.html', {'results': results, 'query': query})
+    showings = Showing.objects.filter(movie__movie_name__icontains=query) if query else []
+    return render(request, 'showing.html', {'showing_list': showings, 'query': query})
     
 # BOOKING
 def create_booking(request, showing_id):

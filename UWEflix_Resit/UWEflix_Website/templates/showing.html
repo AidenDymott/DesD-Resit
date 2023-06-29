@@ -10,52 +10,6 @@
 <form action="{% url 'search-showing' %}">
   <input type="text" class="search" name="q" placeholder="Make a search...">
 </form>
-{% if query %}
-  {% if results %}
-    {% for showing in results %}
-  <div class="card">
-    <div class="card-image">
-      <img src="{{ showing.movie.movie_image.url }}">
-    </div>
-    <div class="card-content">
-      <div class="card-top">{{ showing.movie.movie_name }}, 
-            {{ showing.movie.rating }}
-      </div>
-      <div class="card-description">
-        {{ showing.date_showing }}, {{ showing.time_showing }}
-            </br></br>
-        {% if showing.available_seats == 0 %}
-            SOLD OUT
-        {% else %}
-        Duration: {{ showing.movie.duration }}
-        Seats Available: {{ showing.available_seats }}
-        </br>
-        Screen Number: {{ showing.screen.screen_num }}
-        </br>
-        {% if showing.social_distance %}
-            Social distancing required.
-        {% endif %}
-        {% endif %}
-      </div>
-      <div class="card-buttons">
-        {% if showing.available_seats != 0 %}
-          <a class="card-button" href="{% url 'create-booking' showing.id %}">
-          Book</a> 
-        {% endif %}
-        {% if user.is_authenticated %}
-        <a class="card-button" href="{% url 'update-showing' showing.id %}">
-        Update</a> 
-        <a class="card-button" href="{% url 'delete-showing' showing.id %}">
-        Delete</a>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-    {% endfor %}
-  {% else %}
-    No results found. :(
-  {% endif %}
-{% else %}
 {% for showing in showing_list %}
   <div class="card">
     <div class="card-image">
@@ -97,5 +51,4 @@
     </div>
   </div>
 {% endfor %}
-{% endif %}
 {% endblock %}
