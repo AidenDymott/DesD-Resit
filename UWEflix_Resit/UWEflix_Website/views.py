@@ -6,14 +6,13 @@ from django.core.paginator import Paginator
 from datetime import datetime
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
                     ScreenForm, ClubRegistration, BookingForm, TicketForm)
-from .models import Movie, Showing, Booking, Profile, Screen, ClubAccount, Ticket
+from .models import (Movie, Showing, Booking, Profile, Screen, ClubAccount, 
+                     Ticket)
 
-# Create your views here.
 def home(request):
     showings = Movie.objects.latest('movie_name')
     return render(request, 'home.html', {'showings': showings})
 
-#User Sign in
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -34,7 +33,6 @@ def logout_user(request):
     messages.success(request, ("You have been logged out!!"))    
     return redirect('home')
 
-# Customer Registration Form
 def register_user(request):
     form = SignUpForm()
     if request.method == 'POST':
@@ -50,7 +48,6 @@ def register_user(request):
             return redirect('home')     
     return render(request, 'register.html', {'form':form})
 
-# Club Registration
 def club_register(request):
     form = ClubRegistration()
     if request.method == 'POST':
@@ -61,14 +58,12 @@ def club_register(request):
             return redirect('home')
     return render(request, 'register_club.html', {'form':form})
 
-# Movie CRUDs
+# Movie views
 def list_movie(request):
     movie_list = Movie.objects.all().order_by('movie_name')
     p = Paginator(movie_list, 5)
     page_num = request.GET.get('page', 1)
-    
     page = p.page(page_num)
- 
     return render(request, 'movie.html', {'movie_list': page})
 
 def add_movie(request):
@@ -106,9 +101,10 @@ def delete_movie(request, movie_id):
 def search_movie(request):
     query = request.GET.get('q')
     movies = Movie.objects.filter(movie_name__icontains=query) if query else []
-    return render(request, 'movie.html', {'movie_list': movies, 'query': query})
+    return render(request, 'movie.html', {'movie_list': movies, 
+                                          'query': query})
 
-# Showing CRUD
+# Showing views
 def showing(request):
     cur_dt = datetime.now() 
     showing_list = Showing.objects.filter(date_showing__gt=cur_dt.date()) | \
@@ -153,10 +149,12 @@ def search_showing(request):
     # TODO:
     # Filter showings to only display upcoming.
     query = request.GET.get('q')
-    showings = Showing.objects.filter(movie__movie_name__icontains=query) if query else []
-    return render(request, 'showing.html', {'showing_list': showings, 'query': query})
+    showings = Showing.objects.filter(movie__movie_name__icontains=query) if \
+        query else []
+    return render(request, 'showing.html', {'showing_list': showings, 
+                                            'query': query})
     
-# BOOKING
+# Booking views
 def create_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
     tickets = Ticket.objects.all()
@@ -165,8 +163,7 @@ def create_booking(request, showing_id):
     context = { 'booking_form': booking_form,
                 'payment_form': payment_form,
                 'showing': showing,
-                'tickets': tickets
-              }
+                'tickets': tickets}
     return render(request, 'create_booking.html', context)
 
 def process_booking(request, showing_id):
@@ -226,10 +223,12 @@ def process_booking(request, showing_id):
         adult_price = int(Ticket.objects.get(type='adult').price)
         child_price = int(Ticket.objects.get(type='child').price)
         student_price = int(Ticket.objects.get(type='student').price)
-        total_price = (adult_price*num_adults) + (child_price*num_children) + (student_price*num_students)
+        total_price = (adult_price*num_adults) + (child_price*num_children) + \
+                (student_price*num_students)
 
         # Once payment has happened save the booking.
-        booking = Booking(user=request.user, showing=showing, seats=selected_seats)
+        booking = Booking(user=request.user, showing=showing,
+                          seats=selected_seats)
         showing.save()
         booking.save()
 
@@ -293,8 +292,7 @@ def delete_screen(request, screen_id):
         messages.success(request, ("Cannot delete screen with active showings"))
     return redirect('screen')
 
-# Club CRUD
-
+# Club views
 def list_club(request):
     club = ClubAccount.objects.all()
     return render(request, 'club_list.html', {'club':club})
@@ -316,9 +314,10 @@ def delete_club(request, club_id):
     return redirect('list-club')
 
 def edit_ticket_prices(request):
-    form = TicketForm(initial = {"adult": Ticket.objects.get(type='adult').price,
-                                 "child": Ticket.objects.get(type='child').price,
-                                 "student": Ticket.objects.get(type='student').price}) 
+    form = TicketForm(initial = {
+                       "adult": Ticket.objects.get(type='adult').price,
+                       "child": Ticket.objects.get(type='child').price,
+                       "student": Ticket.objects.get(type='student').price}) 
     if request.method == "POST":
         # TODO:
         # Make this update ticket prices.

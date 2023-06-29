@@ -6,14 +6,12 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime
 import json
 
-# Create user profile
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) # One user has one profile
     
     def __str__(self):
         return self.user.username
     
-# Club Rep        
 class ClubAccount(models.Model):
     club_name = models.CharField(max_length=200)
     landline = models.CharField(max_length=20, blank=True)
@@ -28,7 +26,6 @@ class ClubAccount(models.Model):
     def __str__(self):
         return str(self.club_name)
     
-# Auto create user profile on sign up1
 def create_profile(sender, instance, created, **kwargs):
     if created:
         user_profile = Profile(user= instance )
@@ -36,7 +33,6 @@ def create_profile(sender, instance, created, **kwargs):
         
 post_save.connect(create_profile, sender = User)
 
-# Movie Database
 class Movie(models.Model):
     movie_name = models.CharField(max_length = 200)
     movie_image = models.ImageField(null = True, blank=True, upload_to="images/") 
@@ -47,7 +43,6 @@ class Movie(models.Model):
     def __str__(self):
         return self.movie_name
     
-# Showings Database
 class Screen(models.Model):
     screen_num = models.PositiveIntegerField(validators=[MaxValueValidator(10)], unique=True)# Max 10 screens
     rows = models.PositiveIntegerField(blank=True, null=True)
@@ -95,7 +90,6 @@ class Showing(models.Model):
             self.seat_layout = seats
         super().save(*args, **kwargs)
 
-# Booking DB
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE, blank=True, null=True)
