@@ -283,5 +283,7 @@ def edit_ticket_prices(request):
                                  "child": Ticket.objects.get(type='child').price,
                                  "student": Ticket.objects.get(type='student').price}) 
     if request.method == "POST":
+        # TODO:
+        # Make this update ticket prices.
         pass
     return render(request, 'edit_tickets.html', {'form':form})

@@ -149,7 +149,10 @@ class BookingForm(forms.Form):
                                                       'class': 'booking-seat-reserved'}))
 
 class PaymentForm(forms.Form):
-    card_number = forms.CharField(label='Card number', max_length=100)
+    card_name = forms.CharField(max_length=50)
+    card_number = forms.CharField(max_length=16)
+    card_expire = forms.DateField(widget=DateInput(attrs={'type': 'date'}))
+    card_cvv = forms.CharField(max_length=3)
     children = forms.IntegerField(label='Children')
     adults = forms.IntegerField(label='Adults')
     students = forms.IntegerField(label='Students')
