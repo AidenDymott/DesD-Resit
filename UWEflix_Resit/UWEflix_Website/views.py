@@ -58,7 +58,6 @@ def club_register(request):
             form.save()
             messages.success(request, ("Club sign up successful"))
             return redirect('home')
-    
     return render(request, 'register_club.html', {'form':form})
 
 # Movie CRUDs
@@ -105,8 +104,8 @@ def delete_movie(request, movie_id):
 
 def search_movie(request):
     query = request.GET.get('q')
-    results = Movie.objects.filter(movie_name__icontains=query) if query else []
-    return render(request, 'movie.html', {'results': results, 'query': query})
+    movies = Movie.objects.filter(movie_name__icontains=query) if query else []
+    return render(request, 'movie.html', {'movie_list': movies, 'query': query})
 
 # Showing CRUD
 def showing(request):

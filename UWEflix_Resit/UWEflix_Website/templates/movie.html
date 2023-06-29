@@ -10,38 +10,6 @@
 <form action="{% url 'search-movie' %}">
   <input type="text" class="search" name="q" placeholder="Make a search...">
 </form>
-{% if query %}
-  {% if results %}
-    {% for movie in results %}
-        <div class="card">
-          <div class="card-image">
-          <img src="{{ movie.movie_image.url }}">
-        </div>
-        <div class="card-content">
-          <div class="card-top">
-            <a href ="{% url 'show-movie' movie.id %}">{{ movie.movie_name }}</a>, 
-            {{ movie.rating }}
-          </div>
-          <div class="card-description">
-            {{ movie.description }}
-          </div>
-          <div class="card-buttons">
-            <a class="card-button" href="{% url 'update-movie' movie.id %}">
-            Showings</a> 
-            {% if user.is_authenticated %}
-            <a class="card-button" href="{% url 'update-movie' movie.id %}">
-            Update</a> 
-            <a class="card-button" href="{% url 'delete-movie' movie.id %}">
-            Delete</a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  {% else %}
-    No results found. :(
-  {% endif %}
-{% else %}
 {% if movie_list.has_previous %}
   <a class="card-button"
   href="{% url 'movie' %}?page={{ movie_list.previous_page_number }}">Previous</a>
@@ -76,5 +44,4 @@
     </div>
   </div>
 {% endfor %}
-{% endif %}
 {% endblock %}
