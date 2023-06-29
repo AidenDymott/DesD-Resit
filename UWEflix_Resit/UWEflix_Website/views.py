@@ -189,9 +189,15 @@ def process_booking(request, showing_id):
         if len(selected_seats) == 0:
             messages.success(request, ('No seats selected.'))
             return redirect('create-booking', showing_id)
+
         if total_tickets != len(selected_seats):
             messages.success(request, ('''Amount of tickets and seats did not 
                                        match.'''))
+            return redirect('create-booking', showing_id)
+
+        card_number = payment_form.cleaned_data['card_number']
+        if not is_valid_card_number(card_number):
+            messages.success(request, ('Invalid card number'))
             return redirect('create-booking', showing_id)
 
         # Check seats are available and make unavailable to future customers,
@@ -205,6 +211,9 @@ def process_booking(request, showing_id):
                                                    taken while you were creating
                                                    a booking'''))
                         return redirect('create-booking', showing_id)
+        # Iterate twice, we dont want to set other seats to false and end up
+        # redirecting as a future seat in the loop has already been set to 
+        # false.
         for seat_num in selected_seats:
             for seat in showing.seat_layout:
                 if seat['seat_num'] == seat_num:
@@ -228,6 +237,19 @@ def process_booking(request, showing_id):
         return render(request, 'booking_confirm.html')
     messages.success(request, ("Something went wrong"))
     return render(request, 'booking_confirm.html')
+
+def is_valid_card_number(card_number):
+    reversed = card_number[::-1]
+    doubled = []
+    for index, digit in enumerate(reversed):
+        if index % 2 == 1:
+            tmp = int(digit) * 2
+            if tmp > 9:
+                tmp -= 9
+            doubled.append(tmp)
+        else:
+            doubled.append(int(digit))
+    return sum(doubled) % 10 == 0
 
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
