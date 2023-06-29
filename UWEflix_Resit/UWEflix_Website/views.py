@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import ValidationError
 from django.core.paginator import Paginator
 from datetime import datetime
-from .forms import SignUpForm, PaymentForm, MovieForm, ShowingForm, ScreenForm, ClubRegistration, BookingForm
-from .models import Movie, Showing, Booking, Profile, Screen, ClubAccount
+from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
+                    ScreenForm, ClubRegistration, BookingForm, TicketForm)
+from .models import Movie, Showing, Booking, Profile, Screen, ClubAccount, Ticket
 
 # Create your views here.
 def home(request):
@@ -276,3 +277,11 @@ def delete_club(request, club_id):
     club.delete()
     messages.success(request, ("Club Removed"))
     return redirect('list-club')
+
+def edit_ticket_prices(request):
+    form = TicketForm(initial = {"adult": Ticket.objects.get(type='adult').price,
+                                 "child": Ticket.objects.get(type='child').price,
+                                 "student": Ticket.objects.get(type='student').price}) 
+    if request.method == "POST":
+        pass
+    return render(request, 'edit_tickets.html', {'form':form})

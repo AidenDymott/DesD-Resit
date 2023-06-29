@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group, User
-from .models import Profile, Movie, Showing, Booking, Screen, ClubAccount
+from .models import (Profile, Movie, Showing, Booking, Screen, ClubAccount, 
+                     Ticket)
 
 # Unregister Groups for easier viewing
 admin.site.unregister(Group)
@@ -25,6 +26,7 @@ admin.site.register(Showing)
 admin.site.register(Booking)
 admin.site.register(Screen)
 admin.site.register(ClubAccount)
+admin.site.register(Ticket)
 
 
 # Combine profile and user info

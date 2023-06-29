@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import CheckboxInput, ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Movie, Showing, Screen, ClubAccount, Booking
+from .models import Movie, Showing, Screen, ClubAccount, Booking, Ticket
 
 
 from django.contrib.auth.models import User
@@ -153,3 +153,12 @@ class PaymentForm(forms.Form):
     children = forms.IntegerField(label='Children')
     adults = forms.IntegerField(label='Adults')
     students = forms.IntegerField(label='Students')
+
+class TicketForm(ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ('child', 'student', 'adult')
+
+    child = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Child'}))
+    student = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Student'}))
+    adult = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Adult'}))
