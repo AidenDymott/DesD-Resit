@@ -190,25 +190,38 @@ def process_booking(request, showing_id):
             messages.success(request, ('No seats selected.'))
             return redirect('create-booking', showing_id)
         if total_tickets != len(selected_seats):
-            messages.success(request, ('Amount of tickets and seats did not match.'))
+            messages.success(request, ('''Amount of tickets and seats did not 
+                                       match.'''))
             return redirect('create-booking', showing_id)
 
-        # Check seats are available and make unavailable to future customers
+        # Check seats are available and make unavailable to future customers,
+        # if seats are unavailiable while the user was making a booking
+        # just redirect and cancel booking.
+        for seat_num in selected_seats:
+            for seat in showing.seat_layout:
+                if seat['seat_num'] == seat_num:
+                    if seat['is_available'] == False:
+                        messages.success(request, ('''Sorry but those seats were
+                                                   taken while you were creating
+                                                   a booking'''))
+                        return redirect('create-booking', showing_id)
         for seat_num in selected_seats:
             for seat in showing.seat_layout:
                 if seat['seat_num'] == seat_num:
                     seat['is_available'] = False
                     break
 
-        # If there is no social distancing we can just reduce the amount 
-        # of available seats. If there is social distancing this will need to
-        # calculated again. Possibly assign "social_distanced" to seats next to
-        # seats that were chosen and then calculate the amount of True.
         showing.available_seats -= len(selected_seats)
-        showing.save()
-        
-        # Confirm booking
+
+        # Payment processing should happen here.
+        adult_price = int(Ticket.objects.get(type='adult').price)
+        child_price = int(Ticket.objects.get(type='child').price)
+        student_price = int(Ticket.objects.get(type='student').price)
+        total_price = (adult_price*num_adults) + (child_price*num_children) + (student_price*num_students)
+
+        # Once payment has happened save the booking.
         booking = Booking(user=request.user, showing=showing, seats=selected_seats)
+        showing.save()
         booking.save()
 
         messages.success(request, ("Booking added"))
