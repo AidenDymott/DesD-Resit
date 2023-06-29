@@ -2,7 +2,7 @@ from django.contrib.auth.forms import ValidationError
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime
 import json
 
@@ -114,3 +114,12 @@ class Booking(models.Model):
 
     def __str__(self):
         return str(self.user) + ' ' + str(self.showing)
+
+class Ticket(models.Model):
+    type = models.CharField(max_length=10, unique=True)
+    price = models.DecimalField(
+            max_digits = 5, decimal_places = 2,
+            validators=[MinValueValidator(limit_value=0)])
+
+    def __str__(self):
+        return str(self.type) + ' ' + str(self.price)

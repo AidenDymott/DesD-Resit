@@ -277,5 +277,3 @@ def delete_club(request, club_id):
     club.delete()
     messages.success(request, ("Club Removed"))
     return redirect('list-club')
-
-
