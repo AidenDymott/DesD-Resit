@@ -3,7 +3,7 @@
 <div class="title">
   <h1>Showings</h1>
 </div>
-{% if user.is_authenticated %}
+{% if perms.UWEflix_Website.add_showing %}
 <a class="card-button" style="margin-bottom: 10px;" 
    href="{% url 'add-showing' %}">Add Showings</a>
 {% endif %}
@@ -25,7 +25,7 @@
         {% if showing.seats == 0 %}
             SOLD OUT
         {% else %}
-        Duration: {{ showing.movie.duration }}
+        Duration: {{ showing.movie.duration }} minutes
         </br>
         Seats Available: {{ showing.available_seats }}
         </br>
