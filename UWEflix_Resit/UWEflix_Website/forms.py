@@ -63,9 +63,21 @@ class ClubRegistration(ModelForm):
 
 # Create Movie Form
 class MovieForm(ModelForm):   
+    RATING_CHOICES = (
+            ('U', 'U'),
+            ('PG', 'PG'),
+            ('12A', '12A'),
+            ('12', '12'),
+            ('15', '15'),
+            ('18', '18'),
+            ('R18', 'R18'),
+        )
+    rating = forms.ChoiceField(choices=RATING_CHOICES, label='Movie Rating')
+
     class Meta:
         model = Movie
         fields = ('movie_name', 'movie_image', 'duration', 'description', 'rating')
+
     def __init__(self, *args, **kwargs):
         super(MovieForm, self).__init__(*args, **kwargs)
   
@@ -77,7 +89,7 @@ class MovieForm(ModelForm):
         self.fields['movie_image'].widget.attrs['placeholder'] = 'Movie Image'
         self.fields['movie_image'].label = ''
 
-        self.fields['duration'].widget.attrs['placeholder'] = 'Duration, XX:XX:XX'
+        self.fields['duration'].widget.attrs['placeholder'] = 'Duration (mins)'
         self.fields['duration'].label = ''
   
         self.fields['description'].widget.attrs['class'] = 'form-control'
@@ -86,7 +98,7 @@ class MovieForm(ModelForm):
   
         self.fields['rating'].widget.attrs['class'] = 'form-control'
         self.fields['rating'].widget.attrs['placeholder'] = 'Movie Rating'
-        self.fields['rating'].label = ''
+        self.fields['rating'].label = 'Movie Rating'
   
 # Create Movie Showing Form
 class DateInput(forms.DateInput):
