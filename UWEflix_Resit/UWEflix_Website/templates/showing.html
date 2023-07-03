@@ -50,9 +50,11 @@
           <a class="card-button" href="{% url 'create-booking' showing.id %}">
           Book</a> 
         {% endif %}
-        {% if user.is_authenticated %}
+        {% if perms.UWEflix_Website.update_showing %}
         <a class="card-button" href="{% url 'update-showing' showing.id %}">
         Update</a> 
+        {% endif %}
+        {% if perms.UWEflix_Website.delete_showing %}
         <a class="card-button" href="{% url 'delete-showing' showing.id %}">
         Delete</a>
         {% endif %}
