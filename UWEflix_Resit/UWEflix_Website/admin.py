@@ -25,7 +25,6 @@ admin.site.register(Screen)
 admin.site.register(ClubAccount)
 admin.site.register(Ticket)
 
-
 # Combine profile and user info
 class ProfileInline(admin.StackedInline):
     model = Profile
