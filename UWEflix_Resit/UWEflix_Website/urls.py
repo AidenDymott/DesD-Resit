@@ -15,7 +15,8 @@ urlpatterns = [
     path('delete_movie/<movie_id>', views.delete_movie, name='delete-movie'),
     path('search_movie', views.search_movie, name='search-movie'),
     #SHOWING PATHS
-    path('showing', views.showing, name='showing'),
+    path('showing/', views.showing, name='showing'),
+    path('showing/<int:year>/<int:month>/<int:day>', views.showing, name='showing'),
     path('show_showing/<showing_id>', views.show_showing, name='show-showing'),
     path('add_showing', views.add_showing, name='add-showing'),
     path('update_showing/<showing_id>', views.update_showing, name='update-showing'),

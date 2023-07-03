@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
                     ScreenForm, ClubRegistration, BookingForm, TicketForm)
 from .models import (Movie, Showing, Booking, Profile, Screen, ClubAccount, 
@@ -116,12 +116,23 @@ def delete_movie(request, movie_id):
     return redirect('movie')
 
 # Showing views
-def showing(request):
-    cur_dt = datetime.now() 
-    showing_list = Showing.objects.filter(date_showing__gt=cur_dt.date()) | \
-                   (Showing.objects.filter(date_showing=cur_dt.date(),
-                   time_showing__gt=cur_dt.time())).order_by('date_showing')
-    return render(request, 'showing.html', {'showing_list': showing_list})
+def showing(request, year=None, month=None, day=None):
+    if year and month and day:
+        date_to_get = date(int(year), int(month), int(day))
+    else:
+        date_to_get = datetime.now().date()
+
+    date_list = []
+    current_date = datetime.now().date()
+    end_date = current_date + timedelta(days=5)
+    while current_date < end_date:
+        date_list.append(current_date)
+        current_date += timedelta(days=1)
+
+    showing_list = Showing.objects.filter(date_showing=date_to_get).order_by('time_showing')
+
+    return render(request, 'showing.html', {'showing_list': showing_list,
+                                            'date_list': date_list})
 
 def show_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
