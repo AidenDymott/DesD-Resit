@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.contrib.auth.forms import ValidationError
 from django.core.paginator import Paginator
@@ -20,10 +21,10 @@ def login_user(request):
         user = authenticate(request, username = username, password = password)
         if user is not None:
             login(request, user)
-            messages.success(request, ("You have been logged in!!!"))
+            messages.success(request, ("You have been logged in."))
             return redirect('home')
         else:
-            messages.success(request, ("Error logging in!!!"))
+            messages.success(request, ("Error logging in."))
             return redirect('login')   
     else:
         return render(request, 'login_user.html',{})
@@ -41,13 +42,14 @@ def register_user(request):
             form.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            # Log in User on sign up
+            # Login user on sign up
             user = authenticate(username = username, password = password)
             messages.success(request, ("Sign up successful"))
             login(request, user)
             return redirect('home')     
     return render(request, 'register.html', {'form':form})
 
+@login_required(login_url="login")
 def club_register(request):
     form = ClubRegistration()
     if request.method == 'POST':
@@ -66,6 +68,18 @@ def list_movie(request):
     page = p.page(page_num)
     return render(request, 'movie.html', {'movie_list': page})
 
+def show_movie(request, movie_id):
+    movie = Movie.objects.get(pk=movie_id)
+    return render(request, 'show_movie.html', {'movie': movie})
+
+def search_movie(request):
+    query = request.GET.get('q')
+    movies = Movie.objects.filter(movie_name__icontains=query) if query else []
+    return render(request, 'movie.html', {'movie_list': movies, 
+                                          'query': query})
+
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.add_movie", login_url="login")
 def add_movie(request):
     form = MovieForm()
     if request.method == "POST":
@@ -75,11 +89,9 @@ def add_movie(request):
             messages.success(request, ("New movie added"))
             return redirect('movie')   
     return render(request, 'add_movie.html', {'form':form})
-    
-def show_movie(request, movie_id):
-    movie = Movie.objects.get(pk=movie_id)
-    return render(request, 'show_movie.html', {'movie': movie})
 
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.update_movie", login_url="login")
 def update_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     form = MovieForm(request.POST or None, instance=movie)
@@ -89,6 +101,8 @@ def update_movie(request, movie_id):
             return redirect('movie')
     return render(request, 'update_movie.html', {'movie': movie, 'form':form})
 
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.delete_movie", login_url="login")
 def delete_movie(request, movie_id):
     # TODO:
     # Reject request to delete when there is active showings for the current
@@ -97,12 +111,6 @@ def delete_movie(request, movie_id):
     movie.delete()
     messages.success(request, ("Deletion successful"))
     return redirect('movie')
-
-def search_movie(request):
-    query = request.GET.get('q')
-    movies = Movie.objects.filter(movie_name__icontains=query) if query else []
-    return render(request, 'movie.html', {'movie_list': movies, 
-                                          'query': query})
 
 # Showing views
 def showing(request):
@@ -116,6 +124,17 @@ def show_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
     return render(request, 'list_showing.html', {'showing':showing})
 
+def search_showing(request):
+    # TODO:
+    # Filter showings to only display upcoming.
+    query = request.GET.get('q')
+    showings = Showing.objects.filter(movie__movie_name__icontains=query) if \
+        query else []
+    return render(request, 'showing.html', {'showing_list': showings, 
+                                            'query': query})
+
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.add_showing", login_url="login")
 def add_showing(request):
     form = ShowingForm()
     if request.method == "POST":
@@ -126,6 +145,8 @@ def add_showing(request):
             return redirect('showing')
     return render(request, 'add_showing.html', {'form':form})
 
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.update_showing", login_url="login")
 def update_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
     form = ShowingForm(request.POST or None, instance=showing)
@@ -136,6 +157,8 @@ def update_showing(request, showing_id):
     return render(request, 'update_showing.html',
                   {'showing':showing, 'form':form})
 
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.delete_showing", login_url="login")
 def delete_showing(request, showing_id):
     # TODO:
     # Either disallow deleting a showing with active bookings or send an email
@@ -144,17 +167,10 @@ def delete_showing(request, showing_id):
     showing.delete()
     messages.success(request, ("Deletion successful"))
     return redirect('showing')
-
-def search_showing(request):
-    # TODO:
-    # Filter showings to only display upcoming.
-    query = request.GET.get('q')
-    showings = Showing.objects.filter(movie__movie_name__icontains=query) if \
-        query else []
-    return render(request, 'showing.html', {'showing_list': showings, 
-                                            'query': query})
     
 # Booking views
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.add_booking", login_url="login")
 def create_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
     tickets = Ticket.objects.all()
@@ -166,6 +182,8 @@ def create_booking(request, showing_id):
                 'tickets': tickets}
     return render(request, 'create_booking.html', context)
 
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.add_booking", login_url="login")
 def process_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
     booking_form = BookingForm(request.POST, showing=showing)
@@ -255,10 +273,14 @@ def show_bookings(request):
     return render(request, 'show_bookings.html', {'bookings': bookings})
 
 # SCREEN CRUD
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.view_screen", login_url="login")
 def screen(request):
     list = Screen.objects.all()
     return render(request, 'screen.html', {'list':list})
 
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.add_screen", login_url="login")
 def add_screen(request):
     form = ScreenForm()
     if request.method == "POST":
@@ -269,6 +291,8 @@ def add_screen(request):
             return redirect('screen')
     return render(request, 'add_screen.html', {'form':form})
 
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.update_screen", login_url="login")
 def update_screen(request, screen_id):
     try:
         screen = Screen.objects.get(pk=screen_id)
@@ -282,6 +306,8 @@ def update_screen(request, screen_id):
         messages.success(request, ("Cannot update screen with active showings"))
     return render(request, 'update_screen.html', {'screen':screen, 'form':form})
     
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.delete_screen", login_url="login")
 def delete_screen(request, screen_id):
     try:
         screen = Screen.objects.get(pk=screen_id)
