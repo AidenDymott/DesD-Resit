@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="title">
+    <h1>Create Club Booking</h1>
+  </div>
+
+  <center>
+  <p>You are creating a club booking. Please ensure that their are funds in
+  your account, if you need to add funds please head to the "My Club" page.
+  A minimum of 10 tickets is required for a club booking. Club tickets come
+  with a significant discount.
+  <h2>{{ showing.movie.movie_name }}</h2>
+  <h3>{{ showing.date_showing }} {{ showing.time_showing }}</h3>
+  <h4>Select seats:</h4>
+  
+  <form method="POST" action="{% url 'process-booking' showing_id=showing.id %}">
+  {% csrf_token %}
+  <div class="bar">
+    BACK
+  </div>
+  <table class="booking-seats-table">
+    {% with fields_per_row=showing.screen.columns %}
+    {% for field in booking_form %}
+      {% if forloop.counter0|divisibleby:fields_per_row %}
+        <tr>
+      {% endif %}
+      <div class="booking-seat">
+        <td>{{ field }}</td>
+      </div>
+      {% if forloop.counter|divisibleby:fields_per_row or forloop.last %}
+        </tr>
+      {% endif %}
+    {% endfor %}
+    {% endwith %}
+  </table>
+  <div class="bar">
+    FRONT
+  </div>
+  <br/><br/>
+
+  Ticket prices are;
+    {% for ticket in tickets %}
+      <br/>
+      {{ ticket.type }}: £{{ ticket.price }}
+    {% endfor %}
+  
+  <br/><br/>
+  <button type="submit" class="card-button" style="width:60%;">Confirm Booking</button>
+  <br/><br/>
+  </form>
+{% endblock %}

@@ -212,6 +212,9 @@ def create_booking(request, showing_id):
                 'payment_form': payment_form,
                 'showing': showing,
                 'tickets': tickets}
+    # Redirect to club booking if the user is a club representative
+    if request.user.groups.filter(name="Club Representative").exists():
+        return render(request, 'create_club_booking.html', context)
     return render(request, 'create_booking.html', context)
 
 @login_required(login_url="login")
@@ -299,6 +302,17 @@ def is_valid_card_number(card_number):
         else:
             doubled.append(int(digit))
     return sum(doubled) % 10 == 0
+
+@login_required(login_url="login")
+@group_required("Club Representative")
+def create_club_booking(request, showing_id):
+    showing = Showing.objects.get(id=showing_id)
+    tickets = Ticket.objects.all()
+    booking_form = BookingForm(showing=showing)
+    context = { 'booking_form': booking_form,
+                'showing': showing,
+                'tickets': tickets}
+    return render(request, 'create_club_booking.html', context)
 
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)

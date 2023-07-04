@@ -21,9 +21,18 @@ class Club(models.Model):
     city = models.CharField(max_length=200 , blank=True)
     post_code = models.CharField(max_length=20, blank=True)
     club_rep = models.ForeignKey(User, on_delete=models.CASCADE)
+    account_balance = models.DecimalField(
+            max_digits = 8, decimal_places = 2,
+            validators=[MinValueValidator(limit_value=0)],
+            blank=True, null=True)
     
     def __str__(self):
         return str(self.club_name)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.account_balance = 0.00
+        super().save(*args, **kwargs)
 
 def create_profile(sender, instance, created, **kwargs):
     if created:
@@ -37,7 +46,7 @@ class Movie(models.Model):
     movie_image = models.ImageField(null = True, blank=True, upload_to="images/") 
     duration =  models.PositiveIntegerField('Duration', blank=True, null=True)
     description = models.CharField(max_length = 500)
-    rating= models.CharField(max_length = 3)
+    rating = models.CharField(max_length = 3)
     
     def __str__(self):
         return self.movie_name
