@@ -2,38 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import ValidationError
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import (login_required, permission_required,
-                                            user_passes_test)
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import datetime, timedelta, date
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
                     ScreenForm, ClubForm, BookingForm, TicketForm)
 from .models import Movie, Showing, Booking, Ticket, Screen, Club
+from .decorators import group_required, not_logged_in_required
 
-### DECORATORS ###
-# To direct users away from registration pages when they are already 
-# logged in.
-def not_logged_in_required(view_func):
-    def wrapper(request, *args, **kwargs):
-        if request.user.is_authenticated:
-            messages.success(request, ("You dont have access to this page."))
-            return redirect('home')
-        return view_func(request, *args, **kwargs)
-    return wrapper
-
-# Require a group when loading a view.
-def group_required(group_name):
-    def decorator(view_func):
-        @user_passes_test(lambda user: 
-                          user.groups.filter(name=group_name).exists(), 
-                          login_url='login')
-        def wrapper(request, *args, **kwargs):
-            return view_func(request, *args, **kwargs)
-        return wrapper
-    return decorator
-
-### VIEWS ###
 def home(request):
     showings = Movie.objects.latest('movie_name')
     return render(request, 'home.html', {'showings': showings})
