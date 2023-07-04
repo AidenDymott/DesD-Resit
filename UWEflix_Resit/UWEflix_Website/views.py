@@ -7,8 +7,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import datetime, timedelta, date
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
-                    ScreenForm, ClubRegistration, BookingForm, TicketForm)
-from .models import (Movie, Showing, Booking, Profile, Screen, ClubAccount, 
+                    ScreenForm, ClubForm, BookingForm, TicketForm)
+from .models import (Movie, Showing, Booking, Profile, Screen, Club, 
                      Ticket)
 
 def home(request):
@@ -52,16 +52,17 @@ def register_user(request):
             return redirect('home')     
     return render(request, 'register.html', {'form':form})
 
-@login_required(login_url="login")
 def club_register(request):
-    form = ClubRegistration()
+    register_form = SignUpForm()
+    club_form = ClubForm()
     if request.method == 'POST':
-        form = ClubRegistration(request.POST)
-        if form.is_valid():
-            form.save()
+        register_form = SignUpForm(request.POST)
+        club_form = ClubForm(request.POST)
+        if register_form.is_valid() and club_form.is_valid():
             messages.success(request, ("Club sign up successful"))
             return redirect('home')
-    return render(request, 'register_club.html', {'form':form})
+    return render(request, 'register_club.html', {'register_form': register_form,
+                                                  'club_form': club_form})
 
 # Movie views
 def list_movie(request):

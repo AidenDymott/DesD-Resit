@@ -11,12 +11,11 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user.username
-    
-class ClubAccount(models.Model):
+
+class Club(models.Model):
     club_name = models.CharField(max_length=200)
     landline = models.CharField(max_length=20, blank=True)
     mobile = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(blank=True)
     street_number = models.CharField(max_length=50, blank=True)
     street = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=200 , blank=True)
@@ -25,7 +24,7 @@ class ClubAccount(models.Model):
     
     def __str__(self):
         return str(self.club_name)
-    
+
 def create_profile(sender, instance, created, **kwargs):
     if created:
         user_profile = Profile(user= instance )
@@ -38,7 +37,7 @@ class Movie(models.Model):
     movie_image = models.ImageField(null = True, blank=True, upload_to="images/") 
     duration =  models.PositiveIntegerField('Duration', blank=True, null=True)
     description = models.CharField(max_length = 500)
-    rating = models.CharField(max_length = 3)
+    rating= models.CharField(max_length = 3)
     
     def __str__(self):
         return self.movie_name

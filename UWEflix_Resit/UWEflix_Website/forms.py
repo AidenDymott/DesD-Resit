@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import CheckboxInput, ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Movie, Showing, Screen, ClubAccount, Booking, Ticket
+from .models import Movie, Showing, Screen, Club, Booking, Ticket
 
 
 from django.contrib.auth.models import User
@@ -41,25 +41,27 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].help_text = ''
 
 # Register Club Form
-class ClubRegistration(ModelForm):
-    password1 = forms.CharField(widget = forms.PasswordInput())
-    password2 = forms.CharField(widget = forms.PasswordInput())
-    
+class ClubForm(ModelForm):
     class Meta:
-        model = ClubAccount
-        fields = ['club_name', 'landline', 'mobile', 'email', 'street_number', 'street', 'city', 'post_code', 'club_rep', 'password1', 'password2']
-        
-        def __init__(self, *args, **kwargs):
-            super(ClubRegistration, self).__init__(*args, **kwargs)
-            self.fields['password1'].widget.attrs['class'] = 'form-control'
-            self.fields['password1'].widget.attrs['placeholder'] = 'Password'
-            self.fields['password1'].label = ''
-            self.fields['password1'].help_text = '<span class="form-text text-muted"><small>Required.</small></span>'
-            
-            self.fields['password2'].widget.attrs['class'] = 'form-control'
-            self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
-            self.fields['password2'].label = ''
-            self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Passwords didn\'t match.</small></span>'
+        model = Club
+        fields = ('club_name', 'landline', 'mobile', 'street_number', 'street',
+                  'city', 'post_code')
+
+
+    def __init__(self, *args, **kwargs):
+        super(ClubForm, self).__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            field.label = False
+            field.widget.attrs['class'] = 'auth-input2'
+
+        self.fields['club_name'].widget.attrs['placeholder'] = 'Club Name'
+        self.fields['landline'].widget.attrs['placeholder'] = 'Landline'
+        self.fields['mobile'].widget.attrs['placeholder'] = 'Mobile'
+        self.fields['street_number'].widget.attrs['placeholder'] = 'Street Number'
+        self.fields['street'].widget.attrs['placeholder'] = 'Street'
+        self.fields['city'].widget.attrs['placeholder'] = 'City'
+        self.fields['post_code'].widget.attrs['placeholder'] = 'Postcode'
 
 # Create Movie Form
 class MovieForm(ModelForm):   

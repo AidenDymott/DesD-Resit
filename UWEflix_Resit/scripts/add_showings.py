@@ -24,7 +24,4 @@ def add_random_showings():
         )
         showing.save()
 
-
-# Call the function to add random showings
 add_random_showings()
-
