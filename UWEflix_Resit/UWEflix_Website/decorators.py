@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib import messages
+from django.shortcuts import redirect
 
 def not_logged_in_required(view_func):
     def wrapper(request, *args, **kwargs):

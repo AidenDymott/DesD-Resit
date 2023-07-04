@@ -352,6 +352,7 @@ def delete_screen(request, screen_id):
 
 # Club views
 @login_required(login_url="login")
+@group_required("Club Representative")
 def my_club(request):
     club = Club.objects.get(club_rep = request.user)
     return render(request, 'my_club.html', {'club': club })
