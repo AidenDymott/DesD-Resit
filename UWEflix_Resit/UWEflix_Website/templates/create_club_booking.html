@@ -13,7 +13,7 @@
   <h3>{{ showing.date_showing }} {{ showing.time_showing }}</h3>
   <h4>Select seats:</h4>
   
-  <form method="POST" action="{% url 'process-booking' showing_id=showing.id %}">
+  <form method="POST" action="{% url 'process-club-booking' showing_id=showing.id %}">
   {% csrf_token %}
   <div class="bar">
     BACK
@@ -39,10 +39,8 @@
   <br/><br/>
 
   Ticket prices are;
-    {% for ticket in tickets %}
       <br/>
-      {{ ticket.type }}: £{{ ticket.price }}
-    {% endfor %}
+      £{{ ticket.price }} - "DISCOUNT" = £££ big saver wow
   
   <br/><br/>
   <button type="submit" class="card-button" style="width:60%;">Confirm Booking</button>

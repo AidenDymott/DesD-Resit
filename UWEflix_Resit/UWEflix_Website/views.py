@@ -205,16 +205,22 @@ def delete_showing(request, showing_id):
 @permission_required("UWEflix_Website.add_booking", login_url="login")
 def create_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
-    tickets = Ticket.objects.all()
     booking_form = BookingForm(showing=showing)
+    # Redirect to club booking if the user is a club representative
+    if request.user.groups.filter(name="Club Representative").exists():
+        # Club tickets are always (student - discount).
+        ticket = Ticket.objects.get(type="student")
+        context = { 'booking_form': booking_form,
+                    'showing': showing,
+                    'ticket': ticket}
+        return render(request, 'create_club_booking.html', context)
+
     payment_form = PaymentForm()
+    tickets = Ticket.objects.all()
     context = { 'booking_form': booking_form,
                 'payment_form': payment_form,
                 'showing': showing,
                 'tickets': tickets}
-    # Redirect to club booking if the user is a club representative
-    if request.user.groups.filter(name="Club Representative").exists():
-        return render(request, 'create_club_booking.html', context)
     return render(request, 'create_booking.html', context)
 
 @login_required(login_url="login")
@@ -305,14 +311,53 @@ def is_valid_card_number(card_number):
 
 @login_required(login_url="login")
 @group_required("Club Representative")
-def create_club_booking(request, showing_id):
+def process_club_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
-    tickets = Ticket.objects.all()
-    booking_form = BookingForm(showing=showing)
-    context = { 'booking_form': booking_form,
-                'showing': showing,
-                'tickets': tickets}
-    return render(request, 'create_club_booking.html', context)
+    booking_form = BookingForm(request.POST, showing=showing)
+
+    if booking_form.is_valid():
+        selected_seats = []
+        for seat in booking_form.cleaned_data:
+            if booking_form.cleaned_data[seat]:
+                selected_seats.append(seat)
+        total_tickets = len(selected_seats)
+        
+        # Handle some cases where there is incompatible data
+        if total_tickets == 0:
+            messages.success(request, ('No seats selected.'))
+            return redirect('create-club-booking', showing_id)
+
+        if total_tickets < 10:
+            messages.success(request, ('A club booking requires 10 seats.'))
+            return redirect('create-club-booking', showing_id)
+
+        for seat_num in selected_seats:
+            for seat in showing.seat_layout:
+                if seat['seat_num'] == seat_num:
+                    if seat['is_available'] == False:
+                        messages.success(request, ('''Sorry but those seats were
+                                                   taken while you were creating
+                                                   a booking'''))
+                        return redirect('create-club-booking', showing_id)
+
+        for seat_num in selected_seats:
+            for seat in showing.seat_layout:
+                if seat['seat_num'] == seat_num:
+                    seat['is_available'] = False
+                    break
+
+        showing.available_seats -= len(selected_seats)
+
+        booking = Booking(user=request.user, showing=showing,
+                          seats=selected_seats)
+        showing.save()
+        booking.save()
+
+        messages.success(request, ("Booking added"))
+        return render(request, 'booking_confirm.html')
+    messages.success(request, ("Something went wrong"))
+    return render(request, 'booking_confirm.html')
+
 
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
