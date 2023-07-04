@@ -1,26 +1,39 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import ValidationError
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import (login_required, permission_required,
+                                            user_passes_test)
 from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import datetime, timedelta, date
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
                     ScreenForm, ClubForm, BookingForm, TicketForm)
-from .models import (Movie, Showing, Booking, Profile, Screen, Club, 
-                     Ticket)
+from .models import Movie, Showing, Booking, Ticket, Screen, Club
 
+### DECORATORS ###
 # To direct users away from registration pages when they are already 
 # logged in.
 def not_logged_in_required(view_func):
     def wrapper(request, *args, **kwargs):
         if request.user.is_authenticated:
-            messages.success(request, ("You are already logged in."))
+            messages.success(request, ("You dont have access to this page."))
             return redirect('home')
         return view_func(request, *args, **kwargs)
     return wrapper
 
+# Require a group when loading a view.
+def group_required(group_name):
+    def decorator(view_func):
+        @user_passes_test(lambda user: 
+                          user.groups.filter(name=group_name).exists(), 
+                          login_url='login')
+        def wrapper(request, *args, **kwargs):
+            return view_func(request, *args, **kwargs)
+        return wrapper
+    return decorator
+
+### VIEWS ###
 def home(request):
     showings = Movie.objects.latest('movie_name')
     return render(request, 'home.html', {'showings': showings})
@@ -43,7 +56,7 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    messages.success(request, ("You have been logged out!!"))    
+    messages.success(request, ("You have been logged out."))    
     return redirect('home')
 
 @not_logged_in_required
@@ -110,7 +123,7 @@ def search_movie(request):
                                           'query': query})
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.add_movie", login_url="login")
+@group_required("Manager")
 def add_movie(request):
     form = MovieForm()
     if request.method == "POST":
@@ -122,7 +135,7 @@ def add_movie(request):
     return render(request, 'add_movie.html', {'form':form})
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.update_movie", login_url="login")
+@group_required("Manager")
 def update_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     form = MovieForm(request.POST or None, instance=movie)
@@ -133,7 +146,7 @@ def update_movie(request, movie_id):
     return render(request, 'update_movie.html', {'movie': movie, 'form':form})
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.delete_movie", login_url="login")
+@group_required("Manager")
 def delete_movie(request, movie_id):
     # TODO:
     # Reject request to delete when there is active showings for the current
@@ -176,7 +189,7 @@ def search_showing(request):
                                             'query': query})
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.add_showing", login_url="login")
+@group_required("Manager")
 def add_showing(request):
     form = ShowingForm()
     if request.method == "POST":
@@ -188,7 +201,7 @@ def add_showing(request):
     return render(request, 'add_showing.html', {'form':form})
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.update_showing", login_url="login")
+@group_required("Manager")
 def update_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
     form = ShowingForm(request.POST or None, instance=showing)
@@ -200,7 +213,7 @@ def update_showing(request, showing_id):
                   {'showing':showing, 'form':form})
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.delete_showing", login_url="login")
+@group_required("Manager")
 def delete_showing(request, showing_id):
     # TODO:
     # Either disallow deleting a showing with active bookings or send an email
