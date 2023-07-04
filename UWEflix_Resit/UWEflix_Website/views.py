@@ -313,6 +313,7 @@ def is_valid_card_number(card_number):
 @group_required("Club Representative")
 def process_club_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
+    club = Club.objects.get(club_rep = request.user)
     booking_form = BookingForm(request.POST, showing=showing)
 
     if booking_form.is_valid():
@@ -322,14 +323,22 @@ def process_club_booking(request, showing_id):
                 selected_seats.append(seat)
         total_tickets = len(selected_seats)
         
+        # TODO:
+        # Update with discount when added to models.
+        total_cost = len(selected_seats) * float(Ticket.objects.get(
+                                                 type="student").price)
+        club_funds = float(club.account_balance)
+        
         # Handle some cases where there is incompatible data
         if total_tickets == 0:
             messages.success(request, ('No seats selected.'))
-            return redirect('create-club-booking', showing_id)
-
+            return redirect('create-booking', showing_id)
         if total_tickets < 10:
             messages.success(request, ('A club booking requires 10 seats.'))
-            return redirect('create-club-booking', showing_id)
+            return redirect('create-booking', showing_id)
+        if total_cost > club_funds:
+            messages.success(request, ('Not enough funds in account.'))
+            return redirect('create-booking', showing_id)
 
         for seat_num in selected_seats:
             for seat in showing.seat_layout:
@@ -338,7 +347,7 @@ def process_club_booking(request, showing_id):
                         messages.success(request, ('''Sorry but those seats were
                                                    taken while you were creating
                                                    a booking'''))
-                        return redirect('create-club-booking', showing_id)
+                        return redirect('create-booking', showing_id)
 
         for seat_num in selected_seats:
             for seat in showing.seat_layout:
@@ -357,7 +366,6 @@ def process_club_booking(request, showing_id):
         return render(request, 'booking_confirm.html')
     messages.success(request, ("Something went wrong"))
     return render(request, 'booking_confirm.html')
-
 
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
