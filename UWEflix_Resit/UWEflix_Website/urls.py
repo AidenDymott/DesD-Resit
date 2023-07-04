@@ -33,6 +33,7 @@ urlpatterns = [
     path('delete_screen/<screen_id>', views.delete_screen, name='delete-screen'),   
     # Club Paths
     path('club', views.list_club, name='list-club'),
+    path('my_club', views.my_club, name='my-club'),
     path('update_club/<club_id>', views.update_club, name='update-club'),
     path('delete_club/<club_id>', views.delete_club, name='delete-club'),  
     # TICKETS

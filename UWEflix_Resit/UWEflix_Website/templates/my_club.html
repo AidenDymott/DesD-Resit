@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="title">
+  <h1>{{ club.club_name }}</h1>
+</div>
+{{ club.landline }}
+{{ club.mobile }}
+{{ club.street_number }}
+{{ club.street }}
+{{ club.city }}
+{{ club.post_code }}
+{{ club.club_rep }}
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import ValidationError
 from django.contrib.auth.models import Group
@@ -11,10 +11,21 @@ from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm,
 from .models import (Movie, Showing, Booking, Profile, Screen, Club, 
                      Ticket)
 
+# To direct users away from registration pages when they are already 
+# logged in.
+def not_logged_in_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.success(request, ("You are already logged in."))
+            return redirect('home')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
 def home(request):
     showings = Movie.objects.latest('movie_name')
     return render(request, 'home.html', {'showings': showings})
 
+@not_logged_in_required
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -35,6 +46,7 @@ def logout_user(request):
     messages.success(request, ("You have been logged out!!"))    
     return redirect('home')
 
+@not_logged_in_required
 def register_user(request):
     form = SignUpForm()
     if request.method == 'POST':
@@ -52,6 +64,7 @@ def register_user(request):
             return redirect('home')     
     return render(request, 'register.html', {'form':form})
 
+@not_logged_in_required
 def club_register(request):
     register_form = SignUpForm()
     club_form = ClubForm()
@@ -348,6 +361,11 @@ def delete_screen(request, screen_id):
     return redirect('screen')
 
 # Club views
+@login_required(login_url="login")
+def my_club(request):
+    club = Club.objects.get(club_rep = request.user)
+    return render(request, 'my_club.html', {'club': club })
+
 def list_club(request):
     club = ClubAccount.objects.all()
     return render(request, 'club_list.html', {'club':club})
