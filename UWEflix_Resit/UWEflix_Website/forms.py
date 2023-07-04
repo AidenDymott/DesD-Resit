@@ -2,8 +2,6 @@ from django import forms
 from django.forms import CheckboxInput, ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Movie, Showing, Screen, Club, Booking, Ticket
-
-
 from django.contrib.auth.models import User
 
 # Registration Form
@@ -46,7 +44,6 @@ class ClubForm(ModelForm):
         model = Club
         fields = ('club_name', 'landline', 'mobile', 'street_number', 'street',
                   'city', 'post_code')
-
 
     def __init__(self, *args, **kwargs):
         super(ClubForm, self).__init__(*args, **kwargs)

@@ -59,8 +59,22 @@ def club_register(request):
         register_form = SignUpForm(request.POST)
         club_form = ClubForm(request.POST)
         if register_form.is_valid() and club_form.is_valid():
-            messages.success(request, ("Club sign up successful"))
-            return redirect('home')
+            register_form.save()
+
+            username = register_form.cleaned_data['username']
+            password = register_form.cleaned_data['password1']
+            user = authenticate(username = username, password = password)
+
+            if user is not None:
+                login(request, user)
+                group = Group.objects.get(name="Club Representative")
+                user.groups.add(group)
+
+                club = club_form.save(commit=False)
+                club.club_rep = request.user
+                club.save()
+                messages.success(request, ("Club sign up successful"))
+                return redirect('home')
     return render(request, 'register_club.html', {'register_form': register_form,
                                                   'club_form': club_form})
 

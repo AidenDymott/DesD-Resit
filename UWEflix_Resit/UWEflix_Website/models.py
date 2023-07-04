@@ -20,7 +20,7 @@ class Club(models.Model):
     street = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=200 , blank=True)
     post_code = models.CharField(max_length=20, blank=True)
-    club_rep = models.CharField(max_length=100)
+    club_rep = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return str(self.club_name)
