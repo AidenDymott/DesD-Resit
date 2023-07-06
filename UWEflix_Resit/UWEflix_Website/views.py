@@ -224,7 +224,7 @@ def create_booking(request, showing_id):
     return render(request, 'create_booking.html', context)
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.add_booking", login_url="login")
+@group_required("Customer")
 def process_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
     booking_form = BookingForm(request.POST, showing=showing)
@@ -373,13 +373,13 @@ def show_bookings(request):
 
 # SCREEN CRUD
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.view_screen", login_url="login")
+@group_required("Manager")
 def screen(request):
     list = Screen.objects.all()
     return render(request, 'screen.html', {'list':list})
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.add_screen", login_url="login")
+@group_required("Manager")
 def add_screen(request):
     form = ScreenForm()
     if request.method == "POST":
@@ -391,7 +391,7 @@ def add_screen(request):
     return render(request, 'add_screen.html', {'form':form})
 
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.update_screen", login_url="login")
+@group_required("Manager")
 def update_screen(request, screen_id):
     try:
         screen = Screen.objects.get(pk=screen_id)
@@ -406,7 +406,7 @@ def update_screen(request, screen_id):
     return render(request, 'update_screen.html', {'screen':screen, 'form':form})
     
 @login_required(login_url="login")
-@permission_required("UWEflix_Website.delete_screen", login_url="login")
+@group_required("Manager")
 def delete_screen(request, screen_id):
     try:
         screen = Screen.objects.get(pk=screen_id)
