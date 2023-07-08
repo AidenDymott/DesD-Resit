@@ -98,6 +98,22 @@ class Showing(models.Model):
             self.seat_layout = seats
         super().save(*args, **kwargs)
 
+    def check_available_seats(self, selected_seats):
+        for seat_num in selected_seats:
+            for seat in self.seat_layout:
+                if seat['seat_num'] == seat_num:
+                    if seat['is_available'] == False:
+                        return False
+        return True
+
+    def assign_seats(self, selected_seats):
+        for seat_num in selected_seats:
+            for seat in self.seat_layout:
+                if seat['seat_num'] == seat_num:
+                    seat['is_available'] = False
+                    break
+        return
+
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE, blank=True, null=True)

@@ -256,26 +256,13 @@ def process_booking(request, showing_id):
             messages.success(request, ('Invalid card number'))
             return redirect('create-booking', showing_id)
 
-        # Check seats are available and make unavailable to future customers,
-        # if seats are unavailiable while the user was making a booking
-        # just redirect and cancel booking.
-        for seat_num in selected_seats:
-            for seat in showing.seat_layout:
-                if seat['seat_num'] == seat_num:
-                    if seat['is_available'] == False:
-                        messages.success(request, ('''Sorry but those seats were
-                                                   taken while you were creating
-                                                   a booking'''))
-                        return redirect('create-booking', showing_id)
-        # Iterate twice, we dont want to set other seats to false and end up
-        # redirecting as a future seat in the loop has already been set to 
-        # false.
-        for seat_num in selected_seats:
-            for seat in showing.seat_layout:
-                if seat['seat_num'] == seat_num:
-                    seat['is_available'] = False
-                    break
-
+        if not showing.check_available_seats(selected_seats):
+            messages.success(request, ('''Sorry but those seats were
+                                       taken while you were creating
+                                       a booking'''))
+            return redirect('create-booking', showing_id)
+        
+        showing.assign_seats(selected_seats)
         showing.available_seats -= len(selected_seats)
 
         # Payment processing should happen here.
@@ -340,21 +327,13 @@ def process_club_booking(request, showing_id):
             messages.success(request, ('Not enough funds in account.'))
             return redirect('create-booking', showing_id)
 
-        for seat_num in selected_seats:
-            for seat in showing.seat_layout:
-                if seat['seat_num'] == seat_num:
-                    if seat['is_available'] == False:
-                        messages.success(request, ('''Sorry but those seats were
-                                                   taken while you were creating
-                                                   a booking'''))
-                        return redirect('create-booking', showing_id)
-
-        for seat_num in selected_seats:
-            for seat in showing.seat_layout:
-                if seat['seat_num'] == seat_num:
-                    seat['is_available'] = False
-                    break
-
+        if not showing.check_available_seats(selected_seats):
+            messages.success(request, ('''Sorry but those seats were
+                                       taken while you were creating
+                                       a booking'''))
+            return redirect('create-booking', showing_id)
+        
+        showing.assign_seats(selected_seats)
         showing.available_seats -= len(selected_seats)
 
         booking = Booking(user=request.user, showing=showing,
