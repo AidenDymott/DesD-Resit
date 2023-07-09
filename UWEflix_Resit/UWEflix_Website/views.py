@@ -367,14 +367,6 @@ def cancel_booking(request, booking_id):
     messages.success(request, ("Cancelled booking."))
     return redirect('show-bookings')
 
-@login_required(login_url="login")
-@group_required("Manager")
-def delete_club(request, club_id):
-    club = Club.objects.get(pk=club_id)
-    club.delete()
-    messages.success(request, ("Club Removed"))
-    return redirect('list-club')
-
 # SCREEN CRUD
 @login_required(login_url="login")
 @group_required("Manager")
