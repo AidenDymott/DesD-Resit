@@ -34,11 +34,11 @@
       <div class="card-buttons">
             <a class="card-button" href="{% url 'search-showing' %}?q={{movie.movie_name}}">
         Showings</a> 
-        {% if perms.UWEflix_Website.update_movie %}
+        {% if perms.UWEflix_Website.change_movie %}
         <a class="card-button" href="{% url 'update-movie' movie.id %}">
         Update</a> 
         {% endif %}
-        {% if perms.UWEflix_Website.update_movie %}
+        {% if perms.UWEflix_Website.delete_movie %}
         <a class="card-button" href="{% url 'delete-movie' movie.id %}">
         Delete</a>
         {% endif %}

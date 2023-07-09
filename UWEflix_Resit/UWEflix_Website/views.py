@@ -403,13 +403,17 @@ def my_club(request):
     club = Club.objects.get(club_rep = request.user)
     return render(request, 'my_club.html', {'club': club })
 
+@login_required(login_url="login")
+@group_required("Manager")
 def list_club(request):
-    club = ClubAccount.objects.all()
+    club = Club.objects.all()
     return render(request, 'club_list.html', {'club':club})
 
+@login_required(login_url="login")
+@group_required("Manager")
 def update_club(request, club_id):
-    club = ClubAccount.objects.get(pk=club_id)
-    form = ClubRegistration(request.POST or None, instance = club)
+    club = Club.objects.get(pk=club_id)
+    form = Club(request.POST or None, instance = club)
     if form.is_valid():
         form.save()
         messages.success(request, ("Update successful"))
@@ -417,12 +421,16 @@ def update_club(request, club_id):
     return render(request, 'update_club.html',
                   {'club':club, 'form':form})
 
+@login_required(login_url="login")
+@group_required("Manager")
 def delete_club(request, club_id):
-    club = ClubAccount.objects.get(pk=club_id)
+    club = Club.objects.get(pk=club_id)
     club.delete()
     messages.success(request, ("Club Removed"))
     return redirect('list-club')
 
+@login_required(login_url="login")
+@group_required("Manager")
 def edit_ticket_prices(request):
     form = TicketForm(initial = {
                        "adult": Ticket.objects.get(type='adult').price,
