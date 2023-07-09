@@ -114,6 +114,16 @@ class Showing(models.Model):
                     break
         return
 
+    def free_seats(self, selected_seats):
+        for seat_num in selected_seats:
+            print(seat_num)
+            for seat in self.seat_layout:
+                if seat['seat_num'] == seat_num:
+                    seat['is_available'] = True
+                    print("changed seat")
+                    break
+        return
+
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     showing = models.ForeignKey(Showing, on_delete=models.CASCADE, blank=True, null=True)

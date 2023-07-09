@@ -27,6 +27,7 @@ urlpatterns = [
     path('book/booking_confirm/<int:showing_id>', views.process_booking, name='process-booking'),
     path('book/club_booking_confirm/<int:showing_id>', views.process_club_booking, name='process-club-booking'),
     path('show_bookings', views.show_bookings, name='show-bookings'),
+    path('cancel_booking/<booking_id>', views.cancel_booking, name='cancel-booking'),
     # SCREEN PATHS
     path('screen', views.screen, name='screen'),
     path('add_screen', views.add_screen, name='add-screen'),

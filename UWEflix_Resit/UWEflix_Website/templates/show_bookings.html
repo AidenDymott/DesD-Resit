@@ -3,7 +3,6 @@
 <div class="title">
   <h1>Your Bookings</h1>
 </div>
-
 {% for booking in bookings %}
   <div class="card">
     <div class="card-image">
@@ -28,7 +27,7 @@
         {% endif %}
       </div>
       <div class="card-buttons">
-        <a class="card-button">
+        <a class="card-button" href="{% url 'cancel-booking' booking.id %}">
           Cancel Booking</a>
       </div>
     </div>

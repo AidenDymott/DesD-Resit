@@ -1,3 +1,4 @@
+from math import perm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import ValidationError
@@ -6,6 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import datetime, timedelta, date
+import json
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
                     ScreenForm, ClubForm, BookingForm, TicketForm)
 from .models import Movie, Showing, Booking, Ticket, Screen, Club
@@ -349,6 +351,29 @@ def process_club_booking(request, showing_id):
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
     return render(request, 'show_bookings.html', {'bookings': bookings})
+
+@login_required(login_url="login")
+@permission_required("UWEflix_Website.delete_booking", login_url="login")
+def cancel_booking(request, booking_id):
+    booking = Booking.objects.get(pk=booking_id)
+    showing = booking.showing
+
+    json_dec = json.decoder.JSONDecoder()
+    selected_seats = json_dec.decode(booking.seats)
+    
+    showing.free_seats(selected_seats)
+    showing.save()
+    booking.delete()
+    messages.success(request, ("Cancelled booking."))
+    return redirect('show-bookings')
+
+@login_required(login_url="login")
+@group_required("Manager")
+def delete_club(request, club_id):
+    club = Club.objects.get(pk=club_id)
+    club.delete()
+    messages.success(request, ("Club Removed"))
+    return redirect('list-club')
 
 # SCREEN CRUD
 @login_required(login_url="login")
