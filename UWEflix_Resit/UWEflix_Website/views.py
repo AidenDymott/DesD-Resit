@@ -413,7 +413,7 @@ def list_club(request):
 @group_required("Manager")
 def update_club(request, club_id):
     club = Club.objects.get(pk=club_id)
-    form = Club(request.POST or None, instance = club)
+    form = ClubForm(request.POST or None, instance=club)
     if form.is_valid():
         form.save()
         messages.success(request, ("Update successful"))

@@ -50,7 +50,7 @@
           <a class="card-button" href="{% url 'create-booking' showing.id %}">
           Book</a> 
         {% endif %}
-        {% if perms.UWEflix_Website.update_showing %}
+        {% if perms.UWEflix_Website.change_showing %}
         <a class="card-button" href="{% url 'update-showing' showing.id %}">
         Update</a> 
         {% endif %}
