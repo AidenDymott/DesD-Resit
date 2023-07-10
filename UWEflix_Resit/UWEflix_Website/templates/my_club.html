@@ -3,12 +3,36 @@
 <div class="title">
   <h1>{{ club.club_name }}</h1>
 </div>
-{{ club.landline }}
-{{ club.mobile }}
-{{ club.street_number }}
-{{ club.street }}
-{{ club.city }}
-{{ club.post_code }}
-{{ club.club_rep }}
-£{{ club.account_balance }}
+
+
+<div class="card">
+  <div class="card-content">
+    <div class="card-top">
+      <strong>Contact Details</strong> 
+    </div>
+    <div class="card-description">
+      Landline: {{ club.landline }}
+      <br/>
+      Mobile : {{ club.mobile }}
+      <br/>
+      Street : {{ club.street }}
+      <br/>
+      City: {{ club.city }}
+      <br/>
+      Postcode: {{ club.post_code }}
+      <br/>
+      Rep: {{ club.club_rep }}
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-content">
+    <div class="card-top">
+      <strong>Balance</strong> 
+    </div>
+    <div class="balance"> £{{ club.account_balance }} </div>
+    <div class="card-button">Payment</div>
+</div>
+
 {% endblock %}
