@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="title">
+  <h1>Screens</h1>
+</div>
+<a class="card-button" style="margin-bottom: 10px;" 
+   href="{% url 'add-screen' %}">Add Screen</a>
+{% for item in list %}
+  <div class="card">
+    <div class="card-content">
+      <div class="card-top">
+        Screen {{ item.screen_num }} 
+      </div>
+      <div class="card-description">
+        Total capacity: {{ item.seats }}
+        <br/>
+        Rows: {{ item.rows }}
+        <br/>
+        Seats per row: {{ item.columns }}
+      </div>
+      <div class="card-buttons">
+        <a href="{% url 'update-screen' item.id %}" class="card-button">Update</a>
+        <a href="{% url 'delete-screen' item.id %}" class="card-button">Delete</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% else %}
+Sorry, you don't have access to this page.
+{% endif %}
+{% endblock %}

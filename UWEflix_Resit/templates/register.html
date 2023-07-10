@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-container">
+  <div class="title" style="color:white">
+    <h1>Register</h1>
+  </div>
+  <form method="POST" action = "{% url 'register' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br/><br/>
+    <button type="submit" class="auth-button">Submit</button>
+  </form>
+</div>
+{% endblock %}
+
