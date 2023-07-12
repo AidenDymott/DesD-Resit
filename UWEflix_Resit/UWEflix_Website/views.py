@@ -1,4 +1,3 @@
-from math import perm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import ValidationError
@@ -212,11 +211,15 @@ def create_booking(request, showing_id):
     if request.user.groups.filter(name="Club Representative").exists():
         # Club tickets are always (student - discount).
         ticket = Ticket.objects.get(type="student")
+        discount = 0.2
+        total_price = float(ticket.price) - (float(ticket.price) * discount)
         context = { 'booking_form': booking_form,
                     'showing': showing,
-                    'ticket': ticket}
+                    'ticket': ticket,
+                    'discount': discount * 100,
+                    'total_price': round(total_price, 2)
+                  }
         return render(request, 'create_club_booking.html', context)
-
     payment_form = PaymentForm()
     tickets = Ticket.objects.all()
     context = { 'booking_form': booking_form,

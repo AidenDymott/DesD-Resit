@@ -4,13 +4,42 @@
     <h1>Create Club Booking</h1>
   </div>
 
-  <center>
   <p>You are creating a club booking. Please ensure that their are funds in
   your account, if you need to add funds please head to the "My Club" page.
   A minimum of 10 tickets is required for a club booking. Club tickets come
   with a significant discount.
-  <h2>{{ showing.movie.movie_name }}</h2>
-  <h3>{{ showing.date_showing }} {{ showing.time_showing }}</h3>
+
+  <br/><br/>
+  <div class="card">
+    <div class="card-image">
+      <img src="{{ showing.movie.movie_image.url }}">
+    </div>
+    <div class="card-content">
+      <div class="card-top">{{ showing.movie.movie_name }}, 
+            {{ showing.movie.rating }}
+      </div>
+      <div class="card-description">
+        {{ showing.date_showing }}, {{ showing.time_showing }}
+            </br></br>
+        {% if showing.seats == 0 %}
+            SOLD OUT
+        {% else %}
+        Duration: {{ showing.movie.duration }} minutes
+        </br>
+        Seats Available: {{ showing.available_seats }}
+        </br>
+        Screen Number: {{ showing.screen.screen_num }}
+        </br>
+        {% if showing.social_distance %}
+            Social distancing required.
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <br/>
+  <center>
   <h4>Select seats:</h4>
   
   <form method="POST" action="{% url 'process-club-booking' showing_id=showing.id %}">
@@ -40,10 +69,30 @@
 
   Ticket prices are;
       <br/>
-      £{{ ticket.price }} - "DISCOUNT" = £££ big saver wow
+      £{{ ticket.price }} - {{ discount }}% = 
+      £<span id="price_after_discount">{{ total_price }}</span>
+      <br/><br/>
+
+      Total ticket price: £<span id="total_ticket_price">0</span>
   
-  <br/><br/>
-  <button type="submit" class="card-button" style="width:60%;">Confirm Booking</button>
+      <br/><br/><br/>
+  <button type="submit" class="card-button" style="width:60%;">Confirm Booking & Pay</button>
   <br/><br/>
   </form>
+  </center>
+  <script>
+    function showChecked() {
+        ticket_price = "{{ total_price }}";
+        checked = document.querySelectorAll('input:checked').length;
+        total_cost = Math.round((ticket_price * checked) * 100) / 100
+
+        document.getElementById('total_ticket_price').innerHTML = total_cost;
+    }
+
+    document.querySelectorAll("input").forEach(i=>{
+        i.onclick = () => showChecked();
+    });
+
+    showChecked();
+  </script>
 {% endblock %}
