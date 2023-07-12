@@ -146,6 +146,59 @@ a {
     height: 55%;
   }
 
+  .club-title{
+    text-align: center;
+    text-decoration-line: underline;
+    font-size: 40px;
+    padding: 20px;
+    margin-bottom: 5vh;
+  }
+  
+  .club {
+    float: left;
+    width: 750px;
+    display: flex;
+    margin: auto;
+    border-radius: 10px;
+    min-height: 35vh;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin-bottom: 3vh;
+  }
+
+  .club-top {
+    font-size: 40px;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .club-details{
+    font-size: 20px;
+    padding: 2px;
+  }
+
+  .balance{
+    float: right;
+    width: 750px;
+    display: flex;
+    margin: auto;
+    border-radius: 10px;
+    min-height: 35vh;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin-bottom: 3vh; 
+  }
+
+  .balance-amount{
+    font-size: 20px;
+    padding: 2px;
+  }
+
+  .outgoing-amount{
+    font-size: 20px;
+    padding: 2px;
+  }
+
   .auth-container {
     display: flex;
     flex-direction: column;
