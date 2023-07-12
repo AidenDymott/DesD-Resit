@@ -5,9 +5,34 @@
     <h1>Create Booking</h1>
   </div>
 
+  <div class="card">
+    <div class="card-image">
+      <img src="{{ showing.movie.movie_image.url }}">
+    </div>
+    <div class="card-content">
+      <div class="card-top">{{ showing.movie.movie_name }}, 
+            {{ showing.movie.rating }}
+      </div>
+      <div class="card-description">
+        {{ showing.date_showing }}, {{ showing.time_showing }}
+            </br></br>
+        {% if showing.seats == 0 %}
+            SOLD OUT
+        {% else %}
+        Duration: {{ showing.movie.duration }} minutes
+        </br>
+        Seats Available: {{ showing.available_seats }}
+        </br>
+        Screen Number: {{ showing.screen.screen_num }}
+        </br>
+        {% if showing.social_distance %}
+            Social distancing required.
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
   <center>
-  <h2>{{ showing.movie.movie_name }}</h2>
-  <h3>{{ showing.date_showing }} {{ showing.time_showing }}</h3>
   <h4>Select seats:</h4>
   
   <form method="POST" action="{% url 'process-booking' showing_id=showing.id %}">
@@ -36,18 +61,54 @@
   <br/><br/>
 
   Ticket prices are;
-    {% for ticket in tickets %}
-      <br/>
-      {{ ticket.type }}: £{{ ticket.price }}
-    {% endfor %}
+    <br/>
+    Child: £{{ child_ticket.price }}
+    <br/>
+    Student: £{{ student_ticket.price }}
+    <br/>
+    Adult: £{{ adult_ticket.price }}
 
   <h4>Payment Details</h4>
-  {{ payment_form.as_p }}
+  {{ payment_form.card_name }}
   <br/>
-  <button type="submit" class="card-button" style="width:60%;">Confirm Booking</button>
+  {{ payment_form.card_number }}
+  <br/>
+  {{ payment_form.card_expire }}
+  <br/>
+  {{ payment_form.card_cvv }}
+  <br/>
+  {{ payment_form.children }}
+  <br/>
+  {{ payment_form.students }}
+  <br/>
+  {{ payment_form.adults }}
   <br/><br/>
+
+  Total cost of this booking: £<span id="total_ticket_price">0</span>
+  <br/><br/>
+  <button type="submit" class="card-button" style="width:60%;">Confirm Booking & Pay</button>
+  <br/><br/>
+  <s
   </form>
 {% else %}
-You need to be logged in to create a booking.
+  You need to be logged in to create a booking.
 {% endif %}
+  <script>
+    child_price = parseFloat("{{ child_ticket.price }}");
+    student_price = parseFloat("{{ student_ticket.price }}");
+    adult_price = parseFloat("{{ adult_ticket.price }}");
+
+    function showTotalCost() {
+        num_children = parseInt(document.getElementById('id_children').value)
+        num_students = parseInt(document.getElementById('id_students').value)
+        num_adults = parseInt(document.getElementById('id_adults').value)
+
+
+        total_cost = child_price * num_children + 
+            student_price * num_students + 
+            adult_price * num_adults;
+        document.getElementById('total_ticket_price').innerHTML = total_cost;
+    }
+    showTotalCost();
+  </script>
 {% endblock %}

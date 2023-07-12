@@ -167,6 +167,12 @@ class PaymentForm(forms.Form):
     children = forms.IntegerField(label='Children')
     adults = forms.IntegerField(label='Adults')
     students = forms.IntegerField(label='Students')
+        
+    def __init__(self, *args, **kwargs):
+        super (PaymentForm, self).__init__(*args, **kwargs)
+        self.initial['children'] = 0
+        self.initial['students'] = 0
+        self.initial['adults'] = 0
 
 class TicketForm(ModelForm):
     class Meta:

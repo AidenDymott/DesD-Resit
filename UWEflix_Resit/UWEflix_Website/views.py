@@ -221,11 +221,12 @@ def create_booking(request, showing_id):
                   }
         return render(request, 'create_club_booking.html', context)
     payment_form = PaymentForm()
-    tickets = Ticket.objects.all()
     context = { 'booking_form': booking_form,
                 'payment_form': payment_form,
                 'showing': showing,
-                'tickets': tickets}
+                'child_ticket': Ticket.objects.get(type="child"),
+                'student_ticket': Ticket.objects.get(type="student"),
+                'adult_ticket': Ticket.objects.get(type="adult")}
     return render(request, 'create_booking.html', context)
 
 @login_required(login_url="login")
