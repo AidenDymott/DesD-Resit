@@ -280,7 +280,8 @@ def process_booking(request, showing_id):
 
         # Once payment has happened save the booking.
         booking = Booking(user=request.user, showing=showing,
-                          seats=selected_seats)
+                          seats=selected_seats, children=num_children,
+                          students=num_students, adults=num_adults)
         showing.save()
         booking.save()
 
@@ -343,7 +344,7 @@ def process_club_booking(request, showing_id):
         showing.available_seats -= len(selected_seats)
 
         booking = Booking(user=request.user, showing=showing,
-                          seats=selected_seats)
+                          seats=selected_seats, student=total_tickets)
         showing.save()
         booking.save()
 
@@ -422,6 +423,8 @@ def delete_screen(request, screen_id):
 @group_required("Club Representative")
 def my_club(request):
     club = Club.objects.get(club_rep = request.user)
+    bookings = Booking.objects.get(user = request.user)
+    month = datetime.now().month
     return render(request, 'my_club.html', {'club': club })
 
 @login_required(login_url="login")

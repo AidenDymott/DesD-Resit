@@ -120,7 +120,6 @@ class Showing(models.Model):
             for seat in self.seat_layout:
                 if seat['seat_num'] == seat_num:
                     seat['is_available'] = True
-                    print("changed seat")
                     break
         return
 
