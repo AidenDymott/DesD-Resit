@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="title">
+<div class="club-title">
   <h1>{{ club.club_name }}</h1>
 </div>
-<div class="card">
+<div class="club">
   <div class="card-content">
-    <div class="card-top">
+    <div class="club-top">
       <strong>Contact Details</strong>
     </div>
-    <div class="card-description">
+    <div class="club-details">
       Landline: {{ club.landline }}
-      <br/>
+      <br/><br/>
       Mobile : {{ club.mobile }}
-      <br/>
+      <br/><br/>
       Street : {{ club.street }}
-      <br/>
+      <br/><br/>
       City: {{ club.city }}
-      <br/>
+      <br/><br/>
       Postcode: {{ club.post_code }}
-      <br/>
+      <br/><br/>
       Rep: {{ club.club_rep }}
     </div>
     <div class="card-buttons">
@@ -26,14 +26,15 @@
   </div>
 </div>
 
-<div class="card">
+<div class="balance">
   <div class="card-content">
-    <div class="card-top">
+    <div class="club-top">
       <strong>Balance</strong> 
     </div>
     <div class="card-description">
-      <div class="balance"> Current Balance: £{{ club.account_balance }} </div>
-      <div class="outgoing"> Outgoing this month: </div> 
+      <div class="balance-amount"> Current Balance: £{{ club.account_balance }} </div>
+      <br/>
+      <div class="outgoing-amount"> Outgoing this month: </div> 
     </div>
     <div class="card-button">Payment</div>
   </div>
