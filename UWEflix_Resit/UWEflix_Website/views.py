@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import datetime, timedelta, date
 import json
+from decimal import Decimal
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
                     ScreenForm, ClubForm, BookingForm, TicketForm)
 from .models import Movie, Showing, Booking, Ticket, Screen, Club
@@ -275,13 +276,14 @@ def process_booking(request, showing_id):
         adult_price = int(Ticket.objects.get(type='adult').price)
         child_price = int(Ticket.objects.get(type='child').price)
         student_price = int(Ticket.objects.get(type='student').price)
-        total_price = (adult_price*num_adults) + (child_price*num_children) + \
+        total_cost = (adult_price*num_adults) + (child_price*num_children) + \
                 (student_price*num_students)
 
         # Once payment has happened save the booking.
         booking = Booking(user=request.user, showing=showing,
                           seats=selected_seats, children=num_children,
-                          students=num_students, adults=num_adults)
+                          students=num_students, adults=num_adults,
+                          total_cost = total_cost)
         showing.save()
         booking.save()
 
@@ -344,9 +346,12 @@ def process_club_booking(request, showing_id):
         showing.available_seats -= len(selected_seats)
 
         booking = Booking(user=request.user, showing=showing,
-                          seats=selected_seats, student=total_tickets)
+                          seats=selected_seats, student=total_tickets,
+                          total_cost = total_cost)
+        club.account_balance -= Decimal(total_cost)
         showing.save()
         booking.save()
+        club.save()
 
         messages.success(request, ("Booking added"))
         return render(request, 'booking_confirm.html')

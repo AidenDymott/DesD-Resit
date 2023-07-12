@@ -130,6 +130,10 @@ class Booking(models.Model):
     children = models.PositiveIntegerField(blank=True, null=True)
     student = models.PositiveIntegerField(blank=True, null=True)
     adult = models.PositiveIntegerField(blank=True, null=True)
+    total_cost = models.DecimalField(
+            max_digits = 8, decimal_places = 2,
+            validators=[MinValueValidator(limit_value=0)],
+            blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.pk:
