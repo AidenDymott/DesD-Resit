@@ -282,7 +282,7 @@ def process_booking(request, showing_id):
         # Once payment has happened save the booking.
         booking = Booking(user=request.user, showing=showing,
                           seats=selected_seats, children=num_children,
-                          students=num_students, adults=num_adults,
+                          student=num_students, adult=num_adults,
                           total_cost = total_cost)
         showing.save()
         booking.save()
