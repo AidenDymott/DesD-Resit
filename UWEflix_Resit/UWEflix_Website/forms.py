@@ -1,7 +1,7 @@
 from django import forms
-from django.forms import CheckboxInput, ModelForm
+from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Movie, Showing, Screen, Club, Booking, Ticket
+from .models import Movie, Showing, Screen, Club, Ticket
 from django.contrib.auth.models import User
 
 # Registration Form
@@ -106,6 +106,7 @@ class ShowingForm(ModelForm):
         model = Showing
         fields = ('movie', 'date_showing', 'time_showing', 'screen', 'social_distance')
         widgets = {'date_showing': DateInput()}
+
     def __init__(self, *args, **kwargs):
         super(ShowingForm, self).__init__(*args, **kwargs)
   
@@ -129,6 +130,7 @@ class ScreenForm(ModelForm):
     class Meta:
         model = Screen
         fields = ('screen_num', 'rows', 'columns')
+
     def __init__(self, *args, **kwargs):
         super (ScreenForm, self).__init__(*args, **kwargs)
         self.fields['screen_num'].widget.attrs['class'] = 'form-control'
@@ -171,6 +173,17 @@ class PaymentForm(forms.Form):
         self.initial['children'] = 0
         self.initial['students'] = 0
         self.initial['adults'] = 0
+
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'payment-input'
+
+        self.fields['card_name'].widget.attrs['placeholder'] = 'Cardholder Name'
+        self.fields['card_number'].widget.attrs['placeholder'] = 'Card Number'
+        self.fields['card_expire'].widget.attrs['placeholder'] = 'Card Expiry'
+        self.fields['card_cvv'].widget.attrs['placeholder'] = 'CVV'
+        self.fields['children'].widget.attrs['placeholder'] = 'Number of children'
+        self.fields['adults'].widget.attrs['placeholder'] = 'Number of adults'
+        self.fields['students'].widget.attrs['placeholder'] = 'Number of students'
 
 class TicketForm(ModelForm):
     class Meta:

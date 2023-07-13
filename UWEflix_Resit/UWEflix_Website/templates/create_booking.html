@@ -61,26 +61,31 @@ Create Booking
   </div>
   <br/><br/>
 
-  Ticket prices are;
+  <strong>Ticket Prices</strong>
     <br/>
     Child: £{{ child_ticket.price }}
     <br/>
     Student: £{{ student_ticket.price }}
     <br/>
     Adult: £{{ adult_ticket.price }}
-
   <h4>Payment Details</h4>
   {{ payment_form.card_name }}
-  <br/>
+  <br/><br/>
   {{ payment_form.card_number }}
-  <br/>
+  <br/><br/>
   {{ payment_form.card_expire }}
-  <br/>
+  <br/><br/>
   {{ payment_form.card_cvv }}
+  <br/><br/>
+  <strong>Number of Children</strong>
   <br/>
   {{ payment_form.children }}
+  <br/><br/>
+  <strong>Number of Students</strong>
   <br/>
   {{ payment_form.students }}
+  <br/><br/>
+  <strong>Number of Adults</strong>
   <br/>
   {{ payment_form.adults }}
   <br/><br/>
