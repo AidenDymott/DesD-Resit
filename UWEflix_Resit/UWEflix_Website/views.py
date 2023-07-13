@@ -158,9 +158,10 @@ def showing(request, year=None, month=None, day=None):
 
 def search_showing(request):
     query = request.GET.get('q')
-    showings = Showing.objects.filter(movie__movie_name__icontains=query) if \
-        query else []
-    return render(request, 'showing.html', {'showing_list': showings, 
+    showing_list = Showing.objects.filter(date_showing__gte=timezone.now().date(), 
+                                          movie__movie_name__icontains=query) \
+                                          .order_by('date_showing')if query else []
+    return render(request, 'showing.html', {'showing_list': showing_list, 
                                             'query': query})
 
 @login_required(login_url="login")
@@ -206,7 +207,14 @@ def delete_showing(request, showing_id):
 @login_required(login_url="login")
 @permission_required("UWEflix_Website.add_booking", login_url="login")
 def create_booking(request, showing_id):
+    # Cancel booking and redirect if the user is trying to book a showing
+    # that has already happened.
     showing = Showing.objects.get(id=showing_id)
+    if showing.date_showing < date.today():
+        messages.success(request, ("""This showing has already happened. Please
+                                   find another showing."""))
+        return redirect('showing')
+
     booking_form = BookingForm(showing=showing)
     # Redirect to club booking if the user is a club representative
     if request.user.groups.filter(name="Club Representative").exists():
