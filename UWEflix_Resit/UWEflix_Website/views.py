@@ -14,6 +14,7 @@ from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm,
                     ScreenForm, ClubForm, BookingForm, TicketForm)
 from .models import Movie, Showing, Booking, Ticket, Screen, Club, Discount
 from .decorators import group_required, not_logged_in_required
+from .utils import is_valid_card_number
 
 def home(request):
     showings = Movie.objects.latest('movie_name')
@@ -351,19 +352,6 @@ def process_club_booking(request, showing_id):
         return render(request, 'booking_confirm.html')
     messages.success(request, ("Something went wrong"))
     return render(request, 'booking_confirm.html')
-
-def is_valid_card_number(card_number):
-    reversed = card_number[::-1]
-    doubled = []
-    for index, digit in enumerate(reversed):
-        if index % 2 == 1:
-            tmp = int(digit) * 2
-            if tmp > 9:
-                tmp -= 9
-            doubled.append(tmp)
-        else:
-            doubled.append(int(digit))
-    return sum(doubled) % 10 == 0
 
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
