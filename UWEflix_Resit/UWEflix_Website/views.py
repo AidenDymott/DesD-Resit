@@ -12,7 +12,7 @@ import json
 from decimal import Decimal
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
                     ScreenForm, ClubForm, BookingForm, TicketForm)
-from .models import Movie, Showing, Booking, Ticket, Screen, Club
+from .models import Movie, Showing, Booking, Ticket, Screen, Club, Discount
 from .decorators import group_required, not_logged_in_required
 
 def home(request):
@@ -220,8 +220,8 @@ def create_booking(request, showing_id):
     if request.user.groups.filter(name="Club Representative").exists():
         # Club tickets are always (student - discount).
         ticket = Ticket.objects.get(type="student")
-        discount = 0.2
-        total_price = float(ticket.price) - (float(ticket.price) * discount)
+        discount = Discount.objects.get(type="Club").perc
+        total_price = (100-discount)*float(ticket.price) / 100
         context = { 'booking_form': booking_form,
                     'showing': showing,
                     'ticket': ticket,
@@ -314,10 +314,9 @@ def process_club_booking(request, showing_id):
                 selected_seats.append(seat)
         total_tickets = len(selected_seats)
         
-        # TODO:
-        # Update with discount when added to models.
-        total_cost = len(selected_seats) * float(Ticket.objects.get(
-                                                 type="student").price)
+        discount = Discount.objects.get(type="Club").perc
+        ticket_price = float(Ticket.objects.get(type="student").price)
+        total_cost = ((100-discount)*ticket_price / 100) * len(selected_seats)
         club_funds = float(club.account_balance)
         
         # Handle some cases where there is incompatible data

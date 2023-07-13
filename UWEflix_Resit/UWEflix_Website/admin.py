@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group, User
 from .models import (Profile, Movie, Showing, Booking, Screen, Club, 
-                     Ticket)
+                     Ticket, Discount)
 
 # Combine profile and user info
 class ProfileInline(admin.StackedInline):
@@ -24,6 +24,7 @@ admin.site.register(Booking)
 admin.site.register(Screen)
 admin.site.register(Club)
 admin.site.register(Ticket)
+admin.site.register(Discount)
 
 # Combine profile and user info
 class ProfileInline(admin.StackedInline):
