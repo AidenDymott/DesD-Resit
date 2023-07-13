@@ -4,7 +4,9 @@ from django.contrib.auth.forms import ValidationError
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
+from django.db.models import Sum
 from django.core.paginator import Paginator
+from django.utils import timezone
 from datetime import datetime, timedelta, date
 import json
 from decimal import Decimal
@@ -406,7 +408,8 @@ def update_screen(request, screen_id):
             return redirect('screen')
     except ValidationError:
         screen = Screen.objects.get(pk=screen_id)
-        messages.success(request, ("Cannot update screen with active showings"))
+        messages.success(request, ("""This screen has active showings, it 
+                                   probably shouldn't be changed."""))
     return render(request, 'update_screen.html', {'screen':screen, 'form':form})
     
 @login_required(login_url="login")
@@ -427,9 +430,13 @@ def delete_screen(request, screen_id):
 @group_required("Club Representative")
 def my_club(request):
     club = Club.objects.get(club_rep = request.user)
-    bookings = Booking.objects.get(user = request.user)
-    month = datetime.now().month
-    return render(request, 'my_club.html', {'club': club })
+    current_month = timezone.now().month
+    monthly_outgoing = Booking.objects.filter(
+        user = request.user,
+        showing__date_showing__month=current_month
+    ).aggregate(Sum('total_cost')).get('total_cost__sum') or 0
+    return render(request, 'my_club.html', {'club': club,
+                                            'monthly_outgoing': round(monthly_outgoing, 2)})
 
 @login_required(login_url="login")
 @group_required("Manager")

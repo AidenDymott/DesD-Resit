@@ -33,9 +33,13 @@
       <strong>Balance</strong> 
     </div>
     <div class="card-description">
-      <div class="balance-amount"> Current Balance: £{{ club.account_balance }} </div>
+      <div class="balance-amount">
+        Current Balance: £{{ club.account_balance }}
+      </div>
       <br/>
-      <div class="outgoing-amount"> Outgoing this month: </div> 
+      <div class="outgoing-amount">
+        Outgoing this month: £{{ monthly_outgoing }}
+      </div> 
     </div>
     <div class="card-button">Payment</div>
   </div>
