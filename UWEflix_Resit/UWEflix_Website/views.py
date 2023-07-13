@@ -193,13 +193,13 @@ def delete_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
     # When checking if a booking is linked to a current showing we can just
     # ignore previous showings, they are fine to delete.
-    if showing.date_showing > date.today():
+    if showing.date_showing >= date.today():
         if Booking.objects.filter(showing=showing).exists():
             messages.success(request, """This showing currently has bookings, we 
                             probably shouldn't delete this.""")
             return redirect('showing')
     showing.delete()
-    messages.success(request, ("Deletion successful"))
+    messages.success(request, ("Deleted showing."))
     return redirect('showing')
     
 # Booking views
