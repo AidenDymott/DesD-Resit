@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% block title %}
+Edit Ticket Prices
+{% endblock %}
+
 {% block content %}
-<div class="title">
-  <h1>Edit Ticket Prices</h1>
-</div>
 <form method="POST">
   {% csrf_token %}
   {{ form.as_p }}

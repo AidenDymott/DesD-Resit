@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}
+Login
+{% endblock %}
+
 {% block content %}
-{% if user.is_authenticated %}
-<div class="title">
-  <h1>Already logged in.</h1>
-</div>
-{% else %}
 <div class="auth-container">
-  <div class="title">
-    <h1 style=color:white>Login</h1>
-  </div>
   <form method="POST" action = "{% url 'login' %}">
     {% csrf_token %}
     <input type="text" class="auth-input" name="username" placeholder="Username">
@@ -24,5 +20,4 @@
     </div>
   </form>
 </div>
-{% endif %}
 {% endblock %}

@@ -10,13 +10,19 @@
   <body>
     {% include 'navbar.html' %}
     <div class="content-container">
+      <div class="title"><h1>
+        {% block title %}
+        {% endblock %}
+      </h1></div>
+      <div class="message-container">
+        {% if messages %}
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        {% endif %}
+      </div>
       {% block content %}
       {% endblock %}
     </div>
-    {% if messages %}
-      {% for message in messages %}
-        {{ message }}
-      {% endfor %}
-    {% endif %}
   </body>
 </html>

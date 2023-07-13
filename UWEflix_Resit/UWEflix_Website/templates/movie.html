@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% block title %}
+Movie
+{% endblock %}
+
 {% block content %}
-<div class="title">
-  <h1>Movies</h1>
-</div>
 {% if perms.UWEflix_Website.add_movie %}
 <a class="card-button" style="margin-bottom: 10px;" 
    href="{% url 'add-movie' %}">Add Movies</a>

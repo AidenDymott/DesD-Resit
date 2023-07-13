@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% block title %}
+Your Bookings
+{% endblock %}
+
 {% block content %}
-<div class="title">
-  <h1>Your Bookings</h1>
-</div>
 {% for booking in bookings %}
   <div class="card">
     <div class="card-image">

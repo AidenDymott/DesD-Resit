@@ -151,13 +151,8 @@ def showing(request, year=None, month=None, day=None):
         current_date += timedelta(days=1)
 
     showing_list = Showing.objects.filter(date_showing=date_to_get).order_by('time_showing')
-
     return render(request, 'showing.html', {'showing_list': showing_list,
                                             'date_list': date_list})
-
-def show_showing(request, showing_id):
-    showing = Showing.objects.get(pk=showing_id)
-    return render(request, 'list_showing.html', {'showing':showing})
 
 def search_showing(request):
     query = request.GET.get('q')
@@ -295,19 +290,6 @@ def process_booking(request, showing_id):
     messages.success(request, ("Something went wrong"))
     return render(request, 'booking_confirm.html')
 
-def is_valid_card_number(card_number):
-    reversed = card_number[::-1]
-    doubled = []
-    for index, digit in enumerate(reversed):
-        if index % 2 == 1:
-            tmp = int(digit) * 2
-            if tmp > 9:
-                tmp -= 9
-            doubled.append(tmp)
-        else:
-            doubled.append(int(digit))
-    return sum(doubled) % 10 == 0
-
 @login_required(login_url="login")
 @group_required("Club Representative")
 def process_club_booking(request, showing_id):
@@ -360,6 +342,19 @@ def process_club_booking(request, showing_id):
         return render(request, 'booking_confirm.html')
     messages.success(request, ("Something went wrong"))
     return render(request, 'booking_confirm.html')
+
+def is_valid_card_number(card_number):
+    reversed = card_number[::-1]
+    doubled = []
+    for index, digit in enumerate(reversed):
+        if index % 2 == 1:
+            tmp = int(digit) * 2
+            if tmp > 9:
+                tmp -= 9
+            doubled.append(tmp)
+        else:
+            doubled.append(int(digit))
+    return sum(doubled) % 10 == 0
 
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)

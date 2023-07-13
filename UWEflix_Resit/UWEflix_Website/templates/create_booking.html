@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}
+Create Booking
+{% endblock %}
+
 {% block content %}
 {% if user.is_authenticated %}
-  <div class="title">
-    <h1>Create Booking</h1>
-  </div>
-
   <div class="card">
     <div class="card-image">
       <img src="{{ showing.movie.movie_image.url }}">

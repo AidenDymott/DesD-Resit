@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}
+Screens
+{% endblock %}
+
 {% block content %}
 {% if user.is_authenticated %}
-<div class="title">
-  <h1>Screens</h1>
-</div>
 <a class="card-button" style="margin-bottom: 10px;" 
    href="{% url 'add-screen' %}">Add Screen</a>
 {% for item in list %}

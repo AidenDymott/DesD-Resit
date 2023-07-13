@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}
+Update Movie
+{% endblock %}
 
 {% block content %}
 <center>
-<h1>Update Movie</h1>
-
 <form action="" method=POST>
     {% csrf_token %}
     <br/>
@@ -11,8 +12,5 @@
     
     <br/>
     <input type="submit" value="Submit" class="btn btn-dark">
-
-
-
-    
+</form>
 {% endblock %}
