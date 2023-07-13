@@ -159,8 +159,6 @@ def show_showing(request, showing_id):
     return render(request, 'list_showing.html', {'showing':showing})
 
 def search_showing(request):
-    # TODO:
-    # Filter showings to only display upcoming.
     query = request.GET.get('q')
     showings = Showing.objects.filter(movie__movie_name__icontains=query) if \
         query else []
@@ -194,10 +192,14 @@ def update_showing(request, showing_id):
 @login_required(login_url="login")
 @group_required("Manager")
 def delete_showing(request, showing_id):
-    # TODO:
-    # Either disallow deleting a showing with active bookings or send an email
-    # refunding the customer.
     showing = Showing.objects.get(pk=showing_id)
+    # When checking if a booking is linked to a current showing we can just
+    # ignore previous showings, they are fine to delete.
+    if showing.date_showing > date.today():
+        if Booking.objects.filter(showing=showing).exists():
+            messages.success(request, """This showing currently has bookings, we 
+                            probably shouldn't delete this.""")
+            return redirect('showing')
     showing.delete()
     messages.success(request, ("Deletion successful"))
     return redirect('showing')
