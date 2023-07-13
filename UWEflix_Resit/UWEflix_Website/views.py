@@ -432,6 +432,7 @@ def delete_screen(request, screen_id):
 @login_required(login_url="login")
 @group_required("Club Representative")
 def my_club(request):
+    payment_form = PaymentForm()
     club = Club.objects.get(club_rep = request.user)
     current_month = timezone.now().month
     monthly_outgoing = Booking.objects.filter(
@@ -439,7 +440,20 @@ def my_club(request):
         showing__date_showing__month=current_month
     ).aggregate(Sum('total_cost')).get('total_cost__sum') or 0
     return render(request, 'my_club.html', {'club': club,
-                                            'monthly_outgoing': round(monthly_outgoing, 2)})
+                                            'monthly_outgoing': round(monthly_outgoing, 2), 'payment_form':payment_form})
+    
+def update_balance():
+    #Get current balance
+    #Get balance increase
+    #If cards good
+        #Add increase to current balance
+        #Re-render webpage
+        #Message jobs done
+    #If card no good
+        #Re-render webpage
+        #Message jobs not done
+    return()
+    
 
 @login_required(login_url="login")
 @group_required("Manager")
@@ -469,7 +483,7 @@ def delete_club(request, club_id):
 
 @login_required(login_url="login")
 @group_required("Manager")
-def edit_ticket_prices(request):
+def edit_ticket_prices(request, amount):
     form = TicketForm(initial = {
                        "adult": Ticket.objects.get(type='adult').price,
                        "child": Ticket.objects.get(type='child').price,
