@@ -99,11 +99,14 @@ Create Booking
     student_price = parseFloat("{{ student_ticket.price }}");
     adult_price = parseFloat("{{ adult_ticket.price }}");
 
+    document.getElementById('id_children').addEventListener('input', showTotalCost);
+    document.getElementById('id_students').addEventListener('input', showTotalCost);
+    document.getElementById('id_adults').addEventListener('input', showTotalCost);
+
     function showTotalCost() {
         num_children = parseInt(document.getElementById('id_children').value)
         num_students = parseInt(document.getElementById('id_students').value)
         num_adults = parseInt(document.getElementById('id_adults').value)
-
 
         total_cost = child_price * num_children + 
             student_price * num_students + 
