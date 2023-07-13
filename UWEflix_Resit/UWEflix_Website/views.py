@@ -127,10 +127,11 @@ def update_movie(request, movie_id):
 @login_required(login_url="login")
 @group_required("Manager")
 def delete_movie(request, movie_id):
-    # TODO:
-    # Reject request to delete when there is active showings for the current
-    # movie.
     movie = Movie.objects.get(pk=movie_id)
+    if Showing.objects.filter(movie=movie, date_showing__gte=date.today()).exists():
+        messages.success(request, """There are active showings for this movie,
+                         we probably shouldn't delete this.""")
+        return redirect('movie')
     movie.delete()
     messages.success(request, ("Deletion successful"))
     return redirect('movie')
@@ -468,7 +469,8 @@ def edit_ticket_prices(request):
                        "child": Ticket.objects.get(type='child').price,
                        "student": Ticket.objects.get(type='student').price}) 
     if request.method == "POST":
-        # TODO:
-        # Make this update ticket prices.
-        pass
+        if form.is_valid():
+            form.save()
+            messages.success(request, ("Updated ticket prices"))
+            return redirect('edit-tickets')
     return render(request, 'edit_tickets.html', {'form':form})
