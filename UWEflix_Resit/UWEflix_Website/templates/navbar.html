@@ -16,6 +16,9 @@
         {% if perms.UWEflix_Website.view_club %}
         <a href="{% url 'my-club' %}">My Club</a>
         {% endif %}
+        {% if perms.UWEflix_Website.view_ticket %}
+        <a href="{% url 'edit-tickets' %}">Edit Ticket Prices</a>
+        {% endif %}
         <a href="{% url 'show-bookings' %}">Your Bookings</a>
         <a href="{% url 'logout' %}">Logout</a>
 	    </div>

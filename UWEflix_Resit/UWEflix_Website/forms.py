@@ -193,3 +193,10 @@ class TicketForm(ModelForm):
     child = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Child'}))
     student = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Student'}))
     adult = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Adult'}))
+
+    def __init__(self, *args, **kwargs):
+        super (TicketForm, self).__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            field.label = False
+            field.widget.attrs['class'] = 'payment-input'

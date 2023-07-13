@@ -4,9 +4,22 @@ Edit Ticket Prices
 {% endblock %}
 
 {% block content %}
+<center>
 <form method="POST">
   {% csrf_token %}
-  {{ form.as_p }}
+  <strong>Child</strong>
+  <br/>
+  £{{ form.child }}
+  <br/><br/>
+  <strong>Student</strong>
+  <br/>
+  £{{ form.student }}
+  <br/><br/>
+  <strong>Adult</strong>
+  <br/>
+  £{{ form.adult }}
+  <br/><br/>
   <button type="submit" class="card-button">Submit</button>
 </form>
+</center>
 {% endblock %}
