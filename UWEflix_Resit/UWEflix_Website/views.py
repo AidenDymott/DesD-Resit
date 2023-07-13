@@ -415,10 +415,11 @@ def delete_screen(request, screen_id):
     try:
         screen = Screen.objects.get(pk=screen_id)
         screen.delete()
-        messages.success(request, ("Screen Deleted"))
+        messages.success(request, ("Screen removed."))
     except ValidationError:
         screen = Screen.objects.get(pk=screen_id)
-        messages.success(request, ("Cannot delete screen with active showings"))
+        messages.success(request, ("""This screen has active showings, we 
+                                   probably shouldn't delete this."""))
     return redirect('screen')
 
 # Club views

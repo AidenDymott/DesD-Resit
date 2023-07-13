@@ -57,10 +57,21 @@ a {
     background: white;
   }
 
+  .message-container {
+    width: 100%;
+    margin: auto;
+    color: white;
+    background-color: red;
+    min-height: 10vh;
+    margin-bottom: 5vh;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
   .content-container {
     margin-left: 15vw;
     margin-right: 15vw;
-    min-height: 88vh;
+    min-height: 87vh;
   }
 
   .title {
