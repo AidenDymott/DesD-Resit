@@ -367,14 +367,22 @@ def show_bookings(request):
 def cancel_booking(request, booking_id):
     booking = Booking.objects.get(pk=booking_id)
     showing = booking.showing
+    booking_cost = booking.total_cost
 
     json_dec = json.decoder.JSONDecoder()
     selected_seats = json_dec.decode(booking.seats)
-    
     showing.free_seats(selected_seats)
+
+    # If club account add funds back to the account.
+    # If regular customer an email should be sent amount refund details.
+    if request.user.groups.filter(name="Club Representative").exists():
+        club = Club.objects.get(club_rep = request.user)
+        club.account_balance += Decimal(booking_cost)
+        club.save()
     showing.save()
     booking.delete()
-    messages.success(request, ("Cancelled booking."))
+    messages.success(request, ("""Booking has been cancelled. You will be 
+                               refunded the full amount."""))
     return redirect('show-bookings')
 
 # SCREEN CRUD
