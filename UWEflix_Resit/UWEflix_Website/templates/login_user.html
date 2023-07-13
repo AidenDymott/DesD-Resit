@@ -4,20 +4,24 @@ Login
 {% endblock %}
 
 {% block content %}
+<center><strong>
 <div class="auth-container">
   <form method="POST" action = "{% url 'login' %}">
     {% csrf_token %}
+    <br/>
     <input type="text" class="auth-input" name="username" placeholder="Username">
     <br/><br/>
     <input type="password" class="auth-input" name="password" placeholder="Password">
     <br/><br/>
     <button type="submit" class="auth-button">Submit</button>
     <br/><br/>
+    <strong>Need to create an account?</strong>
+    <br/><br/>
     <div class="auth-extra-buttons">
-      <a class ="auth-extra-button" href="{% url 'register' %}">Create Account</a>
-      <br/><br/>
-      <a class ="auth-extra-button" href="{% url 'register-club' %}">Register Club</a>
+      <a class ="auth-button" href="{% url 'register' %}">Create an account</a>
+      <a class ="auth-button" href="{% url 'register-club' %}">Register a club</a>
     </div>
   </form>
 </div>
+</strong></center>
 {% endblock %}

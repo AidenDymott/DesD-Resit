@@ -17,23 +17,21 @@ class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
 
-        self.fields['username'].widget.attrs['class'] = 'auth-input2'
+        self.fields['username'].widget.attrs['class'] = 'auth-input'
         self.fields['username'].widget.attrs['placeholder'] = 'User Name'
         self.fields['username'].label = ''
         self.fields['username'].help_text = ''
 
-        self.fields['first_name'].widget.attrs['class'] = 'auth-input2'
+        self.fields['first_name'].widget.attrs['class'] = 'auth-input'
+        self.fields['last_name'].widget.attrs['class'] = 'auth-input'
+        self.fields['email'].widget.attrs['class'] = 'auth-input'
 
-        self.fields['last_name'].widget.attrs['class'] = 'auth-input2'
-
-        self.fields['email'].widget.attrs['class'] = 'auth-input2'
-
-        self.fields['password1'].widget.attrs['class'] = 'auth-input2'
+        self.fields['password1'].widget.attrs['class'] = 'auth-input'
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password1'].label = ''
         self.fields['password1'].help_text = ''
 
-        self.fields['password2'].widget.attrs['class'] = 'auth-input2'
+        self.fields['password2'].widget.attrs['class'] = 'auth-input'
         self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
         self.fields['password2'].label = ''
         self.fields['password2'].help_text = ''
@@ -50,7 +48,7 @@ class ClubForm(ModelForm):
 
         for field_name, field in self.fields.items():
             field.label = False
-            field.widget.attrs['class'] = 'auth-input2'
+            field.widget.attrs['class'] = 'auth-input'
 
         self.fields['club_name'].widget.attrs['placeholder'] = 'Club Name'
         self.fields['landline'].widget.attrs['placeholder'] = 'Landline'

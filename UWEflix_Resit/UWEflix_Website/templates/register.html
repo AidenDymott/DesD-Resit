@@ -3,13 +3,10 @@
 Register
 {% endblock %}
 {% block content %}
-<div class="auth-container">
-  <form method="POST" action = "{% url 'register' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <br/><br/>
-    <button type="submit" class="auth-button">Submit</button>
-  </form>
-</div>
+<form method="POST" action = "{% url 'register' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="card-button">Submit</button>
+  <br/><br/>
+</form>
 {% endblock %}
-
