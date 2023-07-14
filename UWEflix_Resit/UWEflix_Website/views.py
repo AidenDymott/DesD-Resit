@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.db.models import Sum
 from django.core.paginator import Paginator
 from django.utils import timezone
+from django.http import HttpResponse
 from datetime import datetime, timedelta, date
 import json
 from decimal import Decimal
@@ -432,7 +433,17 @@ def delete_screen(request, screen_id):
 @login_required(login_url="login")
 @group_required("Club Representative")
 def my_club(request):
-    payment_form = PaymentForm()
+    if request.method == "POST":
+        payment_form = PaymentForm(request.POST)
+        if payment_form.is_valid():
+            additional_payment = payment_form.cleaned_data['additional_payment']
+            club = Club.objects.get(club_rep=request.user)
+            club.account_balance += additional_payment
+            club.save()
+            return redirect('my-club')
+    else:
+        payment_form = PaymentForm()
+        
     club = Club.objects.get(club_rep = request.user)
     current_month = timezone.now().month
     monthly_outgoing = Booking.objects.filter(
@@ -441,19 +452,6 @@ def my_club(request):
     ).aggregate(Sum('total_cost')).get('total_cost__sum') or 0
     return render(request, 'my_club.html', {'club': club,
                                             'monthly_outgoing': round(monthly_outgoing, 2), 'payment_form':payment_form})
-    
-def update_balance():
-    #Get current balance
-    #Get balance increase
-    #If cards good
-        #Add increase to current balance
-        #Re-render webpage
-        #Message jobs done
-    #If card no good
-        #Re-render webpage
-        #Message jobs not done
-    return()
-    
 
 @login_required(login_url="login")
 @group_required("Manager")

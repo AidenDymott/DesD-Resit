@@ -4,7 +4,6 @@ Your Bookings
 {% endblock %}
 
 {% block content %}
-{% if bookings %}
 {% for booking in bookings %}
   <div class="card">
     <div class="card-image">
@@ -35,8 +34,5 @@ Your Bookings
     </div>
   </div>
 {% endfor %}
-{% else %}
-You don't have any bookings.
-{% endif %}
 
 {% endblock %}

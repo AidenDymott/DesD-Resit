@@ -13,7 +13,7 @@
         {% if perms.UWEflix_Website.delete_club %}
         <a href="{% url 'list-club' %}">Manage Clubs</a>
         {% endif %}
-        {% if perms.UWEflix_Website.add_club %}
+        {% if perms.UWEflix_Website.view_club %}
         <a href="{% url 'my-club' %}">My Club</a>
         {% endif %}
         {% if perms.UWEflix_Website.view_ticket %}

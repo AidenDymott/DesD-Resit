@@ -36,29 +36,24 @@
       <div class="balance-amount">
         Current Balance: £{{ club.account_balance }}
       </div>
-      <br/>
-      <div class="outgoing-amount">
-        Outgoing this month: £{{ monthly_outgoing }}
-      </div> 
     </div>
-    <div class="make-payment">
-      <div class="form">
-        <h4>Payment Details</h4>
-        <br/>
-        {{ payment_form.card_name }}
-        <br/><br/>
-        {{ payment_form.card_number }}
-        <br/><br/>
-        {{ payment_form.card_expire }}
-        <br/><br/>
-        {{ payment_form.card_cvv }}
-        <br/><br/>
-        <input type="text" name="amount" id="amount" placeholder="Amount">
-        <br/><br/>
-      </div>
-      <div class="card-button">Make Payment</div>
+      <form method="post" action="{% url 'my-club' %}">
+        {% csrf_token %}
+          <h4>Payment Details</h4>
+          {{ payment_form.card_name }}
+          <br/><br/>
+          {{ payment_form.card_number }}
+          <br/><br/>
+          {{ payment_form.card_expire }}
+          <br/><br/>
+          {{ payment_form.card_cvv }}
+          <br/><br/>
+          <input type="text" name="additional_payment" id="amount" placeholder="Amount">
+          <br/><br/>
+          <button type="submit" class="btn btn-dark">Make Payment</button>
+      </form>
     </div>
-  </div>
 </div>
+
 
 {% endblock %}
