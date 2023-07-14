@@ -5,8 +5,12 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 COPY requirements.txt /app/
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt 
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 COPY . /app/
 

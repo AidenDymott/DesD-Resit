@@ -18,8 +18,7 @@ from .decorators import group_required, not_logged_in_required
 from .utils import is_valid_card_number
 
 def home(request):
-    showings = Movie.objects.latest('movie_name')
-    return render(request, 'home.html', {'showings': showings})
+    return render(request, 'home.html')
 
 @not_logged_in_required
 def login_user(request):
