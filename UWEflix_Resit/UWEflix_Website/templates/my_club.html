@@ -38,12 +38,12 @@
           Current Balance: £{{ club.account_balance }}
         </div>
 
-      <form method="post" action="{% url 'my-club' %}">
-        {% csrf_token %}
-          <h4>Payment Details</h4>
-          {{ payment_form.as_p}}
-          <input type="submit" value="Submit" class="btn btn-dark">
-      </form>
+        <form method="post" action="{% url 'my-club' %}">
+          {% csrf_token %}
+            <h4>Payment Details</h4>
+            {{ payment_form.as_p}}
+            <input type="submit" value="Submit" class="btn btn-dark card-button">
+        </form>
   </div>
 </div>
 
