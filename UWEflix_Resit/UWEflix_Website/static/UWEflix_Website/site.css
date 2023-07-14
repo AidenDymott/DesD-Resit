@@ -274,11 +274,6 @@ a {
     padding: 2px;
   }
 
-  .outgoing-amount{
-    font-size: 20px;
-    padding: 2px;
-  }
-
   .auth-container {
     color: white;
     display: flex;
