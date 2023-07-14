@@ -184,6 +184,25 @@ class PaymentForm(forms.Form):
         self.fields['children'].widget.attrs['placeholder'] = 'Number of children'
         self.fields['adults'].widget.attrs['placeholder'] = 'Number of adults'
         self.fields['students'].widget.attrs['placeholder'] = 'Number of students'
+        
+class ClubPaymentForm(forms.Form):
+    card_name = forms.CharField(max_length=50)
+    card_number = forms.CharField(max_length=16)
+    card_expire = forms.DateField(widget=DateInput(attrs={'type': 'date'}))
+    card_cvv = forms.CharField(max_length=3)
+    amount = forms.IntegerField()
+       
+    def __init__(self, *args, **kwargs):
+        super (ClubPaymentForm, self).__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'payment-input'
+
+        self.fields['card_name'].widget.attrs['placeholder'] = 'Cardholder Name'
+        self.fields['card_number'].widget.attrs['placeholder'] = 'Card Number'
+        self.fields['card_expire'].widget.attrs['placeholder'] = 'Card Expiry'
+        self.fields['card_cvv'].widget.attrs['placeholder'] = 'CVV'
+        self.fields['amount'].widget.attrs['placeholder'] = 'Amount'
 
 class TicketForm(ModelForm):
     class Meta:

@@ -12,7 +12,7 @@ from datetime import datetime, timedelta, date
 import json
 from decimal import Decimal
 from .forms import (SignUpForm, PaymentForm, MovieForm, ShowingForm, 
-                    ScreenForm, ClubForm, BookingForm, TicketForm)
+                    ScreenForm, ClubForm, BookingForm, TicketForm, ClubPaymentForm)
 from .models import Movie, Showing, Booking, Ticket, Screen, Club, Discount
 from .decorators import group_required, not_logged_in_required
 from .utils import is_valid_card_number
@@ -434,16 +434,15 @@ def delete_screen(request, screen_id):
 @group_required("Club Representative")
 def my_club(request):
     if request.method == "POST":
-        payment_form = PaymentForm(request.POST)
+        payment_form = ClubPaymentForm(request.POST)
         if payment_form.is_valid():
-            additional_payment = payment_form.cleaned_data['additional_payment']
+            additional_payment = payment_form.cleaned_data['amount']
             club = Club.objects.get(club_rep=request.user)
             club.account_balance += additional_payment
             club.save()
             return redirect('my-club')
     else:
-        payment_form = PaymentForm()
-        
+        payment_form = ClubPaymentForm()
     club = Club.objects.get(club_rep = request.user)
     current_month = timezone.now().month
     monthly_outgoing = Booking.objects.filter(
