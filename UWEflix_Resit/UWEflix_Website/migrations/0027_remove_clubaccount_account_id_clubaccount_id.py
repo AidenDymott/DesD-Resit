@@ -10,14 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='clubaccount',
-            name='account_ID',
-        ),
-        migrations.AddField(
-            model_name='clubaccount',
-            name='id',
-            field=models.BigAutoField(auto_created=True, default=False, primary_key=True, serialize=False, verbose_name='ID'),
-            preserve_default=False,
-        ),
     ]

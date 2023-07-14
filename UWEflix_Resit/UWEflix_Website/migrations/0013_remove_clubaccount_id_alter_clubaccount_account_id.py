@@ -10,13 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='clubaccount',
-            name='id',
-        ),
-        migrations.AlterField(
-            model_name='clubaccount',
-            name='account_ID',
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False),
-        ),
     ]
