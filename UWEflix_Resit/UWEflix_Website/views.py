@@ -104,7 +104,6 @@ def search_movie(request):
     return render(request, 'movie.html', {'movie_list': movies, 
                                           'query': query})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def add_movie(request):
     form = MovieForm()
@@ -116,7 +115,6 @@ def add_movie(request):
             return redirect('movie')   
     return render(request, 'add_movie.html', {'form':form})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def update_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
@@ -129,7 +127,6 @@ def update_movie(request, movie_id):
         return redirect('movie')
     return render(request, 'update_movie.html', {'movie': movie, 'form':form})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def delete_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
@@ -167,7 +164,6 @@ def search_showing(request):
     return render(request, 'showing.html', {'showing_list': showing_list, 
                                             'query': query})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def add_showing(request):
     form = ShowingForm()
@@ -179,7 +175,6 @@ def add_showing(request):
             return redirect('showing')
     return render(request, 'add_showing.html', {'form':form})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def update_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
@@ -191,7 +186,6 @@ def update_showing(request, showing_id):
     return render(request, 'update_showing.html',
                   {'showing':showing, 'form':form})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def delete_showing(request, showing_id):
     showing = Showing.objects.get(pk=showing_id)
@@ -241,7 +235,6 @@ def create_booking(request, showing_id):
                 'adult_ticket': Ticket.objects.get(type="adult")}
     return render(request, 'create_booking.html', context)
 
-@login_required(login_url="login")
 @group_required("Customer")
 def process_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
@@ -303,7 +296,6 @@ def process_booking(request, showing_id):
     messages.success(request, ("Something went wrong."))
     return render(request, 'booking_confirm.html')
 
-@login_required(login_url="login")
 @group_required("Club Representative")
 def process_club_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
@@ -359,7 +351,6 @@ def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
     return render(request, 'show_bookings.html', {'bookings': bookings})
 
-@login_required(login_url="login")
 @permission_required("UWEflix_Website.delete_booking", login_url="login")
 def cancel_booking(request, booking_id):
     booking = Booking.objects.get(pk=booking_id)
@@ -383,13 +374,11 @@ def cancel_booking(request, booking_id):
     return redirect('show-bookings')
 
 # SCREEN CRUD
-@login_required(login_url="login")
 @group_required("Manager")
 def screen(request):
     list = Screen.objects.all()
     return render(request, 'screen.html', {'list':list})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def add_screen(request):
     form = ScreenForm()
@@ -401,7 +390,6 @@ def add_screen(request):
             return redirect('screen')
     return render(request, 'add_screen.html', {'form':form})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def update_screen(request, screen_id):
     try:
@@ -417,7 +405,6 @@ def update_screen(request, screen_id):
                                    probably shouldn't be changed."""))
     return render(request, 'update_screen.html', {'screen':screen, 'form':form})
     
-@login_required(login_url="login")
 @group_required("Manager")
 def delete_screen(request, screen_id):
     try:
@@ -431,7 +418,6 @@ def delete_screen(request, screen_id):
     return redirect('screen')
 
 # Club views
-@login_required(login_url="login")
 @group_required("Club Representative")
 def my_club(request):
     if request.method == "POST":
@@ -458,13 +444,11 @@ def my_club(request):
     return render(request, 'my_club.html', {'club': club,
                                             'monthly_outgoing': round(monthly_outgoing, 2), 'payment_form':payment_form})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def list_club(request):
     club = Club.objects.all()
     return render(request, 'club_list.html', {'club':club})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def update_club(request, club_id):
     club = Club.objects.get(pk=club_id)
@@ -476,7 +460,6 @@ def update_club(request, club_id):
     return render(request, 'update_club.html',
                   {'club':club, 'form':form})
 
-@login_required(login_url="login")
 @group_required("Manager")
 def delete_club(request, club_id):
     club = Club.objects.get(pk=club_id)
@@ -485,7 +468,6 @@ def delete_club(request, club_id):
     return redirect('list-club')
 
 TicketFormSet = modelformset_factory(Ticket, form=TicketForm, extra=0)
-@login_required(login_url="login")
 @group_required("Manager")
 def edit_ticket_prices(request):
     tickets = Ticket.objects.all()
