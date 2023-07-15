@@ -70,6 +70,7 @@ class MovieForm(ModelForm):
             ('R18', 'R18'),
         )
     rating = forms.ChoiceField(choices=RATING_CHOICES, label='Movie Rating')
+    description = forms.CharField(widget=forms.Textarea(attrs={"rows":"5"}))
 
     class Meta:
         model = Movie
@@ -78,24 +79,25 @@ class MovieForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(MovieForm, self).__init__(*args, **kwargs)
   
-        self.fields['movie_name'].widget.attrs['class'] = 'form-control'
+        self.fields['movie_name'].widget.attrs['class'] = 'form-input'
         self.fields['movie_name'].widget.attrs['placeholder'] = 'Movie Name'
         self.fields['movie_name'].label = ''
   
-        self.fields['movie_image'].widget.attrs['class'] = 'form-control'  		
+        self.fields['movie_image'].widget.attrs['class'] = 'form-file'  		
         self.fields['movie_image'].widget.attrs['placeholder'] = 'Movie Image'
         self.fields['movie_image'].label = ''
 
+        self.fields['duration'].widget.attrs['class'] = 'form-input'
         self.fields['duration'].widget.attrs['placeholder'] = 'Duration (mins)'
         self.fields['duration'].label = ''
   
-        self.fields['description'].widget.attrs['class'] = 'form-control'
+        self.fields['description'].widget.attrs['class'] = 'form-textarea'
         self.fields['description'].widget.attrs['placeholder'] = 'Movie Description'
         self.fields['description'].label = ''
   
-        self.fields['rating'].widget.attrs['class'] = 'form-control'
+        self.fields['rating'].widget.attrs['class'] = 'form-select'
         self.fields['rating'].widget.attrs['placeholder'] = 'Movie Rating'
-        self.fields['rating'].label = 'Movie Rating'
+        self.fields['rating'].label = ''
   
 # Create Movie Showing Form
 class DateInput(forms.DateInput):

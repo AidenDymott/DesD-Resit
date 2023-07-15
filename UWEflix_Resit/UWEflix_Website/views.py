@@ -112,7 +112,7 @@ def add_movie(request):
         form = MovieForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, ("New movie added"))
+            messages.success(request, ("New movie added."))
             return redirect('movie')   
     return render(request, 'add_movie.html', {'form':form})
 
@@ -120,11 +120,13 @@ def add_movie(request):
 @group_required("Manager")
 def update_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
-    form = MovieForm(request.POST or None, instance=movie)
-    if form.is_valid():
-            form.save()
-            messages.success(request, ("Update successful"))
-            return redirect('movie')
+    form = MovieForm(instance=movie)
+    if request.method == "POST":
+      form = MovieForm(request.POST, request.FILES, instance=movie)
+      if form.is_valid():
+        form.save()
+        messages.success(request, ("Updated movie."))
+        return redirect('movie')
     return render(request, 'update_movie.html', {'movie': movie, 'form':form})
 
 @login_required(login_url="login")
@@ -136,7 +138,7 @@ def delete_movie(request, movie_id):
                          we probably shouldn't delete this.""")
         return redirect('movie')
     movie.delete()
-    messages.success(request, ("Deletion successful"))
+    messages.success(request, ("Deleted movie."))
     return redirect('movie')
 
 # Showing views

@@ -4,13 +4,9 @@ Update Movie
 {% endblock %}
 
 {% block content %}
-<center>
-<form action="" method=POST>
-    {% csrf_token %}
-    <br/>
-    {{ form.as_p }}
-    
-    <br/>
-    <input type="submit" value="Submit" class="btn btn-dark">
+<form action="" method="POST", enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit" class="card-button">
 </form>
 {% endblock %}
