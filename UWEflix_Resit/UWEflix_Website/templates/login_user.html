@@ -6,14 +6,16 @@ Login
 {% block content %}
   <form method="POST" action = "{% url 'login' %}">
     {% csrf_token %}
+    <div class="form-label">Username</div>
     <input type="text" class="auth-input" name="username" placeholder="Username">
     <br/><br/>
+    <div class="form-label">Password</div>
     <input type="password" class="auth-input" name="password" placeholder="Password">
     <br/><br/>
     <button type="submit" class="card-button">Submit</button>
     <br/><br/>
     <center>
-    <strong>Need to create an account?</strong>
+    Need to create an account?
     <br/><br/>
     <button type="submit" class="card-button"><a href="{% url 'register' %}">
             Create an account</a></button>
