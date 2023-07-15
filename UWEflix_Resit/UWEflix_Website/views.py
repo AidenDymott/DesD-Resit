@@ -397,7 +397,7 @@ def add_screen(request):
         form = ScreenForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, ("Screen Added successfully"))
+            messages.success(request, ("Added new screen."))
             return redirect('screen')
     return render(request, 'add_screen.html', {'form':form})
 
@@ -409,7 +409,7 @@ def update_screen(request, screen_id):
         form = ScreenForm(request.POST or None, instance=screen)
         if form.is_valid():
             form.save()
-            messages.success(request, ("Update successful"))
+            messages.success(request, ("Updated screen."))
             return redirect('screen')
     except ValidationError:
         screen = Screen.objects.get(pk=screen_id)

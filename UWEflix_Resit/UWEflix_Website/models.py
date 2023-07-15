@@ -65,6 +65,8 @@ class Screen(models.Model):
             self.seats = self.rows * self.columns
         if self.pk and self.showing_set.filter(date_showing__gte=datetime.now()).exists():
             raise ValidationError("Cannot update when there is active showings.")
+        if self.pk:
+            self.seats = self.rows * self.columns
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

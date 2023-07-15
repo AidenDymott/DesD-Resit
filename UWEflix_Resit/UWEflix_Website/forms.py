@@ -135,12 +135,15 @@ class ScreenForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super (ScreenForm, self).__init__(*args, **kwargs)
-        self.fields['screen_num'].widget.attrs['class'] = 'form-control'
+        self.fields['screen_num'].widget.attrs['class'] = 'form-input'
         self.fields['screen_num'].widget.attrs['placeholder'] = 'Screen Number'
-        self.fields['screen_num'].label = ''
+        self.fields['screen_num'].label = 'Screen number'
 
+        self.fields['rows'].widget.attrs['class'] = 'form-input'
         self.fields['rows'].widget.attrs['placeholder'] = 'Rows'
+        self.fields['rows'].label = 'Rows'
         
+        self.fields['columns'].widget.attrs['class'] = 'form-input'
         self.fields['columns'].widget.attrs['placeholder'] = 'Seats per row'
         self.fields['columns'].label = 'Seats per row'
     

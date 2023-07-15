@@ -5,7 +5,11 @@ Add Screen
 {% block content %}
 <form action="" method="POST">
   {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Submit" class="btn btn-dark">
+  {% for field in form %}
+    <div class="form-label">{{ field.label }}</div>
+    {{ field }}
+    <br/><br/>
+  {% endfor %}
+  <input type="submit" value="Submit" class="card-button">
 </form>
 {% endblock %}
