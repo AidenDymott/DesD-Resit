@@ -54,7 +54,7 @@ def register_user(request):
             user = authenticate(username = username, password = password)
             group = Group.objects.get(name="Customer")
             user.groups.add(group)
-            messages.success(request, ("Sign up successful"))
+            messages.success(request, ("Sign up successful."))
             login(request, user)
             return redirect('home')     
     return render(request, 'register.html', {'form':form})
@@ -81,7 +81,7 @@ def club_register(request):
                 club = club_form.save(commit=False)
                 club.club_rep = request.user
                 club.save()
-                messages.success(request, ("Club sign up successful"))
+                messages.success(request, ("Club sign up successful."))
                 return redirect('home')
     return render(request, 'register_club.html', {'register_form': register_form,
                                                   'club_form': club_form})
@@ -175,7 +175,7 @@ def add_showing(request):
         form = ShowingForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, ("New showing added")) 
+            messages.success(request, ("New showing added.")) 
             return redirect('showing')
     return render(request, 'add_showing.html', {'form':form})
 
@@ -186,7 +186,7 @@ def update_showing(request, showing_id):
     form = ShowingForm(request.POST or None, instance=showing)
     if form.is_valid():
         form.save()
-        messages.success(request, ("Update successful"))
+        messages.success(request, ("Updated showing."))
         return redirect('showing')
     return render(request, 'update_showing.html',
                   {'showing':showing, 'form':form})
@@ -271,7 +271,7 @@ def process_booking(request, showing_id):
 
         card_number = payment_form.cleaned_data['card_number']
         if not is_valid_card_number(card_number):
-            messages.success(request, ('Invalid card number'))
+            messages.success(request, ('Invalid card number.'))
             return redirect('create-booking', showing_id)
 
         if not showing.check_available_seats(selected_seats):
@@ -298,9 +298,9 @@ def process_booking(request, showing_id):
         showing.save()
         booking.save()
 
-        messages.success(request, ("Booking added"))
+        messages.success(request, ("Booking added."))
         return render(request, 'booking_confirm.html')
-    messages.success(request, ("Something went wrong"))
+    messages.success(request, ("Something went wrong."))
     return render(request, 'booking_confirm.html')
 
 @login_required(login_url="login")
@@ -441,6 +441,7 @@ def my_club(request):
             club = Club.objects.get(club_rep=request.user)
             club.account_balance += additional_payment
             club.save()
+            messages.success(request, 'Payment received. Funds have been added.')
             return redirect('my-club')
     else:
         payment_form = ClubPaymentForm()
