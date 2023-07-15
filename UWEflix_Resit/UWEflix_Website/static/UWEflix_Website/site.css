@@ -6,7 +6,9 @@ body {
 }
 
 h1 { margin: 0 }
-* { box-sizing: border-box; }
+* { box-sizing: border-box; 
+    margin: 0; padding: 0;
+}
 
 
 a {
@@ -14,48 +16,82 @@ a {
     text-decoration: none;
 }
 
-.nav {
-    height: 50px;
-    width: 100%;
-    background-color: red;
-    position: relative;
+.navbar {
+	overflow: hidden;
+	background: red;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
-.nav > .nav-header {
-    display: inline;
-}
-
-.nav > .nav-header > .nav-title {
-    display: inline-block;
-    font-size: 22px;
+.navbar a {
+	float: right;
+	display: block;
     color: white;
-    padding: 10px 10px 10px 10px;
-}
-
-.nav > .nav-btn {
-    display: none;
-}
-
-.nav > .nav-links {
-    display: inline;
-    float: right;
-    font-size: 18px;
-}
-
-.nav > .nav-links > a {
-    display: inline-block;
-    padding: 13px 10px 13px 10px;
+    text-align: center;
+    font-size: 17px;
+    padding: 15px 15px;
     text-decoration: none;
-    color: white;
 }
 
-.nav > .nav-links > a:hover {
+
+.navbar a:hover {
     background-color: white;
     color: black;
 }
 
-.nav > #nav-check {
-    display: none;
+.navbar .icon {
+	display: none;
+}
+
+.dropdown {
+	float: right;
+	overflow: hidden;
+}
+
+.dropdown .drop {
+	font-size: 17px; 
+    border: none;
+    outline: none;
+    color: #fff;
+    padding: 15px 15px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.drop .fa-angle-double-up,
+.drop:hover .fa-angle-double-down {
+	display: none;
+}
+
+.drop:hover .fa-angle-double-up {
+	display: inline;
+}
+
+.drop-content {
+	display: none;
+	position: absolute;
+	background-color: red;
+	min-width: 150px;
+	z-index: 1;
+}
+
+.drop-content a {
+	float: none;
+	color: white;
+	padding: 12px, 16px;
+	text-decoration: none;
+	display: block;
+	text-align: left;
+}
+
+.dropdown:hover .drop-content {
+	display: block;
+}
+
+.drop-content a:hover {
+	background-color: white;
+    color: black;
 }
 
 .content-container {
@@ -297,64 +333,60 @@ input[type="checkbox"] {
     padding: 2px;
 }
 
-@media (max-width: 600px) {
-    .nav > .nav-btn {
-        display: inline-block;
-        position: absolute;
-        right: 0px;
-        top: 0px;
-    }
-    
-    .nav > .nav-btn > label {
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-        padding: 13px;
-    }
+@media screen and (max-width: 600px) {
+	.navbar a {
+		display: none;
+	}
 
-    .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
-        background-color: rgba(0, 0, 0, 0.3);
-    }
+	.navbar a.icon {
+		float: right;
+		display: block;
+	}
 
-    .nav > .nav-btn > label > span {
-        display: block;
-        width: 25px;
-        height: 10px;
-        border-top: 2px solid #eee;
-    }
+	.navbar.responsive {
+		position: relative;
+	}
 
-    .nav > .nav-links {
-        position: absolute;
-        display: block;
-        width: 100%;
-        background-color: white;
-        height: 0px;
-        overflow-y: hidden;
-        top: 50px;
-        left: 0px;
-    }
+	.navbar.responsive a.icon {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
 
-    .nav > .nav-links > a {
-        color: black;
-        display: block;
-        width: 100%;
-    }
+	.navbar.responsive a {
+		float: none;
+		display: block;
+		text-align: left;
+		padding-left: 20px;
+		border-top: 1px solid #fff;
 
-    .nav > .nav-links > a:hover {
-        color: white;
-        background-color: red;
-        display: block;
-        width: 100%;
-    }
+	}
 
-    .nav > #nav-check:not(:checked) ~ .nav-links {
-        height: 0px;
-    }
+	.navbar.responsive .dropdown {
+		float: none;
+	}
 
-    .nav > #nav-check:checked ~ .nav-links {
-        height: calc(100vh - 50px);
-        overflow-y: auto;
-    }
+	.navbar.responsive .drop-content {
+		position: relative;
+		padding-left: 30px;
+		padding-right: 30px;
+		background-color: red;
+	}
+
+	.navbar.responsive .drop-content a {
+		border-top: 1px solid #fff;
+	}
+
+	.navbar.responsive .dropdown .drop {
+		display: block;
+		width: 100%;
+		text-align: left;
+		border-top: 1px solid #fff;
+	}
+
+	.navbar.responsive .dropdown .drop:hover {
+		background-color: white;
+	}
 }
 
 @media (min-width: 600px) {
@@ -406,5 +438,9 @@ input[type="checkbox"] {
     .balance {
         float: right;
         width: 33vw;
+    }
+
+    .navbar .logo {
+        float: left;
     }
 }
