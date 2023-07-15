@@ -3,7 +3,6 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Movie, Showing, Screen, Club, Ticket
 from django.contrib.auth.models import User
-from decimal import Decimal
 
 # Registration Form
 class SignUpForm(UserCreationForm):

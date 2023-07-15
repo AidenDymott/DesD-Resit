@@ -69,16 +69,13 @@ Create Club Booking
   </div>
   <br/><br/>
     
+  <div class="form-area">
   <h1>Ticket Prices</h1>
-      <br/>
-      £{{ ticket.price }} - {{ discount }}% = 
-      £<span id="price_after_discount">{{ total_price }}</span>
-      <br/><br/>
-
+      <p class="total-cost">£{{ ticket.price }} - {{ discount }}% = 
+      £<span id="price_after_discount">{{ total_price }}</span></p>
       <strong><p class="total-cost">TOTAL
       £<span id="total_ticket_price">0</span></p>
-  
-      <br/>
+  </div>
   <button type="submit" class="card-button" style="width:60%;">Confirm Booking & Pay</button>
   <br/><br/>
   </form>
