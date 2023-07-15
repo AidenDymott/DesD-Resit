@@ -41,7 +41,8 @@ Create Club Booking
 
   <br/>
   <center>
-  <h4>Select seats:</h4>
+  <h1>Select seats</h1>
+  <br/>
   
   <form method="POST" action="{% url 'process-club-booking' showing_id=showing.id %}">
   {% csrf_token %}
@@ -67,16 +68,17 @@ Create Club Booking
     FRONT
   </div>
   <br/><br/>
-
-  Ticket prices are;
+    
+  <h1>Ticket Prices</h1>
       <br/>
       £{{ ticket.price }} - {{ discount }}% = 
       £<span id="price_after_discount">{{ total_price }}</span>
       <br/><br/>
 
-      Total ticket price: £<span id="total_ticket_price">0</span>
+      <strong><p class="total-cost">TOTAL
+      £<span id="total_ticket_price">0</span></p>
   
-      <br/><br/><br/>
+      <br/>
   <button type="submit" class="card-button" style="width:60%;">Confirm Booking & Pay</button>
   <br/><br/>
   </form>

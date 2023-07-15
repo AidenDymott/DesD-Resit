@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Movie, Showing, Screen, Club, Ticket
 from django.contrib.auth.models import User
+from decimal import Decimal
 
 # Registration Form
 class SignUpForm(UserCreationForm):
@@ -209,18 +210,19 @@ class ClubPaymentForm(forms.Form):
         self.fields['card_cvv'].widget.attrs['placeholder'] = 'CVV'
         self.fields['amount'].widget.attrs['placeholder'] = 'Amount'
 
-class TicketForm(ModelForm):
+class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ('child', 'student', 'adult')
-
-    child = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Child'}))
-    student = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Student'}))
-    adult = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Adult'}))
+        fields = ['price']
 
     def __init__(self, *args, **kwargs):
         super (TicketForm, self).__init__(*args, **kwargs)
+        
+        self.fields['price'].widget.attrs['class'] = 'form-input'
+        self.fields['price'].label = ''
 
-        for field_name, field in self.fields.items():
-            field.label = False
-            field.widget.attrs['class'] = 'payment-input'
+    def clean_price(self):
+        price = self.cleaned_data['price']
+        if price < 0:
+            raise forms.ValidationError("Price cannot be negative.")
+        return price

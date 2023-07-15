@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.db.models import Sum
 from django.core.paginator import Paginator
 from django.utils import timezone
-from django.http import HttpResponse
+from django.forms import modelformset_factory
 from datetime import datetime, timedelta, date
 import json
 from decimal import Decimal
@@ -228,7 +228,7 @@ def create_booking(request, showing_id):
         context = { 'booking_form': booking_form,
                     'showing': showing,
                     'ticket': ticket,
-                    'discount': discount * 100,
+                    'discount': discount,
                     'total_price': round(total_price, 2)
                   }
         return render(request, 'create_club_booking.html', context)
@@ -466,7 +466,7 @@ def update_club(request, club_id):
     form = ClubForm(request.POST or None, instance=club)
     if form.is_valid():
         form.save()
-        messages.success(request, ("Update successful"))
+        messages.success(request, ("Update successful."))
         return redirect('list-club')
     return render(request, 'update_club.html',
                   {'club':club, 'form':form})
@@ -476,19 +476,22 @@ def update_club(request, club_id):
 def delete_club(request, club_id):
     club = Club.objects.get(pk=club_id)
     club.delete()
-    messages.success(request, ("Club Removed"))
+    messages.success(request, ("Club removed."))
     return redirect('list-club')
 
+TicketFormSet = modelformset_factory(Ticket, form=TicketForm, extra=0)
 @login_required(login_url="login")
 @group_required("Manager")
-def edit_ticket_prices(request, amount):
-    form = TicketForm(initial = {
-                       "adult": Ticket.objects.get(type='adult').price,
-                       "child": Ticket.objects.get(type='child').price,
-                       "student": Ticket.objects.get(type='student').price}) 
-    if request.method == "POST":
-        if form.is_valid():
-            form.save()
-            messages.success(request, ("Updated ticket prices"))
+def edit_ticket_prices(request):
+    tickets = Ticket.objects.all()
+    if request.method == 'POST':
+        formset = TicketFormSet(request.POST, queryset=tickets)
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, 'Ticket prices updated.')
             return redirect('edit-tickets')
-    return render(request, 'edit_tickets.html', {'form':form})
+        else:
+            messages.success(request, 'Something went wrong.')
+    else:
+        formset = TicketFormSet(queryset=tickets)
+    return render(request, 'edit_tickets.html', {'formset': formset})
