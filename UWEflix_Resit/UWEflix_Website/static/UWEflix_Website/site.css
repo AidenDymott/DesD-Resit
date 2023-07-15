@@ -237,8 +237,6 @@ input[type="checkbox"] {
 }
   
 .club {
-    float: left;
-    width: 33vw;
     display: flex;
     margin: auto;
     border-radius: 10px;
@@ -259,9 +257,7 @@ input[type="checkbox"] {
     padding: 2px;
 }
   
-.balance{
-    float: right;
-    width: 33vw;
+.balance {
     display: flex;
     margin: auto;
     border-radius: 10px;
@@ -277,9 +273,9 @@ input[type="checkbox"] {
 }
 
 @media (min-width: 600px) {
-  body {
-    height: 100%;
-  }
+    body {
+        height: 100%;
+    }
 
   .navbar {
 	  overflow: hidden;
@@ -291,8 +287,8 @@ input[type="checkbox"] {
                   rgba(0, 0, 0, 0.09) 0px -3px 5px;
 	}
 
-	.navbar a {
-	  float: left;
+    .navbar a {
+	    float: left;
 	}
 
     .navbar button {
@@ -305,81 +301,91 @@ input[type="checkbox"] {
 	}
 
 	.dropdown .btn {
-	  font-size: 16px;  
-	  border: none;
-	  outline: none;
-	  color: white;
-	  padding: 14px 16px;
-	  background-color: inherit;
-	  font-family: inherit;
-	  margin: 0;
+        font-size: 16px;  
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+        font-family: inherit;
+        margin: 0;
 	}
 
 	.navbar a:hover, .dropdown:hover .btn {
-	  background-color: white;
-      color: black;
+	    background-color: white;
+        color: black;
 	}
 
 	.dropdown-menu {
-	  display: none;
-	  position: absolute;
-	  background-color: #f9f9f9;
-	  min-width: 160px;
-	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	  z-index: 1;
+	    display: none;
+	    position: absolute;
+	    background-color: #f9f9f9;
+	    min-width: 160px;
+	    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	    z-index: 1;
 	}
 
 	.dropdown-menu a {
-	  float: none;
-	  color: black;
-	  padding: 12px 16px;
-	  text-decoration: none;
-	  display: block;
-	  text-align: left;
+	    float: none;
+	    color: black;
+	    padding: 12px 16px;
+	    text-decoration: none;
+	    display: block;
+	    text-align: left;
 	}
 
 	.dropdown-menu a:hover {
-	  background-color: #ddd;
+	    background-color: #ddd;
 	}
 
 	.dropdown:hover .dropdown-menu {
-	  display: block;
+	    display: block;
 	}
 
-  .message-container {
-    width: 100%;
-  }
+    .message-container {
+        width: 100%;
+    }
 
-  p {
-    text-align: center;
-  }
+    p {
+        text-align: center;
+    }
   
-  .content-container {
-    margin-left: 15vw;
-    margin-right: 15vw;
-  }
+    .content-container {
+        margin-left: 15vw;
+        margin-right: 15vw;
+    }
 
 
 
-  .booking-seat-available {
-    transform: scale(3.0);
-    margin: 20px;
-  }
+    .booking-seat-available {
+        transform: scale(3.0);
+        margin: 20px;
+    }
 
-  .booking-seat-reserved {
-    transform: scale(3.0);
-    margin: 20px;
-  }
+    .booking-seat-reserved {
+        transform: scale(3.0);
+        margin: 20px;
+    }
 
-  form {
-    width: 80%;
-  }
+    form {
+        width: 80%;
+    }
 
-  .form-area {
-    width: 80%;
-  }
+    .form-area {
+        width: 80%;
+    }
   
-  .bar {
-    width: 80%;
-  }
+    .bar {
+        width: 80%;
+    }
+
+    .club {
+        float: left;
+        width: 33vw;
+    }
+    
+    .balance {
+        float: right;
+        width: 33vw;
+    }
 }
