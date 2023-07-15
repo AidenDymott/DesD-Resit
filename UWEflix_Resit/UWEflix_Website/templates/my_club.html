@@ -10,18 +10,25 @@
       <strong>Contact Details</strong>
     </div>
     <div class="club-details">
-      Landline: {{ club.landline }}
+    <form>
+      <strong>Landline</strong>
+      <br/>{{ club.landline }}
       <br/><br/>
-      Mobile : {{ club.mobile }}
+      <strong>Mobile</strong>
+      <br/>{{ club.mobile }}
       <br/><br/>
-      Street : {{ club.street }}
+      <strong>Address</strong>
+      <br/>{{ club.street_number }} {{ club.street }}, {{ club.city }}
       <br/><br/>
-      City: {{ club.city }}
+      <strong>Postcode</strong>
+      <br/>{{ club.post_code }}
       <br/><br/>
-      Postcode: {{ club.post_code }}
+      <strong>Representative</strong>
+      <br/>{{ club.club_rep.first_name }} {{ club.club_rep.last_name }}
+      ({{ club.club_rep }})
       <br/><br/>
-      Rep: {{ club.club_rep }}
     </div>
+    </form>
     <div class="card-buttons">
     </div>
   </div>

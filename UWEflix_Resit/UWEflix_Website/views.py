@@ -437,6 +437,10 @@ def my_club(request):
     if request.method == "POST":
         payment_form = ClubPaymentForm(request.POST)
         if payment_form.is_valid():
+            card_number = payment_form.cleaned_data['card_number']
+            if not is_valid_card_number(card_number):
+                messages.success(request, 'Invalid card number.')
+                return redirect('my-club')
             additional_payment = payment_form.cleaned_data['amount']
             club = Club.objects.get(club_rep=request.user)
             club.account_balance += additional_payment
