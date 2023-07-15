@@ -5,7 +5,11 @@ Register
 {% block content %}
 <form method="POST" action = "{% url 'register' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+  {% for field in form %}
+    <div class="form-label">{{ field.label }}</div>
+    {{ field }}
+    <br/><br/>
+  {% endfor %}
   <button type="submit" class="card-button">Submit</button>
   <br/><br/>
 </form>

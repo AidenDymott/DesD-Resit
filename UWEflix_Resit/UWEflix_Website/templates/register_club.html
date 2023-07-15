@@ -6,9 +6,17 @@ Register A Club
 <form method="POST" action = " {% url 'register-club' %}">
   {% csrf_token %}
   <h2>Account Details</h2>
-  {{ register_form.as_p }}
+  {% for field in register_form %}
+    <div class="form-label">{{ field.label }}</div>
+    {{ field }}
+    <br/><br/>
+  {% endfor %}
   <h2>Club Details</h2>
-  {{ club_form.as_p }}
+  {% for field in club_form %}
+    <div class="form-label">{{ field.label }}</div>
+    {{ field }}
+    <br/><br/>
+  {% endfor %}
   <button type="submit" class="card-button">Submit</button>
   <br/><br/>
 </form>
