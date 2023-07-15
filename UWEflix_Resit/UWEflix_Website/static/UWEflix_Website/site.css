@@ -185,6 +185,10 @@ a {
     font-size: 16px;
   }
 
+  .card-button:hover {
+    cursor: pointer;
+  }
+
   .card-buttons {
     justify-content: flex-end;
     display: flex;
