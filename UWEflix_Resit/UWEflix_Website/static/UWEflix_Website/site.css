@@ -228,7 +228,7 @@ input[type="checkbox"] {
     margin: 12px;
 }
   
-.club-title{
+.club-title {
     text-align: center;
     text-decoration-line: underline;
     font-size: 40px;
@@ -238,7 +238,7 @@ input[type="checkbox"] {
   
 .club {
     float: left;
-    width: 650px;
+    width: 33vw;
     display: flex;
     margin: auto;
     border-radius: 10px;
@@ -255,6 +255,23 @@ input[type="checkbox"] {
 }
 
 .club-details {
+    font-size: 20px;
+    padding: 2px;
+}
+  
+.balance{
+    float: right;
+    width: 33vw;
+    display: flex;
+    margin: auto;
+    border-radius: 10px;
+    min-height: 35vh;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin-bottom: 3vh; 
+}
+
+.balance-amount {
     font-size: 20px;
     padding: 2px;
 }
@@ -343,22 +360,6 @@ input[type="checkbox"] {
   }
 
 
-  .balance{
-    float: right;
-    width: 650px;
-    display: flex;
-    margin: auto;
-    border-radius: 10px;
-    min-height: 35vh;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
-                rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    margin-bottom: 3vh; 
-  }
-
-  .balance-amount{
-    font-size: 20px;
-    padding: 2px;
-  }
 
   .booking-seat-available {
     transform: scale(3.0);
