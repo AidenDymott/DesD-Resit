@@ -81,23 +81,23 @@ class MovieForm(ModelForm):
   
         self.fields['movie_name'].widget.attrs['class'] = 'form-input'
         self.fields['movie_name'].widget.attrs['placeholder'] = 'Movie Name'
-        self.fields['movie_name'].label = ''
+        self.fields['movie_name'].label = 'Name'
   
         self.fields['movie_image'].widget.attrs['class'] = 'form-file'  		
         self.fields['movie_image'].widget.attrs['placeholder'] = 'Movie Image'
-        self.fields['movie_image'].label = ''
+        self.fields['movie_image'].label = 'Image'
 
         self.fields['duration'].widget.attrs['class'] = 'form-input'
         self.fields['duration'].widget.attrs['placeholder'] = 'Duration (mins)'
-        self.fields['duration'].label = ''
+        self.fields['duration'].label = 'Duration'
   
         self.fields['description'].widget.attrs['class'] = 'form-textarea'
         self.fields['description'].widget.attrs['placeholder'] = 'Movie Description'
-        self.fields['description'].label = ''
+        self.fields['description'].label = 'Description'
   
         self.fields['rating'].widget.attrs['class'] = 'form-select'
         self.fields['rating'].widget.attrs['placeholder'] = 'Movie Rating'
-        self.fields['rating'].label = ''
+        self.fields['rating'].label = 'Rating'
   
 # Create Movie Showing Form
 class DateInput(forms.DateInput):
