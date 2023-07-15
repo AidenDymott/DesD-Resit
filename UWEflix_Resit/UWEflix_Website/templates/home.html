@@ -6,4 +6,12 @@ UWEFlix
 <p>Welcome to UWEFlix. The best cinema service at UWE.</p>
 <p>New? Get registered here. <button class="card-button">
     <a href="{% url 'register' %}">Register</a></button></p>
+<br/>
+<p>Looking to check out movies/showings?</p>
+<center>
+    <button type="submit" class="card-button"><a href="{% url 'movie' %}">
+            Movies</a></button>
+    <button type="submit" class="card-button"><a href="{% url 'showing' %}">
+            Showings</a></button>
+</center>
 {% endblock %}
