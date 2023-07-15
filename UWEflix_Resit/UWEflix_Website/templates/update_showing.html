@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
-
+{% block title %}
+Update Showing
+{% endblock %}
 
 {% block content %}
-<center>
  <h1>Update Showing</h1>
-
  <form action="" method=POST>
-    {% csrf_token %}
-    <br/>
-    {{ form.as_p }}
-    
-    <br/>
-    <input type="submit" value="Submit" class="btn btn-dark">
-
+  {% csrf_token %}
+  {% for field in form %}
+    <div class="form-label">{{ field.label }}</div>
+    {{ field }}
+    <br/><br/>
+  {% endfor %}
+  <input type="submit" value="Submit" class="btn btn-dark">
 {% endblock %}

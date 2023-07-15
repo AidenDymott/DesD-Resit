@@ -106,27 +106,27 @@ class DateInput(forms.DateInput):
 class ShowingForm(ModelForm):   
     class Meta:
         model = Showing
-        fields = ('movie', 'date_showing', 'time_showing', 'screen', 'social_distance')
+        fields = ('movie', 'date_showing', 'time_showing', 'screen')
         widgets = {'date_showing': DateInput()}
 
     def __init__(self, *args, **kwargs):
         super(ShowingForm, self).__init__(*args, **kwargs)
   
-        self.fields['movie'].widget.attrs['class'] = 'form-control'
+        self.fields['movie'].widget.attrs['class'] = 'form-input'
         self.fields['movie'].widget.attrs['placeholder'] = 'Movie'
-        self.fields['movie'].label = ''
+        self.fields['movie'].label = 'Movie'
   
-        self.fields['date_showing'].widget.attrs['class'] = 'form-control'
+        self.fields['date_showing'].widget.attrs['class'] = 'form-input'
         self.fields['date_showing'].widget.attrs['placeholder'] = 'Showing Date, YYYY/MM/DD'
-        self.fields['date_showing'].label = ''
+        self.fields['date_showing'].label = 'Date'
   
-        self.fields['time_showing'].widget.attrs['class'] = 'form-control'
-        self.fields['time_showing'].widget.attrs['placeholder'] = 'Showing Time, XX:XX:XX'
-        self.fields['time_showing'].label = ''
+        self.fields['time_showing'].widget.attrs['class'] = 'form-input'
+        self.fields['time_showing'].widget.attrs['placeholder'] = 'Showing Time, XX:XX'
+        self.fields['time_showing'].label = 'Time'
 
-        self.fields['screen'].widget.attrs['class'] = 'form-control'
+        self.fields['screen'].widget.attrs['class'] = 'form-input'
         self.fields['screen'].widget.attrs['placeholder'] = 'Screen'
-        self.fields['screen'].label = ''
+        self.fields['screen'].label = 'Screen'
   
 class ScreenForm(ModelForm):
     class Meta:

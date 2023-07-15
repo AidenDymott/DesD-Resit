@@ -82,7 +82,6 @@ class Showing(models.Model):
                                on_delete=models.CASCADE)
     available_seats = models.PositiveIntegerField(blank=True, null=True)
     seat_layout = models.JSONField(default=list)
-    social_distance = models.BooleanField(blank=True, null=True)
     
     def __str__(self):
         return str(self.movie) + ' ' + str(self.date_showing) + ' ' + str(self.time_showing)
