@@ -318,6 +318,15 @@ a {
     display: flex;
   }
 
+  .search-form {
+    width: 100%;
+  }
+
+  form {
+    width: 80%;
+    margin: auto;
+  }
+
   .form-label {
     font-size: 20px;
     margin-bottom: 5px;
@@ -348,10 +357,37 @@ a {
     width: 60%;
   }
 
+  .form-area {
+    border-radius: 10px;
+    color: white;
+    background-color: red;
+    padding: 20px;
+    margin: auto;
+    width: 80%;
+    min-height: 20vh;
+    margin-bottom: 5vh;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  }
+
   .bar {
-    width: 60%;
+    width: 80%;
     background: red;
     color: white;
+  }
+
+  .ticket-table {
+    width: 20%;
+    margin: auto;
+  }
+
+  .ticket-table td {
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .total-cost {
+    font-size: 30px;
   }
   
   input[type="checkbox"] {

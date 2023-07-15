@@ -8,7 +8,7 @@ Movie
 <a class="card-button" style="margin-bottom: 10px;" 
    href="{% url 'add-movie' %}">Add Movies</a>
 {% endif %}
-<form action="{% url 'search-movie' %}">
+<form action="{% url 'search-movie' %}" class="search-form">
   <input type="text" class="search" name="q" placeholder="Make a search...">
 </form>
 {% if movie_list.has_previous %}

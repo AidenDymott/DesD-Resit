@@ -4,7 +4,6 @@ Update Showing
 {% endblock %}
 
 {% block content %}
- <h1>Update Showing</h1>
  <form action="" method=POST>
   {% csrf_token %}
   {% for field in form %}
@@ -12,5 +11,5 @@ Update Showing
     {{ field }}
     <br/><br/>
   {% endfor %}
-  <input type="submit" value="Submit" class="btn btn-dark">
+  <input type="submit" value="Submit" class="card-button">
 {% endblock %}

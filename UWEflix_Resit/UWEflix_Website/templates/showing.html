@@ -8,7 +8,7 @@ Showings
 <a class="card-button" style="margin-bottom: 10px;" 
    href="{% url 'add-showing' %}">Add Showings</a>
 {% endif %}
-<form action="{% url 'search-showing' %}">
+<form action="{% url 'search-showing' %}" class="search-form">
   <input type="text" class="search" name="q" placeholder="Make a search...">
 </form>
 <center>

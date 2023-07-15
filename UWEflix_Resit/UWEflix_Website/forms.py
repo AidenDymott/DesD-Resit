@@ -180,7 +180,7 @@ class PaymentForm(forms.Form):
         self.initial['adults'] = 0
 
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'payment-input'
+            field.widget.attrs['class'] = 'form-input'
 
         self.fields['card_name'].widget.attrs['placeholder'] = 'Cardholder Name'
         self.fields['card_number'].widget.attrs['placeholder'] = 'Card Number'

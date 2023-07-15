@@ -33,11 +33,11 @@ Create Booking
       <div class="card-buttons"></div>
     </div>
   </div>
-  <center>
-  <h4>Select seats:</h4>
-  
   <form method="POST" action="{% url 'process-booking' showing_id=showing.id %}">
   {% csrf_token %}
+  <center><h1>Select Seats</h1></center>
+  <center>
+  <br/>
   <div class="bar">
     BACK
   </div>
@@ -60,41 +60,52 @@ Create Booking
     FRONT
   </div>
   <br/><br/>
-
-  <strong>Ticket Prices</strong>
-    <br/>
-    Child: £{{ child_ticket.price }}
-    <br/>
-    Student: £{{ student_ticket.price }}
-    <br/>
-    Adult: £{{ adult_ticket.price }}
-  <h4>Payment Details</h4>
-  {{ payment_form.card_name }}
-  <br/><br/>
-  {{ payment_form.card_number }}
-  <br/><br/>
-  {{ payment_form.card_expire }}
-  <br/><br/>
-  {{ payment_form.card_cvv }}
-  <br/><br/>
-  <strong>Number of Children</strong>
+  <center><h1>Ticket Prices</h1></center>
+  <table class="ticket-table">
+    <tr><td>Child</td><td>£{{child_ticket.price}}</td></tr>
+    <tr><td>Student</td><td>£{{student_ticket.price}}</td></tr>
+    <tr><td>Adult</td><td>£{{adult_ticket.price}}</td></tr>
+  <table>
   <br/>
-  {{ payment_form.children }}
+  </center>
+    <div class="form-area">
+      <center><h1>Tickets</h1></center>
+      <br/>
+      <div class="form-label">Number of Children</div>
+      {{ payment_form.children }}
+      <br/><br/>
+      <div class="form-label">Number of Students</div>
+      {{ payment_form.students }}
+      <br/><br/>
+      <div class="form-label">Number of Adults</div>
+      {{ payment_form.adults }}
+      <br/><br/>
+      <strong><p class="total-cost">TOTAL
+      £<span id="total_ticket_price">0</span></p>
+      </strong>
+    </div>
+  <div class="form-area">
+      <center><h1>Payment Details</h1></center>
+      <br/>
+      <div class="form-label">Name</div>
+      {{ payment_form.card_name }}
+      <br/><br/>
+      <div class="form-label">Card Number</div>
+      {{ payment_form.card_number }}
+      <br/><br/>
+      <div class="form-label">Expiry Date</div>
+      {{ payment_form.card_expire }}
+      <br/><br/>
+      <div class="form-label">CVV</div>
+      {{ payment_form.card_cvv }}
+      <br/><br/>
+  </div>
+  <p>Please check all information is correct before submitting. After submitting,
+  payment will be immediately processed.</p>
+  <center>
+    <button type="submit" class="card-button" style="width:60%;">Confirm Booking & Pay</button>
+  </center>
   <br/><br/>
-  <strong>Number of Students</strong>
-  <br/>
-  {{ payment_form.students }}
-  <br/><br/>
-  <strong>Number of Adults</strong>
-  <br/>
-  {{ payment_form.adults }}
-  <br/><br/>
-
-  Total cost of this booking: £<span id="total_ticket_price">0</span>
-  <br/><br/>
-  <button type="submit" class="card-button" style="width:60%;">Confirm Booking & Pay</button>
-  <br/><br/>
-  <s
   </form>
 {% else %}
   You need to be logged in to create a booking.
