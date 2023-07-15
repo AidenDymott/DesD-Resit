@@ -1,16 +1,262 @@
 body {
-  background: white;
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    background: white;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 { margin: 0 }
-nav { background: red; }
 * { box-sizing: border-box; }
 
-a { 
-  color: inherit;
-  text-decoration: none;
+.navbar {
+    overflow: hidden;
+    background-color: red;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.navbar a { 
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar button {
+    display: none;
+}
+  
+.content-container {
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+.title {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    text-align: center;
+    font-size: 25px;
+}
+
+p {
+    text-align: center;
+}
+  
+.message-container {
+    width: 80%;
+    margin: auto;
+    color: white;
+    background-color: red;
+    min-height: 10vh;
+    margin-bottom: 5vh;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  }
+
+.search {
+    margin-bottom: 5vh;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+} 
+
+.card {
+    display: flex;
+    margin: auto;
+    border-radius: 10px;
+    min-height: 35vh;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin-bottom: 3vh;
+}
+
+.card-button {
+    background-color: red;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 2px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.card-button:hover {
+    cursor: pointer;
+}
+
+.card-buttons {
+    justify-content: flex-end;
+    display: flex;
+}
+
+.card-image {
+    flex: 35%;
+    display: flex;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.card-content {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    flex: 65%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.card-top {
+    font-size: 40px;
+}
+
+.card-rating {
+    font-size: 40px;
+}
+
+.card-description {
+    height: 55%;
+}
+
+.auth-input {
+    width: 100%;
+    height: 40px;
+}
+
+.search-form {
+    width: 100%;
+}
+
+form {
+    margin: auto;
+}
+
+.form-label {
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    height: 40px;
+}
+
+.form-textarea {
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    resize: none;
+}
+
+.form-file {
+    width: 100%;
+}
+
+.form-select {
+    width: 100%;
+}
+
+.payment-input {
+    width: 60%;
+}
+
+.form-area {
+    border-radius: 10px;
+    color: white;
+    background-color: red;
+    padding: 20px;
+    margin: auto;
+    width: 100%;
+    min-height: 20vh;
+    margin-bottom: 5vh;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.bar {
+    width: 100%;
+    background: red;
+    color: white;
+}
+
+.ticket-table {
+    width: 20%;
+    margin: auto;
+}
+
+.ticket-table td {
+    text-align: center;
+    font-size: 20px;
+}
+
+.total-cost {
+    font-size: 30px;
+}
+  
+input[type="checkbox"] {
+    accent-color: red;
+}
+
+.booking-seat-available {
+    transform: scale(2.3);
+    margin: 12px;
+}
+
+.booking-seat-reserved {
+    transform: scale(2.3);
+    margin: 12px;
+}
+  
+.club-title{
+    text-align: center;
+    text-decoration-line: underline;
+    font-size: 40px;
+    padding: 20px;
+    margin-bottom: 5vh;
+}
+  
+.club {
+    float: left;
+    width: 650px;
+    display: flex;
+    margin: auto;
+    border-radius: 10px;
+    min-height: 35vh;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin-bottom: 3vh;
+}
+
+.club-top {
+    font-size: 40px;
+    text-align: center;
+    padding: 10px;
+}
+
+.club-details {
+    font-size: 20px;
+    padding: 2px;
 }
 
 @media (min-width: 600px) {
@@ -30,12 +276,11 @@ a {
 
 	.navbar a {
 	  float: left;
-	  font-size: 16px;
-	  color: white;
-	  text-align: center;
-	  padding: 14px 16px;
-	  text-decoration: none;
 	}
+
+    .navbar button {
+      display: block;
+    }
 
 	.dropdown {
 	  float: left;
@@ -84,182 +329,19 @@ a {
 	  display: block;
 	}
 
-  nav {
-    min-height: 5vh;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, 
-                rgba(0, 0, 0, 0.12) 0px -12px 30px, 
-                rgba(0, 0, 0, 0.12) 0px 4px 6px, 
-                rgba(0, 0, 0, 0.17) 0px 12px 13px, 
-                rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    overflow: hidden;
-  }
-
-  nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
-  .nav-item {
-    float: left;
-  }
-  
-  .nav-item-auth {
-    float: right;
-  }
-
-  nav li a {
-    color: white;
-    display: block;
-    text-decoration: none;
-    padding-top: 2vh;
-    padding-bottom: 2vh;
-    padding-right: 15px;
-    padding-left: 15px
-  }
-
-  nav li a:hover {
-    color: black;
-    background: white;
-  }
-
   .message-container {
     width: 100%;
-    margin: auto;
-    color: white;
-    background-color: red;
-    min-height: 10vh;
-    margin-bottom: 5vh;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
-                rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  }
-
-  .content-container {
-    margin-left: 15vw;
-    margin-right: 15vw;
-    min-height: 87vh;
-  }
-
-  .title {
-    margin-top: 5vh;
-    margin-bottom: 5vh;
-    text-align: center;
-    font-size: 25px;
   }
 
   p {
     text-align: center;
   }
-
-  .search {
-    margin-bottom: 5vh;
-    width: 100%;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  } 
-
-  .card {
-    display: flex;
-    margin: auto;
-    border-radius: 10px;
-    min-height: 35vh;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
-                rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    margin-bottom: 3vh;
-  }
-
-  .card-button {
-    background-color: red;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    padding: 2px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-  }
-
-  .card-button:hover {
-    cursor: pointer;
-  }
-
-  .card-buttons {
-    justify-content: flex-end;
-    display: flex;
-  }
-
-  .card-image {
-    flex: 35%;
-    display: flex;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
-
-  img {
-    display: block;
-    width: 100%;
-    object-fit: cover;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
-
-  .card-content {
-    justify-content: space-between;
-    display: flex;
-    flex-direction: column;
-    flex: 65%;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
-  .card-top {
-    font-size: 40px;
-  }
-
-  .card-rating {
-    font-size: 40px;
-  }
-
-  .card-description {
-    height: 55%;
-  }
-
-  .club-title{
-    text-align: center;
-    text-decoration-line: underline;
-    font-size: 40px;
-    padding: 20px;
-    margin-bottom: 5vh;
-  }
   
-  .club {
-    float: left;
-    width: 650px;
-    display: flex;
-    margin: auto;
-    border-radius: 10px;
-    min-height: 35vh;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
-                rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    margin-bottom: 3vh;
+  .content-container {
+    margin-left: 15vw;
+    margin-right: 15vw;
   }
 
-  .club-top {
-    font-size: 40px;
-    text-align: center;
-    padding: 10px;
-  }
-
-  .club-details{
-    font-size: 20px;
-    padding: 2px;
-  }
 
   .balance{
     float: right;
@@ -278,126 +360,6 @@ a {
     padding: 2px;
   }
 
-  .auth-container {
-    color: white;
-    display: flex;
-    flex-direction: column;
-    background: red;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
-    rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    width: 50vw;
-    min-height: 50vh;
-    padding: 20px;
-  }
-
-  .auth-input {
-    width: 100%;
-    height: 40px;
-  }
-
-  .auth-button {
-    background-color: white;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 10px;
-    color: black;
-    padding: 8px 32px;
-    text-align: center;
-    justify-content: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    width: 100%;
-    height: 5vh;
-  }
-
-  .auth-button:hover {
-    cursor: pointer;
-  }
-
-  .auth-extra-buttons {
-    justify-content: flex-end;
-    display: flex;
-  }
-
-  .search-form {
-    width: 100%;
-  }
-
-  form {
-    width: 80%;
-    margin: auto;
-  }
-
-  .form-label {
-    font-size: 20px;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-
-  .form-input {
-    width: 100%;
-    height: 40px;
-  }
-
-  .form-textarea {
-    width: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    resize: none;
-  }
-
-  .form-file {
-    width: 100%;
-  }
-
-  .form-select {
-    width: 100%;
-  }
-
-  .payment-input {
-    width: 60%;
-  }
-
-  .form-area {
-    border-radius: 10px;
-    color: white;
-    background-color: red;
-    padding: 20px;
-    margin: auto;
-    width: 80%;
-    min-height: 20vh;
-    margin-bottom: 5vh;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, 
-                rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  }
-
-  .bar {
-    width: 80%;
-    background: red;
-    color: white;
-  }
-
-  .ticket-table {
-    width: 20%;
-    margin: auto;
-  }
-
-  .ticket-table td {
-    text-align: center;
-    font-size: 20px;
-  }
-
-  .total-cost {
-    font-size: 30px;
-  }
-  
-  input[type="checkbox"] {
-    accent-color: red;
-  }
-
   .booking-seat-available {
     transform: scale(3.0);
     margin: 20px;
@@ -406,5 +368,17 @@ a {
   .booking-seat-reserved {
     transform: scale(3.0);
     margin: 20px;
+  }
+
+  form {
+    width: 80%;
+  }
+
+  .form-area {
+    width: 80%;
+  }
+  
+  .bar {
+    width: 80%;
   }
 }
