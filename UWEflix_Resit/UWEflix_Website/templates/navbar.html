@@ -1,29 +1,37 @@
-<div class="navbar">
-  <a href="{% url 'home' %}">UWEFlix</a>
-  <a href="{% url 'movie' %}">Movies</a>
-  <a href="{% url 'showing' %}">Showings</a>
-
-  {% if user.is_authenticated %}
-    <div class="dropdown">
-	    <button class="btn">Account</button>
-	    <div class="dropdown-menu">
-        {% if perms.UWEflix_Website.view_screen %}
-        <a href="{% url 'screen' %}">Screens</a>
-        {% endif %}
-        {% if perms.UWEflix_Website.delete_club %}
-        <a href="{% url 'list-club' %}">Manage Clubs</a>
-        {% endif %}
-        {% if perms.UWEflix_Website.view_club %}
-        <a href="{% url 'my-club' %}">My Club</a>
-        {% endif %}
-        {% if perms.UWEflix_Website.view_ticket %}
-        <a href="{% url 'edit-tickets' %}">Edit Ticket Prices</a>
-        {% endif %}
-        <a href="{% url 'show-bookings' %}">Your Bookings</a>
-        <a href="{% url 'logout' %}">Logout</a>
-	    </div>
+<div class="nav">
+  <input type="checkbox" id="nav-check">
+  <div class="nav-header">
+    <div class="nav-title">
+      <a href="{% url 'home' %}">UWEFlix</a>
     </div>
-  {% else %}
-    <a href="{% url 'login' %}">Login</a>
-  {% endif %}
+  </div>
+  <div class="nav-btn">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+  
+  <div class="nav-links">
+    <a href="{% url 'movie' %}">Movies</a>
+    <a href="{% url 'showing' %}">Showings</a>
+    {% if user.is_authenticated %}
+      {% if perms.UWEflix_Website.view_screen %}
+      <a href="{% url 'screen' %}">Screens</a>
+      {% endif %}
+      {% if perms.UWEflix_Website.delete_club %}
+      <a href="{% url 'list-club' %}">Manage Clubs</a>
+      {% endif %}
+      {% if perms.UWEflix_Website.view_club %}
+      <a href="{% url 'my-club' %}">My Club</a>
+      {% endif %}
+      {% if perms.UWEflix_Website.view_ticket %}
+      <a href="{% url 'edit-tickets' %}">Edit Ticket Prices</a>
+      {% endif %}
+      <a href="{% url 'show-bookings' %}">Your Bookings</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}">Login</a>
+    {% endif %}
 </div>
