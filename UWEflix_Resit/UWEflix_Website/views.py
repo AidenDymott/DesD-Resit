@@ -463,7 +463,10 @@ def update_club(request, club_id):
 @group_required("Manager")
 def delete_club(request, club_id):
     club = Club.objects.get(pk=club_id)
+    club_rep = club.club_rep
+
     club.delete()
+    club_rep.delete()
     messages.success(request, ("Club removed."))
     return redirect('list-club')
 
