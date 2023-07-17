@@ -263,14 +263,14 @@ def process_booking(request, showing_id):
             return redirect('create-booking', showing_id)
 
         card_number = payment_form.cleaned_data['card_number']
-        if not is_valid_card_number(card_number):
-            messages.success(request, ('Invalid card number.'))
-            return redirect('create-booking', showing_id)
+        #if not is_valid_card_number(card_number):
+        #    messages.success(request, ('Invalid card number.'))
+        #    return redirect('create-booking', showing_id)
 
         if not showing.check_available_seats(selected_seats):
-            messages.success(request, ('''Sorry but those seats were
+            messages.success(request, ('''Sorry, but those seats were
                                        taken while you were creating
-                                       a booking'''))
+                                       a booking.'''))
             return redirect('create-booking', showing_id)
         
         showing.assign_seats(selected_seats)
@@ -292,9 +292,9 @@ def process_booking(request, showing_id):
         booking.save()
 
         messages.success(request, ("Booking added."))
-        return render(request, 'booking_confirm.html')
+        return render(request, 'home.html')
     messages.success(request, ("Something went wrong."))
-    return render(request, 'booking_confirm.html')
+    return render(request, 'home.html')
 
 @group_required("Club Representative")
 def process_club_booking(request, showing_id):
@@ -342,10 +342,10 @@ def process_club_booking(request, showing_id):
         booking.save()
         club.save()
 
-        messages.success(request, ("Booking added"))
-        return render(request, 'booking_confirm.html')
-    messages.success(request, ("Something went wrong"))
-    return render(request, 'booking_confirm.html')
+        messages.success(request, ("Booking added."))
+        return render(request, 'home.html')
+    messages.success(request, ("Something went wrong."))
+    return render(request, 'home.html')
 
 def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
@@ -360,6 +360,7 @@ def cancel_booking(request, booking_id):
     json_dec = json.decoder.JSONDecoder()
     selected_seats = json_dec.decode(booking.seats)
     showing.free_seats(selected_seats)
+    showing.available_seats += len(selected_seats)
 
     # If club account add funds back to the account.
     # If regular customer an email should be sent amount refund details.
@@ -423,10 +424,10 @@ def my_club(request):
     if request.method == "POST":
         payment_form = ClubPaymentForm(request.POST)
         if payment_form.is_valid():
-            card_number = payment_form.cleaned_data['card_number']
-            if not is_valid_card_number(card_number):
-                messages.success(request, 'Invalid card number.')
-                return redirect('my-club')
+            #card_number = payment_form.cleaned_data['card_number']
+            #if not is_valid_card_number(card_number):
+                #messages.success(request, 'Invalid card number.')
+                #return redirect('my-club')
             additional_payment = payment_form.cleaned_data['amount']
             club = Club.objects.get(club_rep=request.user)
             club.account_balance += additional_payment
