@@ -238,6 +238,16 @@ def create_booking(request, showing_id):
 @group_required("Customer")
 def process_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
+    # Redirect if showing has already happened.
+    if showing.date_showing < date.today():
+        messages.success(request, ("""This showing has already happened. Please
+                                   find another showing."""))
+        return redirect('showing')
+    if showing.date_showing == date.today() and showing.time_showing < datetime.now().time():
+        messages.success(request, ("""This showing has already happened. Please
+                                   find another showing."""))
+        return redirect('showing')
+
     booking_form = BookingForm(request.POST, showing=showing)
     payment_form = PaymentForm(request.POST)
 
@@ -299,6 +309,16 @@ def process_booking(request, showing_id):
 @group_required("Club Representative")
 def process_club_booking(request, showing_id):
     showing = Showing.objects.get(id=showing_id)
+    # Redirect if showing has already happened.
+    if showing.date_showing < date.today():
+        messages.success(request, ("""This showing has already happened. Please
+                                   find another showing."""))
+        return redirect('showing')
+    if showing.date_showing == date.today() and showing.time_showing < datetime.now().time():
+        messages.success(request, ("""This showing has already happened. Please
+                                   find another showing."""))
+        return redirect('showing')
+
     club = Club.objects.get(club_rep = request.user)
     booking_form = BookingForm(request.POST, showing=showing)
 
