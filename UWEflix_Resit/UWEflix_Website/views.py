@@ -52,7 +52,7 @@ def register_user(request):
             password = form.cleaned_data['password1']
             # Login user on sign up
             user = authenticate(username = username, password = password)
-            group = Group.objects.get(name="Customer")
+            group, created = Group.objects.get_or_create(name="Customer")
             user.groups.add(group)
             messages.success(request, ("Sign up successful."))
             login(request, user)
@@ -75,7 +75,7 @@ def club_register(request):
 
             if user is not None:
                 login(request, user)
-                group = Group.objects.get(name="Club Representative")
+                group, created = Group.objects.get_or_create(name="Club Representative")
                 user.groups.add(group)
 
                 club = club_form.save(commit=False)
@@ -371,7 +371,7 @@ def show_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
     return render(request, 'show_bookings.html', {'bookings': bookings})
 
-@permission_required("UWEflix_Website.delete_booking", login_url="login")
+@group_required('Manager')
 def cancel_booking(request, booking_id):
     booking = Booking.objects.get(pk=booking_id)
     showing = booking.showing
